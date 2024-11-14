@@ -1,5 +1,5 @@
 ---
-title: "Gene Set"
+title: "Gene Rooting"
 author: "Dalmolin Systems Biology Group"
 format: html
 execute: 
@@ -18,10 +18,25 @@ knitr::opts_chunk$set(
 ## Import libraries
 
 ```{r libs}
-
+library(GeneBridge)
+library(geneplast.data)
+library(readr)
+library(dplyr)
+library(purrr)
+library(biomaRt)
+library(magrittr)
+library(KEGGREST)
+library(ape)
+library(tidyverse)
+library(data.table)
+library(stringi)
+library(AnnotationHub)
+library(sourcetools)
+library(here)
 ```
 
 ## Define functions
+
 
 ```{r funcs}
 
