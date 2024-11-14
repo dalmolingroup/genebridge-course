@@ -1,5 +1,14 @@
 project:
-  title: "GeneBridge Course"
+  output-dir: docs
+  render:
+    - "*.qmd"
 
+toc: true
+number-sections: true
+knitr:
+  opts_chunk:
+    message: false
+    warning: false
+    results: false
 
 
