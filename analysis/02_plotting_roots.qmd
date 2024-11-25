@@ -1,0 +1,235 @@
+---
+title: "Plotting Roots"
+author: "Dalmolin Group"
+format: html
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  results = FALSE
+)
+```
+
+## Import libraries
+
+```{r libs}
+library(ggplot2)
+library(ggraph)
+library(dplyr)
+library(tidyr)
+library(igraph)
+library(purrr)
+library(vroom)
+library(paletteer)
+library(easylayout)
+library(UpSetR)
+library(tinter)
+```
+
+```{r funcs}
+# Set colors
+color_mappings <- c(
+  "Olfactory transduction"   = "#8dd3c7"
+  ,"Taste transduction"      = "#72874EFF"
+  ,"Phototransduction"       = "#fb8072"
+)
+
+subset_graph_by_root <-
+  function(geneplast_result, root_number, graph) {
+    filtered <- geneplast_result %>%
+      filter(root >= root_number) %>%
+      pull(node)
+    
+    induced_subgraph(graph, which(V(graph)$name %in% filtered))
+  }
+
+adjust_color_by_root <- function(geneplast_result, root_number, graph) {
+  filtered <- geneplast_result %>%
+    filter(root == root_number) %>%
+    pull(node)
+  
+  V(graph)$color <- ifelse(V(graph)$name %in% filtered, "black", "gray")
+  return(graph)
+}
+
+# Configure graph collors by genes incrementation
+subset_and_adjust_color_by_root <- function(geneplast_result, root_number, graph) {
+  subgraph <- subset_graph_by_root(geneplast_result, root_number, graph)
+  adjusted_graph <- adjust_color_by_root(geneplast_result, root_number, subgraph)
+  return(adjusted_graph)
+}
+
+plot_network <- function(graph, title, nodelist, xlims, ylims, legend = "none") {
+  
+  # Generate color map
+  source_statements <-
+    colnames(nodelist)[10:length(nodelist)]
+  
+  color_mappings <- c(
+    "Olfactory transduction"   = "#8dd3c7"
+    ,"Taste transduction"      = "#72874EFF"
+    ,"Phototransduction"       = "#fb8072"
+  )
+  
+  vertices <- igraph::as_data_frame(graph, "vertices")
+  
+  ggraph:: ggraph(graph,
+                  "manual",
+                  x = V(graph)$x,
+                  y = V(graph)$y) +
+    ggraph::geom_edge_link0(edge_width = 1, color = "#90909020") +
+    ggraph::geom_node_point(ggplot2::aes(color = I(V(graph)$color)), size = 2) +
+    scatterpie::geom_scatterpie(
+      aes(x=x, y=y, r=18),
+      cols = source_statements,
+      data = vertices[rownames(vertices) %in% V(graph)$name[V(graph)$color == "black"],],
+      colour = NA,
+      pie_scale = 1
+    ) +
+    geom_node_text(aes(label = ifelse(V(graph)$color == "black", V(graph)$queryItem, NA)), 
+                   nudge_x = 1, nudge_y = 1, size = 0.5, colour = "black") +
+    ggplot2::scale_fill_manual(values = color_mappings, drop = FALSE) +
+    ggplot2::coord_fixed() +
+    ggplot2::scale_x_continuous(limits = xlims) +
+    ggplot2::scale_y_continuous(limits = ylims) +
+    ggplot2::theme_void() +
+    ggplot2::theme(
+      legend.position = legend,
+      legend.key.size = ggplot2::unit(0.5, 'cm'),
+      legend.key.height = ggplot2::unit(0.5, 'cm'),
+      legend.key.width = ggplot2::unit(0.5, 'cm'),
+      legend.title = ggplot2::element_text(size=6),
+      legend.text = ggplot2::element_text(size=6),
+      panel.border = ggplot2::element_rect(
+        colour = "#161616",
+        fill = NA,
+        linewidth = 1
+      ),
+      plot.title = ggplot2::element_text(size = 8, face = "bold")
+    ) +
+    ggplot2::guides(
+      color = "none",
+      fill = "none"
+    ) +
+    ggplot2::labs(fill = "Source:", title = title)
+}
+```
+
+```{r}
+#Load data (need to save tables from first qmd)
+```
+
+```{r}
+upset(dplyr::select(as.data.frame(nodelist), 
+                            "Olfactory transduction",
+                            "Taste transduction",
+                            "Phototransduction"),
+                    nsets = 50, nintersects = NA,
+      sets.bar.color = c("#8dd3c7", "#72874EFF", "#fb8072"), 
+      mainbar.y.label = "Biological Process \nIntersections",
+      sets.x.label = "Set Size")
+```
+
+```{r}
+## Graph Build
+graph <-
+  graph_from_data_frame(string_edgelist, directed = FALSE, vertices = nodelist)
+
+layout <- easylayout::easylayout(graph)
+V(graph)$x <- layout[, 1]
+V(graph)$y <- layout[, 2]
+
+#save(graph, file = "../data/graph_layout")
+```
+
+```{r}
+#load("../data/graph_layout")
+
+ggraph(graph, "manual", x = V(graph)$x, y = V(graph)$y) +
+  geom_edge_link0(color = "#90909020") +  
+  geom_node_point(aes(color = -root), size = 2) +  
+  theme_void() + 
+  theme(legend.position = "left")
+```
+
+```{r}
+## Plotting Human PPI Network
+#ppi_labaled <-
+ggraph::ggraph(graph,
+               "manual",
+               x = V(graph)$x,
+               y = V(graph)$y) +
+  ggraph:: geom_edge_link0(edge_width = 0.5, color = "#90909020") +
+  scatterpie::geom_scatterpie(
+    cols = source_statements,
+    data = igraph::as_data_frame(graph, "vertices"),
+    colour = NA,
+    pie_scale = 0.40
+  ) +
+  geom_node_text(aes(label = nodelist$queryItem), colour = "black", nudge_x = 0.8, nudge_y = 0.8, size = 2) +
+  ggplot2::scale_fill_manual(values = color_mappings, drop = FALSE)
+
+#ppi <- 
+  ggraph::ggraph(graph,
+               "manual",
+               x = V(graph)$x,
+               y = V(graph)$y) +
+  ggraph:: geom_edge_link0(edge_width = 0.5, color = "#90909020") +
+  scatterpie::geom_scatterpie(
+    cols = source_statements,
+    data = igraph::as_data_frame(graph, "vertices"),
+    colour = NA,
+    pie_scale = 0.40
+  ) +
+  ggplot2::scale_fill_manual(values = color_mappings, drop = FALSE)
+
+```
+
+```{r}
+geneplast_roots <- merged_paths |>
+  arrange(root)
+
+buffer <- c(-50, 50)
+xlims <- ceiling(range(V(graph)$x)) + buffer
+ylims <- ceiling(range(V(graph)$y)) + buffer
+
+roots <- unique(geneplast_roots$root) %>%
+  set_names(unique(geneplast_roots$clade_name))
+
+# Subset graphs by LCAs
+subsets <-
+  map(roots, ~ subset_and_adjust_color_by_root(geneplast_roots, .x, graph))
+
+# Plot titles
+titles <- names(roots)
+
+plots <-
+  map2(
+    subsets,
+    titles,
+    plot_network,
+    nodelist = nodelist,
+    xlims = xlims,
+    ylims = ylims,
+    legend = "right"
+  ) %>%
+  discard(is.null)
+
+#net_all_roots <-
+patchwork::wrap_plots(
+  rev(plots),
+  nrow = 4,
+  ncol = 4
+)
+
+#ggsave(file = "../data/network_rooting.svg", plot=net_all_roots, width=10, height=8)
+```
+
+```{r}
+
+```
+
