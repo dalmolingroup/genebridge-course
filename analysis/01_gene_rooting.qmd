@@ -86,7 +86,7 @@ gene_cogs %>% filter(n > 1)
 
 # Resolving main proteins
 gene_cogs_resolved <- tribble(
-  ~string_id, ~cog_id,
+  ~protein_id, ~cog_id,
 "ENSP00000332500", "NOG274749", #NOG274749 / NOG274749		
 "ENSP00000409316", "NOG282909", #NOG282909 / NOG282909 / NOG282909		
 "ENSP00000480090", "KOG3599"	#KOG3599 / KOG3272
@@ -108,16 +108,6 @@ ogr <- runBridge(ogr, penalty = 2, threshold = 0.5, verbose = TRUE)
 ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
 
 res <- getBridge(ogr, what="results")
-
-
-
-
-
-ogr <- groot.preprocess(cogdata=cogdata, phyloTree=phyloTree, cogids = gene_cogs$cog_id, spid="9606")
-
-ogr <- groot(ogr, nPermutation=1000, verbose = TRUE)
-
-res <- groot.get(ogr, what="results")
 ```
 
 ```{r}
@@ -130,6 +120,5 @@ groot_df <- res %>%
   tibble::rownames_to_column("cog_id") %>%
   dplyr::select(cog_id, root = Root) %>%
   left_join(lca_names) %>%
-  left_join(gene_cogs) %>%
-  left_join(string_id, by = c("protein_id" = "string_id"))
+  inner_join(gene_cogs)
 ```
