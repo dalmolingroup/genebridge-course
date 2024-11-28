@@ -1,8 +1,9 @@
 ---
 title: "Plotting Roots"
-author: "Dalmolin Group"
+author: "Dalmolin Systems Biology Group"
 format: html
-editor: visual
+execute: 
+  cache: true
 ---
 
 ```{r setup, include=FALSE}
@@ -136,18 +137,18 @@ upset(dplyr::select(as.data.frame(nodelist),
 
 ```{r}
 ## Graph Build
-graph <-
-  graph_from_data_frame(string_edgelist, directed = FALSE, vertices = nodelist)
+#graph <-
+#  graph_from_data_frame(string_edgelist, directed = FALSE, vertices = nodelist)
 
-layout <- easylayout::easylayout(graph)
-V(graph)$x <- layout[, 1]
-V(graph)$y <- layout[, 2]
+#layout <- easylayout::easylayout(graph)
+#V(graph)$x <- layout[, 1]
+#V(graph)$y <- layout[, 2]
 
 #save(graph, file = "../data/graph_layout")
 ```
 
 ```{r}
-#load("../data/graph_layout")
+load("../data/graph_layout")
 
 ggraph(graph, "manual", x = V(graph)$x, y = V(graph)$y) +
   geom_edge_link0(color = "#90909020") +  
@@ -188,6 +189,7 @@ ggraph::ggraph(graph,
   ggplot2::scale_fill_manual(values = color_mappings, drop = FALSE)
 
 ```
+
 
 ```{r}
 geneplast_roots <- merged_paths |>
