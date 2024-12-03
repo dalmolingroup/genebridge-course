@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Import libraries
+## Importar bibliotecas
 
 ```{r libs}
 library(ggplot2)
@@ -30,6 +30,8 @@ library(easylayout)
 library(UpSetR)
 library(tinter)
 ```
+
+## Definir funções 
 
 ```{r funcs}
 # Set colors
@@ -120,8 +122,14 @@ plot_network <- function(graph, title, nodelist, xlims, ylims, legend = "none") 
 }
 ```
 
+
+
 ```{r}
 #Load data (need to save tables from first qmd)
+nodelist <- vroom::vroom(file = here("data/nodelist.csv"), delim = ",")
+string_edgelist <- vroom::vroom(file = here("data/string_edgelist.csv"), delim = ",")
+merged_paths <- vroom::vroom(file = here("data/merged_paths.csv"), delim = ",")
+
 ```
 
 ```{r}
@@ -166,7 +174,7 @@ ggraph::ggraph(graph,
                y = V(graph)$y) +
   ggraph:: geom_edge_link0(edge_width = 0.5, color = "#90909020") +
   scatterpie::geom_scatterpie(
-    cols = source_statements,
+    cols = colnames(nodelist[10:12]),
     data = igraph::as_data_frame(graph, "vertices"),
     colour = NA,
     pie_scale = 0.40
@@ -181,7 +189,7 @@ ggraph::ggraph(graph,
                y = V(graph)$y) +
   ggraph:: geom_edge_link0(edge_width = 0.5, color = "#90909020") +
   scatterpie::geom_scatterpie(
-    cols = source_statements,
+    cols = colnames(nodelist[10:12]),
     data = igraph::as_data_frame(graph, "vertices"),
     colour = NA,
     pie_scale = 0.40

@@ -292,3 +292,13 @@ connected_nodes <- dplyr::select(connected_nodes, queryItem, root, clade_name, c
 
 head(connected_nodes)
 ```
+
+```{r}
+nodelist |> 
+  vroom::vroom_write(file = here("data/nodelist.csv"), delim = ",")
+string_edgelist |> 
+  vroom::vroom_write(file = here("data/string_edgelist.csv"), delim = ",")
+merged_paths |> 
+  vroom::vroom_write(file = here("data/merged_paths.csv"), delim = ",")
+```
+
