@@ -37,7 +37,6 @@ library(here)
 
 ## Define functions
 
-
 ```{r funcs}
 # get IDs from STRING DB
 get_string_ids <- function(genes_hgnc, species_id = "9606") {
@@ -101,6 +100,8 @@ combine_scores <- function(dat, evidences = "all", confLevel = 0.4) {
 }
 ```
 
+## Load Required Data
+
 ```{r data}
 # Load the Gene Set Table
 sensorial_genes <- read.csv("../data/sensorial_genes.csv")
@@ -109,7 +110,16 @@ sensorial_genes <- read.csv("../data/sensorial_genes.csv")
 ah <- AnnotationHub()
 meta <- query(ah, "geneplast")
 load(meta[["AH83116"]])
+
+head(sensorial_genes)
+head(cogdata)
 ```
+
+## 1.Pré-processamento
+
+### 1.1.Mapeamento
+
+Para as próximas análises, precisamos cruzar informações entre nossos genes de interesse (Gene IDs da tabela **`sensorial_genes`**) e Protein IDs (da tabela **`cogdata`**). A API do STRINGdb é usada para mapear os Gene IDs para os Protein IDs, permitindo a filtragem dos genes de interesse na tabela cogdata. O objetivo final é obter um conjunto filtrado de genes sensoriais com seus respectivos pathways e COG IDs.
 
 ```{r }
 map_ids <- get_string_ids(sensorial_genes$gene_symbol)
@@ -120,7 +130,24 @@ gene_cogs <- cogdata %>%
   filter(protein_id %in% map_ids[["stringId"]]) %>%
   group_by(protein_id) %>%
   summarise(n = n(), cog_id = paste(cog_id, collapse = " / "))
+
+head(map_ids)
 ```
+
+### 1.2.Resolverndo COGs duplicados
+
+Devido a eventos evolutivos, como duplicação gênica, alguns genes podem ser associados a mais de um Cluster of Orthologous Groups (COG). Para garantir a funcionalidade do algoritmo, é necessário resolver esses casos, priorizando COGs de acordo com os seguintes critérios:
+
+1.  Prioridade por tipo de COG:
+
+-   KOGs têm maior prioridade.
+-   COGs têm maior prioridade do que NOGs.
+
+2.  Casos com COGs iniciando pela mesma letra:
+
+-   São resolvidos manualmente, com base na função anotada do COG e na questão científica do estudo.
+
+O código abaixo implementa essa resolução e integra as correções à tabela principal.
 
 ```{r data}
 gene_cogs %>% filter(n > 1)
@@ -140,9 +167,30 @@ gene_cogs %<>%
   bind_rows(gene_cogs_resolved)
 ```
 
+## 3.Processamento
+
+O objetivo desta etapa é realizar o enraizamento dos genes de interesse utilizando o pacote **GeneBridge**. Para isso, utilizamos as funções `newBridge`, `runBridge` e `runPermutation`, que produzem resultados estatísticos associados aos COGs selecionados em uma árvore filogenética.
+
+### 3.1.Inputs necessários
+
+1.  **`ogdata`**:
+    -   Dataset contendo três colunas principais:
+        -   `Protein ID`: Identificadores das proteínas.
+        -   `COG ID`: Clusters de interesse.
+        -   `Specie ID`: Identificadores das espécies.
+    -   No exemplo, está sendo utilizado o objeto `cogdata`.
+2.  **`phyloTree`**:
+    -   Árvore filogenética contendo 476 eucariotos, representando a estrutura evolutiva entre as espécies analisadas.
+3.  **`ogids`**:
+    -   Lista dos **COGs de interesse**. Esse conjunto é derivado da tabela `gene_cogs` e inclui os COGs associados às proteínas após o processamento anterior.
+4.  **`refsp`**:
+    -   Espécie de referência para o enraizamento. No exemplo, utilizamos `9606` (humano).
+
+A função *getBridge* extrai os resultados gerados pelo GeneBridge em formato de tabela. A tabela *res* contém os resultados estastisticos do enraizamento.
+
 ```{r}
 ## Run GeneBridge
-ogr <- newBridge(ogdata=cogdata, phyloTree=phyloTree, ogids = gene_cogs$cog_id, refsp="9606")
+ogr <- newBridge(ogdata=cogdata, phyloTree=phyloTree, ogids = unique(gene_cogs$cog_id), refsp="9606")
 
 ogr <- runBridge(ogr, penalty = 2, threshold = 0.5, verbose = TRUE)
 
@@ -150,6 +198,8 @@ ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
 
 res <- getBridge(ogr, what="results")
 ```
+
+###4.Pós-Processamento
 
 ```{r}
 # naming the rooted clades
@@ -222,4 +272,3 @@ connected_nodes <- data.frame(count=connected_nodes$lengths, node=connected_node
 connected_nodes <- left_join(nodelist, connected_nodes, by = c("node" = "node"))
 connected_nodes <- dplyr::select(connected_nodes, queryItem, root, clade_name, count)
 ```
-

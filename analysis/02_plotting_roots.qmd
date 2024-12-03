@@ -232,6 +232,9 @@ patchwork::wrap_plots(
 ```
 
 ```{r}
-
+patchwork::wrap_plots(
+  plots$Metamonada, plots$Choanoflagellata, plots$Cephalochordata, plots$Amphibia,
+  ncol = 4
+)
 ```
 
