@@ -199,7 +199,9 @@ ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
 res <- getBridge(ogr, what="results")
 ```
 
-###4.Pós-Processamento
+## 4.Pós-Processamento
+
+Após realizar o enraizamento com o **GeneBridge**, é necessário ajustar os dados para melhorar a visualização e a interpretação dos resultados. Nessa etapa, adicionamos os nomes dos clados às raízes identificadas, utilizando uma tabela externa que relaciona os identificadores das raízes aos nomes dos clados.
 
 ```{r}
 # naming the rooted clades
@@ -212,7 +214,17 @@ groot_df <- res %>%
   dplyr::select(cog_id, root = Root) %>%
   left_join(lca_names) %>%
   inner_join(gene_cogs)
+
+head(groot_df)
 ```
+
+### 4.1.Rede de Interação Proteína-Proteína
+
+A construção de uma rede de interação proteína-proteína (PPI) é uma etapa essencial para identificar as relações funcionais entre proteínas. Neste processo, utilizamos a API do **STRINGdb**, um banco de dados que cataloga interações entre proteínas com base em diversas fontes, incluindo ensaios experimentais, co-expressão, e evidências extraídas de publicações científicas.
+
+A API do STRINGdb oferece métodos para: - Obter interações proteicas para uma lista de proteínas. - Selecionar fontes específicas de evidências. - Calcular e combinar escores baseados nas evidências selecionadas.
+
+Mais informações sobre a API podem ser encontradas na [documentação STRING API](https://string-db.org/help/api/).
 
 ```{r}
 # Get proteins interaction
@@ -234,16 +246,18 @@ setdiff(
   string_edgelist %$% c(stringId_A, stringId_B),
   map_ids %>% pull(stringId)
 ) 
+
+head(string_edgelist)
 ```
 
+Para a construção do grafo, além das interações entre as proteínas, é necessário que cada nó seja anotado com informações adicionais que serão usadas na análise, como: - Nome da proteína. - Clado onde está enraizado. - pathway em que participa.
+
 ```{r}
-## Create
+## Create anotation table
 nodelist <- data.frame(node = unique(c(string_edgelist$stringId_A, string_edgelist$stringId_B)))
 
 merged_paths <- merge(nodelist, groot_df, by.x = "node", by.y = "protein_id")
-```
 
-```{r}
 pivotada <- sensorial_genes %>% 
   dplyr::select(gene_symbol, pathway_name) %>% 
   dplyr::mutate(n = 1) %>% 
@@ -263,7 +277,11 @@ nodelist <-
   left_join(merged_paths, by = c("node" = "node")) %>%
   left_join(map_ids, by = c("node" = "stringId")) %>%
   left_join(pivotada, by = c("queryItem" = "gene_symbol"))
+
+head(nodelist)
 ```
+
+Além da estrutura do grafo, podemos calcular métricas como o número de conexões (grau) de cada nó.
 
 ```{r}
 # Network Metrics
@@ -271,4 +289,6 @@ connected_nodes <- rle(sort(c(string_edgelist[,1], string_edgelist[,2])))
 connected_nodes <- data.frame(count=connected_nodes$lengths, node=connected_nodes$values)
 connected_nodes <- left_join(nodelist, connected_nodes, by = c("node" = "node"))
 connected_nodes <- dplyr::select(connected_nodes, queryItem, root, clade_name, count)
+
+head(connected_nodes)
 ```
