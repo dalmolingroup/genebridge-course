@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## Importar bibliotecas
 
-```{r libs}
+```{r}
 library(ggplot2)
 library(ggraph)
 library(dplyr)
@@ -33,7 +33,7 @@ library(tinter)
 
 ## Definir funções 
 
-```{r funcs}
+```{r}
 # Set colors
 color_mappings <- c(
   "Olfactory transduction"   = "#8dd3c7"
@@ -122,7 +122,7 @@ plot_network <- function(graph, title, nodelist, xlims, ylims, legend = "none") 
 }
 ```
 
-
+## Carregando tabelas necessárias
 
 ```{r}
 #Load data (need to save tables from first qmd)
@@ -131,6 +131,10 @@ string_edgelist <- vroom::vroom(file = here("data/string_edgelist.csv"), delim =
 merged_paths <- vroom::vroom(file = here("data/merged_paths.csv"), delim = ",")
 
 ```
+
+## 1.Visualização com UpSet Plot
+
+O *UpSet Plot* é uma ferramenta útil para visualizar a distribuição e concatenação de genes entre diferentes vias metabólicas. Ele permite identificar como os genes estão compartilhados ou exclusivos entre as categorias analisadas.
 
 ```{r}
 upset(dplyr::select(as.data.frame(nodelist), 
@@ -142,6 +146,11 @@ upset(dplyr::select(as.data.frame(nodelist),
       mainbar.y.label = "Biological Process \nIntersections",
       sets.x.label = "Set Size")
 ```
+
+## 2.Visualização da Rede de Interação Proteína-Proteína
+
+A visualização da rede de interação é essencial para compreender as conexões funcionais entre proteínas. Aqui, utilizamos o pacote **easylayout**, desenvolvido por Danilo Imparato, para gerar um layout eficiente. Este pacote organiza os nós da rede em coordenadas x e y, permitindo uma visualização estruturada e clara. Posteriormente, o grafo será plotado com o **ggraph**.
+
 
 ```{r}
 ## Graph Build
@@ -155,6 +164,12 @@ upset(dplyr::select(as.data.frame(nodelist),
 #save(graph, file = "../data/graph_layout")
 ```
 
+### 2.1.Visualização da Ancestralidade de Cada Nó
+
+A análise da ancestralidade de cada nó na rede fornece uma visão evolutiva sobre as proteínas analisadas. Aqui, utilizamos o **ggraph** para plotar o grafo com as posições previamente salvas pelo *easylayout*. 
+
+Os nós são coloridos de acordo com a distância em relação ao último ancestral comum (LCA) dos clados analisados e o humano (*Human-LCA*). A tonalidade mais escura indica clados mais antigos em relação ao humano, enquanto tons claros de azul representam clados mais novos, mais próximos do *Human-LCA*.
+
 ```{r}
 load("../data/graph_layout")
 
@@ -164,6 +179,14 @@ ggraph(graph, "manual", x = V(graph)$x, y = V(graph)$y) +
   theme_void() + 
   theme(legend.position = "left")
 ```
+### 2.2.Visualização da Rede de Interação Proteína-Proteína em Humano
+
+Para compreender melhor a relação entre proteínas humanas, plotamos a rede de interação onde os nós representam os genes humanos associados aos seus processos biológicos. 
+
+#### Descrição dos elementos do gráfico:
+1. **Nós (Círculos):** As cores dos nós são divididas de acordo com os processos biológicos atribuídos a cada gene. O uso de diagramas de pizza permite a visualização de genes que participam de múltiplos processos.
+2. **Arestas (Linhas):** Representam as interações proteicas baseadas em dados do STRINGdb.
+3. **Rótulos dos genes:** Cada nó está anotado com o símbolo do gene correspondente, posicionado estrategicamente para facilitar a leitura.
 
 ```{r}
 ## Plotting Human PPI Network
@@ -197,7 +220,16 @@ ggraph::ggraph(graph,
   ggplot2::scale_fill_manual(values = color_mappings, drop = FALSE)
 
 ```
+### 2.3.Visualização da Rede de Interação Proteína-Proteína em Cada Clado
 
+Nesta seção, visualizamos os genes que estão estatisticamente enraizados em cada clado. A disposição dos genes permite observar o incremento dos genes ortólogos em função da complexidade e antiguidade do sistema biológico.  
+
+#### Características da visualização:
+1. **Evolução dos grafos:** Os grafos são organizados da esquerda para a direita e de cima para baixo, permitindo analisar a progressão evolutiva.
+2. **Coloração dos nós:** A cor dos nós indica o nível de ancestralidade, como previamente destacado, onde tons mais escuros representam clados mais antigos e tons mais claros indicam proximidade evolutiva com humanos.
+3. **Organismos de interesse:** Além de visualizar todos os clados, é possível gerar gráficos focados apenas em determinados grupos, como *Metamonada*, *Choanoflagellata*, *Cephalochordata* e *Amphibia*.
+
+Com estas visualizações, é possível identificar padrões de evolução dos genes em diferentes clados e realizar comparações detalhadas com organismos de interesse específico.
 
 ```{r}
 geneplast_roots <- merged_paths |>
@@ -238,6 +270,7 @@ patchwork::wrap_plots(
 
 #ggsave(file = "../data/network_rooting.svg", plot=net_all_roots, width=10, height=8)
 ```
+
 
 ```{r}
 patchwork::wrap_plots(

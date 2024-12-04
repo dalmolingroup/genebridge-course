@@ -25,7 +25,7 @@ library(hrbrthemes)
 library(tinter)
 ```
 
-```{r funcs}
+```{r}
 calculate_cumulative_genes <- function(nodelist) {
   
     # Obter todas as categorias possíveis de clade_name
@@ -87,7 +87,7 @@ calculate_cumulative_bp <- function(nodelist) {
 
 ```
 
-```{r themes}
+```{r}
 # Plotting colors and labels
 annotation_colors <- c(
   "Olfactory transduction"   = "#8dd3c7"
