@@ -190,11 +190,13 @@ A função *getBridge* extrai os resultados gerados pelo GeneBridge em formato d
 
 ```{r}
 ## Run GeneBridge
-ogr <- newBridge(ogdata=cogdata, phyloTree=phyloTree, ogids = unique(gene_cogs$cog_id), refsp="9606")
+cogs_of_interest <- gene_cogs %>% pull(cog_id) %>% unique
+
+ogr <- newBridge(ogdata=cogdata, phyloTree=phyloTree, ogids = cogs_of_interest, refsp="9606")
 
 ogr <- runBridge(ogr, penalty = 2, threshold = 0.5, verbose = TRUE)
 
-ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
+ogr <- runPermutation(ogr, nPermutations=10000, verbose=FALSE)
 
 res <- getBridge(ogr, what="results")
 ```
@@ -301,4 +303,3 @@ string_edgelist |>
 merged_paths |> 
   vroom::vroom_write(file = here("data/merged_paths.csv"), delim = ",")
 ```
-
