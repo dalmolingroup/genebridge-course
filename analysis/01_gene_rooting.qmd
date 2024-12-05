@@ -15,11 +15,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Import libraries
+## Importando Pacotes
 
-```{r}
+```{r libs}
 library(GeneBridge)
-library(geneplast.data)
 library(readr)
 library(dplyr)
 library(purrr)
@@ -35,9 +34,11 @@ library(sourcetools)
 library(here)
 ```
 
-## Define functions
+## Definindo funções para usar posteriormente
 
-```{r}
+A primeira delas, busca o respectivo id de proteína para cada gene da lista de entrada. A segunda, retorna as interações entre essas proteínas e a última filtra as interações pelo score de confiança combinado maior que 0.4.
+
+```{r funcs}
 # get IDs from STRING DB
 get_string_ids <- function(genes_hgnc, species_id = "9606") {
 
@@ -100,9 +101,11 @@ combine_scores <- function(dat, evidences = "all", confLevel = 0.4) {
 }
 ```
 
-## Load Required Data
+## Carregando lista de genes e os dados de ortologia
 
-```{r}
+Carregamos os dados de ortologia através do **AnnotationHub**, esse pacote do R fornece um local central onde arquivos genômicos (VCF, bed, wig) e outros recursos de locais padrões (por exemplo, UCSC, Ensembl) podem ser acessados. Dessa forma, temos acesso aos arquivos de entrada para o algoritmo do GeneBridge.
+
+```{r data}
 # Load the Gene Set Table
 sensorial_genes <- read.csv("../data/sensorial_genes.csv")
 
@@ -149,7 +152,7 @@ Devido a eventos evolutivos, como duplicação gênica, alguns genes podem ser a
 
 O código abaixo implementa essa resolução e integra as correções à tabela principal.
 
-```{r}
+```{r data}
 gene_cogs %>% filter(n > 1)
 
 # Resolving main proteins
@@ -190,13 +193,11 @@ A função *getBridge* extrai os resultados gerados pelo GeneBridge em formato d
 
 ```{r}
 ## Run GeneBridge
-cogs_of_interest <- gene_cogs %>% pull(cog_id) %>% unique
-
-ogr <- newBridge(ogdata=cogdata, phyloTree=phyloTree, ogids = cogs_of_interest, refsp="9606")
+ogr <- newBridge(ogdata=cogdata, phyloTree=phyloTree, ogids = unique(gene_cogs$cog_id), refsp="9606")
 
 ogr <- runBridge(ogr, penalty = 2, threshold = 0.5, verbose = TRUE)
 
-ogr <- runPermutation(ogr, nPermutations=10000, verbose=FALSE)
+ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
 
 res <- getBridge(ogr, what="results")
 ```
@@ -252,7 +253,7 @@ setdiff(
 head(string_edgelist)
 ```
 
-Para a construção do grafo, além das interações entre as proteínas, é necessário que cada nó seja anotado com informações adicionais que serão usadas na análise, como: - Nome da proteína. - Clado onde está enraizado. - pathway em que participa.
+Para a construção do grafo, além das interações entre as proteínas, é necessário que cada nó seja anotado com informações adicionais que serão usadas na análise, como: - Nome da proteína. - Clado onde está enraizado. - Via metabólica em que participa.
 
 ```{r}
 ## Create anotation table
@@ -293,13 +294,4 @@ connected_nodes <- left_join(nodelist, connected_nodes, by = c("node" = "node"))
 connected_nodes <- dplyr::select(connected_nodes, queryItem, root, clade_name, count)
 
 head(connected_nodes)
-```
-
-```{r}
-nodelist |> 
-  vroom::vroom_write(file = here("data/nodelist.csv"), delim = ",")
-string_edgelist |> 
-  vroom::vroom_write(file = here("data/string_edgelist.csv"), delim = ",")
-merged_paths |> 
-  vroom::vroom_write(file = here("data/merged_paths.csv"), delim = ",")
 ```
