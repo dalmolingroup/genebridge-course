@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Import libraries
+## Importando Pacotes
 
 ```{r}
 library(GeneBridge)
@@ -35,7 +35,9 @@ library(sourcetools)
 library(here)
 ```
 
-## Define functions
+## Definindo funções para usar posteriormente
+
+A primeira delas, busca o respectivo id de proteína para cada gene da lista de entrada. A segunda, retorna as interações entre essas proteínas e a última filtra as interações pelo score de confiança combinado maior que 0.4.
 
 ```{r}
 # get IDs from STRING DB
@@ -100,7 +102,9 @@ combine_scores <- function(dat, evidences = "all", confLevel = 0.4) {
 }
 ```
 
-## Load Required Data
+## Carregando lista de genes e os dados de ortologia
+
+Carregamos os dados de ortologia através do **AnnotationHub**, esse pacote do R fornece um local central onde arquivos genômicos (VCF, bed, wig) e outros recursos de locais padrões (por exemplo, UCSC, Ensembl) podem ser acessados. Dessa forma, temos acesso aos arquivos de entrada para o algoritmo do GeneBridge.
 
 ```{r}
 # Load the Gene Set Table
@@ -196,7 +200,7 @@ ogr <- newBridge(ogdata=cogdata, phyloTree=phyloTree, ogids = cogs_of_interest, 
 
 ogr <- runBridge(ogr, penalty = 2, threshold = 0.5, verbose = TRUE)
 
-ogr <- runPermutation(ogr, nPermutations=10000, verbose=FALSE)
+ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
 
 res <- getBridge(ogr, what="results")
 ```
@@ -252,7 +256,7 @@ setdiff(
 head(string_edgelist)
 ```
 
-Para a construção do grafo, além das interações entre as proteínas, é necessário que cada nó seja anotado com informações adicionais que serão usadas na análise, como: - Nome da proteína. - Clado onde está enraizado. - pathway em que participa.
+Para a construção do grafo, além das interações entre as proteínas, é necessário que cada nó seja anotado com informações adicionais que serão usadas na análise, como: - Nome da proteína. - Clado onde está enraizado. - Via metabólica em que participa.
 
 ```{r}
 ## Create anotation table
