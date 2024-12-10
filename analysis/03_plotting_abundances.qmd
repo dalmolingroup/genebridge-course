@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Import libraries
+## Importar bibliotecas
 
 ```{r libs}
 library(readr)
@@ -24,6 +24,8 @@ library(ggplot2)
 library(hrbrthemes)
 library(tinter)
 ```
+
+## Definir funções
 
 ```{r}
 calculate_cumulative_genes <- function(nodelist) {
@@ -86,6 +88,8 @@ calculate_cumulative_bp <- function(nodelist) {
 }
 
 ```
+
+## Definindo parâmetros para ggplot
 
 ```{r}
 # Plotting colors and labels
@@ -165,12 +169,134 @@ tick_function <- function(x) {
 
 ```
 
-# Load Data
+## Carregar tabelas necessárias
+
+Para prosseguir com a análise, é necessário carregar uma tabela contendo informações do *taxid* de cada espécie. Essas informações serão posteriormente utilizadas para mapear os *taxid* das espécies com os *taxid* de cada COG.
+
+### Descrição da Tabela
+
+- **Nome do Arquivo**: `string_eukaryotes.rda`  
+- **Conteúdo**: Informações taxonômicas de espécies eucarióticas.
+
+A tabela carrega os seguintes campos principais:  
+- **TaxID** (*taxonomic identifier*): Um identificador único associado a cada espécie.
+- Nome da espécie
+
 
 ```{r}
 # Todo: salvar tabelas dos qmd anteriores
 load("../data/string_eukaryotes.rda")
+head(string_eukaryotes)
 ```
+
+## Visualização: Padrão de Enraizamento
+
+Essa visualização permite analisar o padrão cumulativo de surgimento de genes ao longo do tempo evolutivo. Além disso, também mostra o crescimento dos processos biológicos separados por cada via metabólica.
+
+### Características dos Gráficos
+
+1. **Gráfico de Barras (Padrão Cumulativo)**:
+   - Representa o somatório cumulativo de genes associados a cada clado.
+   - Cada barra exibe o total acumulado de genes em determinado clado, permitindo identificar o padrão de diversificação.
+
+2. **Gráfico Combinado (Barras e Linhas)**:
+   - As barras indicam o somatório cumulativo de genes por clado.
+   - As linhas representam o crescimento de diferentes processos biológicos (*Process*), separados por vias metabólicas, permitindo a comparação entre o surgimento cumulativo de genes e o desenvolvimento de funções biológicas.
+
+### Interpretação
+
+- **Padrão Cumulativo**: O gráfico de barras mostra como os genes foram surgindo ao longo do tempo, cumulativamente. Essa visão ajuda a identificar momentos de maior diversificação genética.
+- **Comparação por Processos Biológicos**: O gráfico combinado permite observar quais processos biológicos se destacam em diferentes momentos da evolução e como eles estão relacionados ao surgimento de novos genes.
+
+
+```{r}
+cumulative_genes <- calculate_cumulative_genes(nodelist) 
+cumulative_bp <- calculate_cumulative_bp(nodelist)
+  
+cumulative_data <- left_join(cumulative_genes, cumulative_bp)
+ 
+
+long_data <- cumulative_data %>%
+  pivot_longer(cols = 5:7, 
+               names_to = "Process", 
+               values_to = "Value")
+
+#a <-
+ggplot() +
+  # Gráfico de barras para cumulative_sum
+  geom_bar(data = cumulative_data, 
+           aes(x = factor(clade_name, levels = clade_name), y = cumulative_sum), 
+           stat = "identity", fill = "darkgray", colour = NA) +
+  geom_text(data = cumulative_data, 
+            aes(x = factor(clade_name, levels = clade_name), y = cumulative_sum, label = cumulative_sum), 
+            vjust = -0.5, size = 3, color = "darkgray") +
+  scale_color_manual(values = annotation_colors) +
+  
+  labs(x = "Clade Name", y = "Cumulative Sum", 
+       title = "Cumulative Sum and Biological Processes",
+       fill = "Cumulative Sum",
+       color = "Biological Processes") +
+  
+  theme_main +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+#b <- 
+ggplot() +
+  # Gráfico de barras para cumulative_sum
+  geom_bar(data = cumulative_data, 
+           aes(x = factor(-root), y = cumulative_sum), 
+           stat = "identity", fill = "darkgray", colour = NA) +
+  geom_text(data = cumulative_data, 
+            aes(x = factor(-root), y = cumulative_sum, label = cumulative_sum), 
+            vjust = -0.5, size = 3, color = "darkgray") +
+  
+  # Gráfico de linhas para os processos biológicos
+  geom_line(data = long_data, 
+            aes(x = factor(-root), y = Value, color = Process, group = Process), 
+            size = 1) +
+  
+  # Usar a paleta de cores definida
+  scale_color_manual(values = annotation_colors) +
+  
+  labs(x = "Clade Name", y = "Cumulative Sum", 
+       title = "Cumulative Sum and Biological Processes",
+       fill = "Cumulative Sum",
+       color = "Biological Processes") +
+  
+  theme_main +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#ggsave(file = "", plot=a, width=15, height=8)
+#ggsave(file = "", plot=b, width=15, height=8)
+```
+
+## Cálculo da Abundância de COGs por Função nas Espécies
+
+Esta análise parte da premissa de que COGs similares compartilham a mesma função biológica. Assim, é possível calcular a abundância média das funções associadas aos COGs em cada espécie, utilizando a quantidade de COGs presentes na espécie identificada pelo *TaxID*.
+
+### Etapas do Cálculo
+
+1. **Mapeamento das Espécies**  
+   Cada espécie foi mapeada para seu respectivo clado (nível hierárquico) com base nas informações do *TaxID*.  
+   - Foi utilizada a tabela `ogr@spbranches` para associar espécies (*ssp_id*) com seus *branches* (*lca*).
+   - Os dados foram organizados para incluir a ordem dos *TaxIDs*.
+
+2. **Anotação dos COGs**  
+   - A relação entre proteínas e genes foi enriquecida com informações funcionais, como identificadores de COGs e nomes de vias metabólicas (*pathway_name*).
+   - Duplicatas foram removidas para garantir que apenas informações únicas fossem consideradas.
+
+3. **Integração de Informações das Espécies**  
+   - Foi criado um mapeamento entre espécies (*TaxID*) e seus respectivos clados para adicionar as informações taxonômicas relevantes.
+   - As espécies foram ordenadas com base em seus clados, para facilitar a análise hierárquica.
+
+4. **Cálculo da Abundância Média por Função**  
+   - Para cada espécie e função metabólica (*pathway_name*), foi calculada a abundância média dos COGs.
+   - Informações adicionais, como nomes das espécies (*ncbi_name*) e clados (*clade_name*), foram integradas ao resultado.
+
+5. **Ajuste da Abundância (Capping)**  
+   - Para evitar valores extremos, a abundância média foi ajustada:
+     - Valores acima de um limite (média + 3 desvios padrão) foram truncados para 100.
+     - Os valores ajustados foram calculados separadamente por função metabólica.
 
 
 ```{r}
@@ -242,66 +368,20 @@ roots_seq$clade_name <- factor(roots_seq$clade_name, levels = roots_seq$clade_na
 
 ```
 
-```{r}
-cumulative_genes <- calculate_cumulative_genes(nodelist) 
-cumulative_bp <- calculate_cumulative_bp(nodelist)
-  
-cumulative_data <- left_join(cumulative_genes, cumulative_bp)
- 
+### Visualização
 
-long_data <- cumulative_data %>%
-  pivot_longer(cols = 5:7, 
-               names_to = "Process", 
-               values_to = "Value")
+Nos gráficos a seguir, é possível observar a abundância média dos COGs em cada clado. Cada barra representa uma espécie dentro do respectivo clado, enquanto as cores indicam as diferentes funções metabólicas associadas aos grupos ortólogos.
 
-#a <-
-ggplot() +
-  # Gráfico de barras para cumulative_sum
-  geom_bar(data = cumulative_data, 
-           aes(x = factor(clade_name, levels = clade_name), y = cumulative_sum), 
-           stat = "identity", fill = "darkgray", colour = NA) +
-  geom_text(data = cumulative_data, 
-            aes(x = factor(clade_name, levels = clade_name), y = cumulative_sum, label = cumulative_sum), 
-            vjust = -0.5, size = 3, color = "darkgray") +
-  scale_color_manual(values = annotation_colors) +
-  
-  labs(x = "Clade Name", y = "Cumulative Sum", 
-       title = "Cumulative Sum and Biological Processes",
-       fill = "Cumulative Sum",
-       color = "Biological Processes") +
-  
-  theme_main +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#### Gráfico de Abundância Média de COGs por Clado
 
-#b <- 
-ggplot() +
-  # Gráfico de barras para cumulative_sum
-  geom_bar(data = cumulative_data, 
-           aes(x = factor(-root), y = cumulative_sum), 
-           stat = "identity", fill = "darkgray", colour = NA) +
-  geom_text(data = cumulative_data, 
-            aes(x = factor(-root), y = cumulative_sum, label = cumulative_sum), 
-            vjust = -0.5, size = 3, color = "darkgray") +
-  
-  # Gráfico de linhas para os processos biológicos
-  geom_line(data = long_data, 
-            aes(x = factor(-root), y = Value, color = Process, group = Process), 
-            size = 1) +
-  
-  # Usar a paleta de cores definida
-  scale_color_manual(values = annotation_colors) +
-  
-  labs(x = "Clade Name", y = "Cumulative Sum", 
-       title = "Cumulative Sum and Biological Processes",
-       fill = "Cumulative Sum",
-       color = "Biological Processes") +
-  
-  theme_main +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+- O eixo **X** representa as espécies.
+- O eixo **Y** indica a abundância média de proteínas em grupos ortólogos.
+- As barras são coloridas de acordo com a função metabólica (*pathway_name*).
 
-#ggsave(file = "", plot=a, width=15, height=8)
-#ggsave(file = "", plot=b, width=15, height=8)
-```
+#### Gráfico com Abundância Ajustada (Capped)
+
+- Para evitar distorções causadas por valores extremos, a abundância foi ajustada a um limite máximo (média + 3 desvios padrão).
+- Este gráfico fornece uma visualização mais equilibrada, especialmente para funções metabólicas com valores muito elevados.
 
 ```{r}
 # Plotting by species
@@ -354,6 +434,13 @@ facet_grid(
   theme_classic() + 
   theme_main
 ```
+#### Visualização Simplificada: Abundância por Clado
+
+Para uma análise menos detalhada, é possível visualizar a abundância média de COGs apenas a nível de clado, ignorando as diferenças entre espécies individuais. Este gráfico fornece uma visão geral mais direta, ideal para identificar tendências globais.
+
+- O eixo **X** representa os clados.
+- O eixo **Y** mostra a abundância média de proteínas em grupos ortólogos por clado.
+- As barras são agrupadas por clado e coloridas de acordo com as funções metabólicas (*pathway_name*).
 
 ```{r}
 # Ploting by clade
@@ -376,4 +463,11 @@ ggplot(avg_abundance_by_function) +
   theme_classic() + 
   theme_average
 ```
+
+
+
+
+
+
+
 
