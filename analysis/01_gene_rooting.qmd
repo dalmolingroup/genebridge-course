@@ -6,7 +6,7 @@ execute:
   cache: true
 ---
 
-```{r setup, include=FALSE}
+```{r setup1, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
@@ -136,6 +136,9 @@ gene_cogs <- cogdata %>%
   summarise(n = n(), cog_id = paste(cog_id, collapse = " / "))
 
 head(map_ids)
+
+#map_ids |> 
+#  vroom::vroom_write(file = here("data/map_ids.csv"), delim = ",")
 ```
 
 ### 1.2.Resolverndo COGs duplicados
@@ -169,6 +172,9 @@ gene_cogs %<>%
   filter(n == 1) %>%
  dplyr:: select(-n) %>%
   bind_rows(gene_cogs_resolved)
+
+#gene_cogs |> 
+#  vroom::vroom_write(file = here("data/gene_cogs.csv"), delim = ",")
 ```
 
 ## 3.Processamento
@@ -203,6 +209,8 @@ ogr <- runBridge(ogr, penalty = 2, threshold = 0.5, verbose = TRUE)
 ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
 
 res <- getBridge(ogr, what="results")
+
+saveRDS(ogr, file = "../data/ogr.RData")
 ```
 
 ## 4.Pós-Processamento
@@ -222,6 +230,9 @@ groot_df <- res %>%
   inner_join(gene_cogs)
 
 head(groot_df)
+
+#groot_df |> 
+#  vroom::vroom_write(file = here("data/groot_df.csv"), delim = ",")
 ```
 
 ### 4.1.Rede de Interação Proteína-Proteína
@@ -300,10 +311,10 @@ head(connected_nodes)
 ```
 
 ```{r}
-nodelist |> 
-  vroom::vroom_write(file = here("data/nodelist.csv"), delim = ",")
-string_edgelist |> 
-  vroom::vroom_write(file = here("data/string_edgelist.csv"), delim = ",")
-merged_paths |> 
-  vroom::vroom_write(file = here("data/merged_paths.csv"), delim = ",")
+#nodelist |> 
+#  vroom::vroom_write(file = here("data/nodelist.csv"), delim = ",")
+#string_edgelist |> 
+#  vroom::vroom_write(file = here("data/string_edgelist.csv"), delim = ",")
+#merged_paths |> 
+#  vroom::vroom_write(file = here("data/merged_paths.csv"), delim = ",")
 ```

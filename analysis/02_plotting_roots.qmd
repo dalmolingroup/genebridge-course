@@ -6,7 +6,7 @@ execute:
   cache: true
 ---
 
-```{r setup, include=FALSE}
+```{r setup2, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
@@ -29,6 +29,8 @@ library(paletteer)
 library(easylayout)
 library(UpSetR)
 library(tinter)
+library(here)
+library(dplyr)
 ```
 
 ## Definir funções 
@@ -232,8 +234,8 @@ Nesta seção, visualizamos os genes que estão estatisticamente enraizados em c
 Com estas visualizações, é possível identificar padrões de evolução dos genes em diferentes clados e realizar comparações detalhadas com organismos de interesse específico.
 
 ```{r}
-geneplast_roots <- merged_paths |>
-  arrange(root)
+geneplast_roots <- merged_paths[order(merged_paths$root), ]
+  
 
 buffer <- c(-50, 50)
 xlims <- ceiling(range(V(graph)$x)) + buffer

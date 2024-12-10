@@ -1,0 +1,17 @@
+---
+title: "GeneBridge"
+format: html
+---
+
+# GeneBridge
+
+```{r child='01_gene_rooting.qmd'}
+
+```
+```{r child='02_plotting_roots.qmd'}
+
+```
+```{r child='03_plotting_abundances.qmd'}
+
+```
+
