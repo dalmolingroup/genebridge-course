@@ -1,12 +1,12 @@
 ## GeneBridge
 
-Neste repositório está o material para o curso GeneBridge: Inferindo o Enraizamento Evolutivo de Genes Ortólogos,
-organizado por Gleison Azevedo e Bruno William, do Centro Multiusuário de Bioinformática da UFRN.
+This repository contains the material for the course GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes,
+organized by Gleison Azevedo and Bruno William, from the Multi-User Bioinformatics Center of UFRN.
 
-Este curso foi ministrado em Dezembro de 2024, como parte da Semana de Portas Abertas do PPg-Bioinfo da UFRN.
+This course was taught in December 2024, as part of the Open House Week of the PPg-Bioinfo at UFRN.
 
-O curso é dividido em 3 partes:
+The course is divided into 3 parts:
 
-- Parte 1: Realizando a Análise de Enraizamento
-- Parte 2: Plotando Genes Enraizados
-- Parte 3: Plotando Abundâncias
+- Part 1: Performing the Rooting Analysis
+- Part 2: Plotting Rooted Genes
+- Part 3: Plotting Abundances
