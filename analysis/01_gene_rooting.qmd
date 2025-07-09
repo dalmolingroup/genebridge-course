@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Importing Packages
+## Importing libraries
 
 ```{r}
 library(GeneBridge)

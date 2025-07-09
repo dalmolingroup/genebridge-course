@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,10 +64,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="02_plotting_roots_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="02_plotting_roots_files/libs/quarto-html/anchor.min.js"></script>
 <link href="02_plotting_roots_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="02_plotting_roots_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="02_plotting_roots_files/libs/quarto-html/quarto-syntax-highlighting-07ba0ad10f5680c660e360ac31d2f3b6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="02_plotting_roots_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="02_plotting_roots_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="02_plotting_roots_files/libs/bootstrap/bootstrap-8a79a254b8e706d3c925cde0a310d4f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="02_plotting_roots_files/libs/bootstrap/bootstrap-c5af524d661af27f17c8d0e5e3f2e711.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -80,15 +80,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#importar-bibliotecas" id="toc-importar-bibliotecas" class="nav-link active" data-scroll-target="#importar-bibliotecas"><span class="header-section-number">1</span> Importar bibliotecas</a></li>
-  <li><a href="#definir-funções" id="toc-definir-funções" class="nav-link" data-scroll-target="#definir-funções"><span class="header-section-number">2</span> Definir funções</a></li>
-  <li><a href="#carregando-tabelas-necessárias" id="toc-carregando-tabelas-necessárias" class="nav-link" data-scroll-target="#carregando-tabelas-necessárias"><span class="header-section-number">3</span> Carregando tabelas necessárias</a></li>
-  <li><a href="#visualização-com-upset-plot" id="toc-visualização-com-upset-plot" class="nav-link" data-scroll-target="#visualização-com-upset-plot"><span class="header-section-number">4</span> 1.Visualização com UpSet Plot</a></li>
-  <li><a href="#visualização-da-rede-de-interação-proteína-proteína" id="toc-visualização-da-rede-de-interação-proteína-proteína" class="nav-link" data-scroll-target="#visualização-da-rede-de-interação-proteína-proteína"><span class="header-section-number">5</span> 2.Visualização da Rede de Interação Proteína-Proteína</a>
+  <li><a href="#importing-libraries" id="toc-importing-libraries" class="nav-link active" data-scroll-target="#importing-libraries"><span class="header-section-number">1</span> Importing libraries</a></li>
+  <li><a href="#defining-functions" id="toc-defining-functions" class="nav-link" data-scroll-target="#defining-functions"><span class="header-section-number">2</span> Defining functions</a></li>
+  <li><a href="#loading-required-data" id="toc-loading-required-data" class="nav-link" data-scroll-target="#loading-required-data"><span class="header-section-number">3</span> Loading required data</a></li>
+  <li><a href="#visualization-with-upset-plot" id="toc-visualization-with-upset-plot" class="nav-link" data-scroll-target="#visualization-with-upset-plot"><span class="header-section-number">4</span> Visualization with UpSet Plot</a></li>
+  <li><a href="#protein-protein-interaction-network-visualization" id="toc-protein-protein-interaction-network-visualization" class="nav-link" data-scroll-target="#protein-protein-interaction-network-visualization"><span class="header-section-number">5</span> Protein-Protein Interaction Network Visualization</a>
   <ul class="collapse">
-  <li><a href="#visualização-da-ancestralidade-de-cada-nó" id="toc-visualização-da-ancestralidade-de-cada-nó" class="nav-link" data-scroll-target="#visualização-da-ancestralidade-de-cada-nó"><span class="header-section-number">5.1</span> 2.1.Visualização da Ancestralidade de Cada Nó</a></li>
-  <li><a href="#visualização-da-rede-de-interação-proteína-proteína-em-humano" id="toc-visualização-da-rede-de-interação-proteína-proteína-em-humano" class="nav-link" data-scroll-target="#visualização-da-rede-de-interação-proteína-proteína-em-humano"><span class="header-section-number">5.2</span> 2.2.Visualização da Rede de Interação Proteína-Proteína em Humano</a></li>
-  <li><a href="#visualização-da-rede-de-interação-proteína-proteína-em-cada-clado" id="toc-visualização-da-rede-de-interação-proteína-proteína-em-cada-clado" class="nav-link" data-scroll-target="#visualização-da-rede-de-interação-proteína-proteína-em-cada-clado"><span class="header-section-number">5.3</span> 2.3.Visualização da Rede de Interação Proteína-Proteína em Cada Clado</a></li>
+  <li><a href="#visualization-of-each-nodes-ancestry" id="toc-visualization-of-each-nodes-ancestry" class="nav-link" data-scroll-target="#visualization-of-each-nodes-ancestry"><span class="header-section-number">5.1</span> Visualization of Each Node’s Ancestry</a></li>
+  <li><a href="#visualization-of-the-protein-protein-interaction-network-in-humans" id="toc-visualization-of-the-protein-protein-interaction-network-in-humans" class="nav-link" data-scroll-target="#visualization-of-the-protein-protein-interaction-network-in-humans"><span class="header-section-number">5.2</span> Visualization of the Protein-Protein Interaction Network in Humans</a></li>
+  <li><a href="#visualization-of-the-protein-protein-interaction-network-in-each-clade" id="toc-visualization-of-the-protein-protein-interaction-network-in-each-clade" class="nav-link" data-scroll-target="#visualization-of-the-protein-protein-interaction-network-in-each-clade"><span class="header-section-number">5.3</span> 2.3. Visualization of the Protein-Protein Interaction Network in Each Clade</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -120,8 +120,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="importar-bibliotecas" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="importar-bibliotecas"><span class="header-section-number">1</span> Importar bibliotecas</h2>
+<section id="importing-libraries" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="importing-libraries"><span class="header-section-number">1</span> Importing libraries</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
@@ -138,8 +138,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="definir-funções" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="definir-funções"><span class="header-section-number">2</span> Definir funções</h2>
+<section id="defining-functions" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="defining-functions"><span class="header-section-number">2</span> Defining functions</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set colors</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>color_mappings <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
@@ -229,8 +229,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="carregando-tabelas-necessárias" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="carregando-tabelas-necessárias"><span class="header-section-number">3</span> Carregando tabelas necessárias</h2>
+<section id="loading-required-data" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="loading-required-data"><span class="header-section-number">3</span> Loading required data</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load data (need to save tables from first qmd)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nodelist <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/nodelist.csv"</span>), <span class="at">delim =</span> <span class="st">","</span>)</span>
@@ -238,9 +238,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>merged_paths <span class="ot">&lt;-</span> vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/merged_paths.csv"</span>), <span class="at">delim =</span> <span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="visualização-com-upset-plot" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="visualização-com-upset-plot"><span class="header-section-number">4</span> 1.Visualização com UpSet Plot</h2>
-<p>O <em>UpSet Plot</em> é uma ferramenta útil para visualizar a distribuição e concatenação de genes entre diferentes vias metabólicas. Ele permite identificar como os genes estão compartilhados ou exclusivos entre as categorias analisadas.</p>
+<section id="visualization-with-upset-plot" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="visualization-with-upset-plot"><span class="header-section-number">4</span> Visualization with UpSet Plot</h2>
+<p>The <em>UpSet Plot</em> is a useful tool for visualizing the distribution and intersection of genes among different metabolic pathways. It allows for the identification of how genes are shared or are exclusive among the analyzed categories.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">upset</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">as.data.frame</span>(nodelist), </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Olfactory transduction"</span>,</span>
@@ -259,9 +259,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="visualização-da-rede-de-interação-proteína-proteína" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="visualização-da-rede-de-interação-proteína-proteína"><span class="header-section-number">5</span> 2.Visualização da Rede de Interação Proteína-Proteína</h2>
-<p>A visualização da rede de interação é essencial para compreender as conexões funcionais entre proteínas. Aqui, utilizamos o pacote <strong>easylayout</strong>, desenvolvido por Danilo Imparato, para gerar um layout eficiente. Este pacote organiza os nós da rede em coordenadas x e y, permitindo uma visualização estruturada e clara. Posteriormente, o grafo será plotado com o <strong>ggraph</strong>.</p>
+<section id="protein-protein-interaction-network-visualization" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="protein-protein-interaction-network-visualization"><span class="header-section-number">5</span> Protein-Protein Interaction Network Visualization</h2>
+<p>Interaction network visualization is essential for understanding the functional connections between proteins. Here, we use the <strong>easylayout</strong> package, developed by Danilo Imparato, to generate an efficient layout. This package organizes the network nodes into x and y coordinates, allowing for a structured and clear visualization. Subsequently, the graph will be plotted using <strong>ggraph</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Graph Build</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#graph &lt;-</span></span>
@@ -273,10 +273,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#save(graph, file = "../data/graph_layout")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="visualização-da-ancestralidade-de-cada-nó" class="level3" data-number="5.1">
-<h3 data-number="5.1" class="anchored" data-anchor-id="visualização-da-ancestralidade-de-cada-nó"><span class="header-section-number">5.1</span> 2.1.Visualização da Ancestralidade de Cada Nó</h3>
-<p>A análise da ancestralidade de cada nó na rede fornece uma visão evolutiva sobre as proteínas analisadas. Aqui, utilizamos o <strong>ggraph</strong> para plotar o grafo com as posições previamente salvas pelo <em>easylayout</em>.</p>
-<p>Os nós são coloridos de acordo com a distância em relação ao último ancestral comum (LCA) dos clados analisados e o humano (<em>Human-LCA</em>). A tonalidade mais escura indica clados mais antigos em relação ao humano, enquanto tons claros de azul representam clados mais novos, mais próximos do <em>Human-LCA</em>.</p>
+<section id="visualization-of-each-nodes-ancestry" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="visualization-of-each-nodes-ancestry"><span class="header-section-number">5.1</span> Visualization of Each Node’s Ancestry</h3>
+<p>Analyzing the ancestry of each node in the network provides an evolutionary perspective on the analyzed proteins. Here, we use <strong>ggraph</strong> to plot the graph with the positions previously saved by <em>easylayout</em>.</p>
+<p>The nodes are colored according to the distance from the Last Common Ancestor (LCA) of the analyzed clades and humans (<em>Human-LCA</em>). The darker shade indicates older clades relative to humans, while light shades of blue represent newer clades that are closer to the <em>Human-LCA</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/graph_layout"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -294,15 +294,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="visualização-da-rede-de-interação-proteína-proteína-em-humano" class="level3" data-number="5.2">
-<h3 data-number="5.2" class="anchored" data-anchor-id="visualização-da-rede-de-interação-proteína-proteína-em-humano"><span class="header-section-number">5.2</span> 2.2.Visualização da Rede de Interação Proteína-Proteína em Humano</h3>
-<p>Para compreender melhor a relação entre proteínas humanas, plotamos a rede de interação onde os nós representam os genes humanos associados aos seus processos biológicos.</p>
-<section id="descrição-dos-elementos-do-gráfico" class="level4" data-number="5.2.1">
-<h4 data-number="5.2.1" class="anchored" data-anchor-id="descrição-dos-elementos-do-gráfico"><span class="header-section-number">5.2.1</span> Descrição dos elementos do gráfico:</h4>
+<section id="visualization-of-the-protein-protein-interaction-network-in-humans" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="visualization-of-the-protein-protein-interaction-network-in-humans"><span class="header-section-number">5.2</span> Visualization of the Protein-Protein Interaction Network in Humans</h3>
+<p>To better understand the relationship between human proteins, we plot the interaction network where the nodes represent human genes associated with their biological processes.</p>
+<section id="description-of-the-graph-elements" class="level4" data-number="5.2.1">
+<h4 data-number="5.2.1" class="anchored" data-anchor-id="description-of-the-graph-elements"><span class="header-section-number">5.2.1</span> Description of the graph elements:</h4>
 <ol type="1">
-<li><strong>Nós (Círculos):</strong> As cores dos nós são divididas de acordo com os processos biológicos atribuídos a cada gene. O uso de diagramas de pizza permite a visualização de genes que participam de múltiplos processos.</li>
-<li><strong>Arestas (Linhas):</strong> Representam as interações proteicas baseadas em dados do STRINGdb.</li>
-<li><strong>Rótulos dos genes:</strong> Cada nó está anotado com o símbolo do gene correspondente, posicionado estrategicamente para facilitar a leitura.</li>
+<li><strong>Nodes (Circles):</strong> The colors of the nodes are divided according to the biological processes assigned to each gene. The use of pie charts allows for the visualization of genes that participate in multiple processes.</li>
+<li><strong>Edges (Lines):</strong> These represent the protein interactions based on data from STRINGdb.</li>
+<li><strong>Gene Labels:</strong> Each node is annotated with its corresponding gene symbol, strategically positioned for easy reading.</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotting Human PPI Network</span></span>
@@ -350,17 +350,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="visualização-da-rede-de-interação-proteína-proteína-em-cada-clado" class="level3" data-number="5.3">
-<h3 data-number="5.3" class="anchored" data-anchor-id="visualização-da-rede-de-interação-proteína-proteína-em-cada-clado"><span class="header-section-number">5.3</span> 2.3.Visualização da Rede de Interação Proteína-Proteína em Cada Clado</h3>
-<p>Nesta seção, visualizamos os genes que estão estatisticamente enraizados em cada clado. A disposição dos genes permite observar o incremento dos genes ortólogos em função da complexidade e antiguidade do sistema biológico.</p>
-<section id="características-da-visualização" class="level4" data-number="5.3.1">
-<h4 data-number="5.3.1" class="anchored" data-anchor-id="características-da-visualização"><span class="header-section-number">5.3.1</span> Características da visualização:</h4>
+<section id="visualization-of-the-protein-protein-interaction-network-in-each-clade" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="visualization-of-the-protein-protein-interaction-network-in-each-clade"><span class="header-section-number">5.3</span> 2.3. Visualization of the Protein-Protein Interaction Network in Each Clade</h3>
+<p>In this section, we visualize the genes that are statistically rooted in each clade. The arrangement of the genes allows us to observe the increase in orthologous genes as a function of the biological system’s complexity and age.</p>
+<section id="visualization-features" class="level4" data-number="5.3.1">
+<h4 data-number="5.3.1" class="anchored" data-anchor-id="visualization-features"><span class="header-section-number">5.3.1</span> Visualization Features:</h4>
 <ol type="1">
-<li><strong>Evolução dos grafos:</strong> Os grafos são organizados da esquerda para a direita e de cima para baixo, permitindo analisar a progressão evolutiva.</li>
-<li><strong>Coloração dos nós:</strong> A cor dos nós indica o nível de ancestralidade, como previamente destacado, onde tons mais escuros representam clados mais antigos e tons mais claros indicam proximidade evolutiva com humanos.</li>
-<li><strong>Organismos de interesse:</strong> Além de visualizar todos os clados, é possível gerar gráficos focados apenas em determinados grupos, como <em>Metamonada</em>, <em>Choanoflagellata</em>, <em>Cephalochordata</em> e <em>Amphibia</em>.</li>
+<li><strong>Graph Evolution:</strong> The graphs are organized from left to right and top to bottom, allowing for the analysis of evolutionary progression.</li>
+<li><strong>Node Coloring:</strong> The color of the nodes indicates the level of ancestry, as previously highlighted, where darker shades represent older clades and lighter shades indicate evolutionary proximity to humans.</li>
+<li><strong>Organisms of Interest:</strong> In addition to visualizing all clades, it is possible to generate graphs focused only on specific groups, such as <em>Metamonada</em>, <em>Choanoflagellata</em>, <em>Cephalochordata</em>, and <em>Amphibia</em>.</li>
 </ol>
-<p>Com estas visualizações, é possível identificar padrões de evolução dos genes em diferentes clados e realizar comparações detalhadas com organismos de interesse específico.</p>
+<p>With these visualizations, it is possible to identify patterns of gene evolution across different clades and perform detailed comparisons with specific organisms of interest.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>geneplast_roots <span class="ot">&lt;-</span> merged_paths[<span class="fu">order</span>(merged_paths<span class="sc">$</span>root), ]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -507,6 +507,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -617,6 +619,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

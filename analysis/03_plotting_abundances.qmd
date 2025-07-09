@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Importando Pacotes
+## Importing libraries
 
 ```{r libs}
 library(here)
@@ -29,26 +29,26 @@ library(tidyr)
 library(AnnotationHub)
 ```
 
-## Definindo funções
+## Defining Functions
 
-Essas funções possuem a finalidade de organizar a anotação dos vértices de nossa nodelist e calcular o cumulativo de genes por clado e por processo biológico
+The purpose of these functions is to organize the vertex annotations in our `nodelist` and to calculate the cumulative number of genes by clade and by biological process.
 
 ```{r}
 calculate_cumulative_genes <- function(nodelist) {
   
-    # Obter todas as categorias possíveis de clade_name
+  # Get all possible categories of clade_name
   all_clades <- node_annotation %>%
     arrange(desc(root)) %>%
-    dplyr:: select(clade_name) %>%
+    dplyr::select(clade_name) %>%
     unique()
   
-  # Definir as colunas de interesse
+  # Define the columns of interest
   process_columns <- c("queryItem", "root", "clade_name", 
                        "Olfactory transduction", 
-                       "Taste transduction",           
+                       "Taste transduction",         
                        "Phototransduction")
   
-  # Calcular o cumulativo agrupando por clade_name
+  # Calculate the cumulative sum, grouping by clade_name
   cumulative_genes <- nodelist %>%
     arrange(desc(root)) %>%
     dplyr::select(all_of(process_columns)) %>%
@@ -64,19 +64,19 @@ calculate_cumulative_genes <- function(nodelist) {
 
 calculate_cumulative_bp <- function(nodelist) {
     
-  # Obter todas as categorias possíveis de clade_name
+  # Get all possible categories of clade_name
   all_clades <- node_annotation %>%
     arrange(desc(root)) %>%
-    dplyr:: select(clade_name) %>%
+    dplyr::select(clade_name) %>%
     unique()
   
-   # Definir as colunas de interesse
+  # Define the columns of interest
   process_columns <- c("queryItem", "root", "clade_name", 
                        "Olfactory transduction", 
-                       "Taste transduction",           
+                       "Taste transduction",         
                        "Phototransduction")
   
-  # Calcular a soma cumulativa para cada processo biológico
+  # Calculate the cumulative sum for each biological process
   cumulative_bp <- nodelist %>%
     dplyr::select(all_of(process_columns)) %>%
     distinct(root, queryItem, .keep_all = TRUE) %>%
@@ -92,12 +92,11 @@ calculate_cumulative_bp <- function(nodelist) {
   
   return(cumulative_bp)
 }
-
 ```
 
-## Definindo parâmetros estéticos para o ggplot
+## Defining Aesthetic Parameters for ggplot
 
-Atribuindo cores padrões para as vias metabólicas da análise e definindo os demais padrões estéticos para plotagens
+Assigning default colors for the metabolic pathways in the analysis and defining the other aesthetic standards for plotting.
 
 ```{r}
 # Plotting colors and labels
@@ -177,25 +176,25 @@ tick_function <- function(x) {
 
 ```
 
-## Carregar tabelas necessárias
+## Loading Necessary Tables
 
-Para prosseguir com a análise, é necessário carregar uma tabela contendo informações do *taxid* de cada espécie. Essas informações serão posteriormente utilizadas para mapear os *taxid* das espécies com os *taxid* de cada COG.
+To proceed with the analysis, it is necessary to load a table containing the *taxid* information for each species. This information will later be used to map the species' *taxids* with the *taxids* of each COG.
 
-### Descrição da Tabela
+### Table Description
 
--   **Nome do Arquivo**: `string_eukaryotes.rda`\
--   **Conteúdo**: Informações taxonômicas de espécies eucarióticas.
+-   **File Name**: `string_eukaryotes.rda`
+-   **Content**: Taxonomic information for eukaryotic species.
 
-A tabela carrega os seguintes campos principais:\
-- **TaxID** (*taxonomic identifier*): Um identificador único associado a cada espécie. - Nome da espécie
+The table loads the following main fields:
+-   **TaxID** (*taxonomic identifier*): A unique identifier associated with each species.
+-   Species name
 
 ```{r}
 # Query Phylotree and OG data
-ah <- AnnotationHub()
-meta <- query(ah, "geneplast")
-load(meta[["AH83116"]])
+#ah <- AnnotationHub()
+#meta <- query(ah, "geneplast")
+#load(meta[["AH83116"]])
 
-# Todo: salvar tabelas dos qmd anteriores
 nodelist <- vroom::vroom(file = here("data/nodelist.csv"), delim = ",")
 gene_cogs <-  vroom::vroom(file = here("data/gene_cogs.csv"), delim = ",")
 sensorial_genes <- read.csv("../data/sensorial_genes.csv")
@@ -208,23 +207,23 @@ load("../data/string_eukaryotes.rda")
 head(string_eukaryotes)
 ```
 
-## Visualização: Padrão de Enraizamento
+## Visualization: Rooting Pattern
 
-Essa visualização permite analisar o padrão cumulativo de surgimento de genes ao longo do tempo evolutivo. Além disso, também mostra o crescimento dos processos biológicos separados por cada via metabólica.
+This visualization allows for the analysis of the cumulative pattern of gene emergence over evolutionary time. Additionally, it shows the growth of biological processes, separated by each metabolic pathway.
 
-### Características dos Gráficos
+### Graph Characteristics
 
-1.  **Gráfico de Barras (Padrão Cumulativo)**:
-    -   Representa o somatório cumulativo de genes associados a cada clado.
-    -   Cada barra exibe o total acumulado de genes em determinado clado, permitindo identificar o padrão de diversificação.
-2.  **Gráfico Combinado (Barras e Linhas)**:
-    -   As barras indicam o somatório cumulativo de genes por clado.
-    -   As linhas representam o crescimento de diferentes processos biológicos (*Process*), separados por vias metabólicas, permitindo a comparação entre o surgimento cumulativo de genes e o desenvolvimento de funções biológicas.
+1.  **Bar Chart (Cumulative Pattern)**:
+    -   Represents the cumulative sum of genes associated with each clade.
+    -   Each bar displays the total accumulated genes in a given clade, allowing for the identification of the diversification pattern.
+2.  **Combined Chart (Bars and Lines)**:
+    -   The bars indicate the cumulative sum of genes per clade.
+    -   The lines represent the growth of different biological processes (*Process*), separated by metabolic pathways, allowing for a comparison between the cumulative emergence of genes and the development of biological functions.
 
-### Interpretação
+### Interpretation
 
--   **Padrão Cumulativo**: O gráfico de barras mostra como os genes foram surgindo ao longo do tempo, cumulativamente. Essa visão ajuda a identificar momentos de maior diversificação genética.
--   **Comparação por Processos Biológicos**: O gráfico combinado permite observar quais processos biológicos se destacam em diferentes momentos da evolução e como eles estão relacionados ao surgimento de novos genes.
+-   **Cumulative Pattern**: The bar chart shows how genes have emerged cumulatively over time. This perspective helps to identify moments of greater genetic diversification.
+-   **Comparison by Biological Processes**: The combined chart allows us to observe which biological processes stand out at different moments in evolution and how they are related to the emergence of new genes.
 
 ```{r}
 # Mapping roots and proteins info
@@ -244,9 +243,8 @@ long_data <- cumulative_data %>%
                names_to = "Process", 
                values_to = "Value")
 
-#a <-
 ggplot() +
-  # Gráfico de barras para cumulative_sum
+
   geom_bar(data = cumulative_data, 
            aes(x = factor(clade_name, levels = clade_name), y = cumulative_sum), 
            stat = "identity", fill = "darkgray", colour = NA) +
@@ -263,9 +261,8 @@ ggplot() +
   theme_main +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-#b <- 
 ggplot() +
-  # Gráfico de barras para cumulative_sum
+
   geom_bar(data = cumulative_data, 
            aes(x = factor(-root), y = cumulative_sum), 
            stat = "identity", fill = "darkgray", colour = NA) +
@@ -273,12 +270,12 @@ ggplot() +
             aes(x = factor(-root), y = cumulative_sum, label = cumulative_sum), 
             vjust = -0.5, size = 3, color = "darkgray") +
   
-  # Gráfico de linhas para os processos biológicos
+
   geom_line(data = long_data, 
             aes(x = factor(-root), y = Value, color = Process, group = Process), 
             size = 1) +
   
-  # Usar a paleta de cores definida
+
   scale_color_manual(values = annotation_colors) +
   
   labs(x = "Clade Name", y = "Cumulative Sum", 
@@ -293,186 +290,88 @@ ggplot() +
 #ggsave(file = "", plot=b, width=15, height=8)
 ```
 
-## Cálculo da Abundância de COGs por Função nas Espécies
+## Hipergeometric Test
 
-Esta análise parte da premissa de que COGs similares compartilham a mesma função biológica. Assim, é possível calcular a abundância média das funções associadas aos COGs em cada espécie, utilizando a quantidade de COGs presentes na espécie identificada pelo *TaxID*.
+The hypergeometric test is a statistical method used to determine if a set of genes of interest (in this case, genes from a specific clade) is significantly enriched with genes from a certain functional category (a biological process, such as "Olfactory transduction").
 
-### Etapas do Cálculo
-
-1.  **Mapeamento das Espécies**\
-    Cada espécie foi mapeada para seu respectivo clado (nível hierárquico) com base nas informações do *TaxID*.
-    -   Foi utilizada a tabela `ogr@spbranches` para associar espécies (*ssp_id*) com seus *branches* (*lca*).
-    -   Os dados foram organizados para incluir a ordem dos *TaxIDs*.
-2.  **Anotação dos COGs**
-    -   A relação entre proteínas e genes foi enriquecida com informações funcionais, como identificadores de COGs e nomes de vias metabólicas (*pathway_name*).
-    -   Duplicatas foram removidas para garantir que apenas informações únicas fossem consideradas.
-3.  **Integração de Informações das Espécies**
-    -   Foi criado um mapeamento entre espécies (*TaxID*) e seus respectivos clados para adicionar as informações taxonômicas relevantes.
-    -   As espécies foram ordenadas com base em seus clados, para facilitar a análise hierárquica.
-4.  **Cálculo da Abundância Média por Função**
-    -   Para cada espécie e função metabólica (*pathway_name*), foi calculada a abundância média dos COGs.
-    -   Informações adicionais, como nomes das espécies (*ncbi_name*) e clados (*clade_name*), foram integradas ao resultado.
-5.  **Ajuste da Abundância (Capping)**
-    -   Para evitar valores extremos, a abundância média foi ajustada:
-        -   Valores acima de um limite (média + 3 desvios padrão) foram truncados para 100.
-        -   Os valores ajustados foram calculados separadamente por função metabólica.
+Essentially, this test answers the question: "Is the frequency of genes for a certain function within this evolutionary group higher than we would expect by random chance?". A significant result (low p-value) suggests that the increase in these genes was a relevant evolutionary event for that clade, linking gene expansion to the development of a specific biological capability.
 
 ```{r}
-lca_spp <- ogr@spbranches %>%
-  rename("taxid" = ssp_id, "species" = ssp_name, "lca" = "branch") %>%
-  mutate(taxid_order = row_number()) %>%
-  dplyr::select(lca, taxid, taxid_order)
-
-clade_taxids <- lca_spp
-clade_names <- vroom::vroom("https://raw.githubusercontent.com/dalmolingroup/neurotransmissionevolution/ctenophora_before_porifera/analysis/geneplast_clade_names.tsv")
-
-cog_annotation <- map_ids %>%
-  left_join(groot_df, by = c("stringId" = "protein_id")) %>%
-  left_join(sensorial_genes, by = c("queryItem" = "gene_symbol")) %>%
-  distinct(queryItem, cog_id, pathway_name) %>%
-  dplyr::select(cog_id, pathway_name) %>%
-  unique() %>%
-  na.omit()
-
-cog_abundance_by_taxid <- cogdata %>%
-  filter(cog_id %in% nodelist[["cog_id"]]) %>%
-  count(ssp_id, cog_id, name = "abundance") %>%
-  left_join(cog_annotation, by = "cog_id")
-
-# Mapping species to clade info
-ordered_species <- string_eukaryotes %>%
-  dplyr::select(taxid, ncbi_name) %>%
-  left_join(clade_taxids, by = "taxid") %>%
-  left_join(clade_names, by = c("lca" = "root")) %>%
-  na.omit() %>% unique() %>%
-  arrange(desc(lca)) %>%
-  dplyr::select(-taxid_order)
+ clades <- unique(nodelist$clade_name)
+ processes <- c("Olfactory transduction", "Taste transduction", "Phototransduction" )
+   
   
-avg_abundance_by_function <- cog_abundance_by_taxid %>%
-  group_by(ssp_id, pathway_name) %>%
-  summarise(avg_abundance = mean(abundance)) %>%
-  ungroup() %>%
-  # Adding species and clade info
-  left_join(ordered_species %>% mutate(taxid = as.double(taxid)), by = c("ssp_id" = "taxid")) %>%
-  unique() %>%
-  arrange(desc(lca)) %>%
-  mutate(ncbi_name = factor(ncbi_name, levels = unique(ncbi_name)),
-         clade_name = factor(clade_name, levels = unique(clade_name))) %>%
-  na.omit()
+   result <- list()
+   
+   for (process in processes) {
+     for (clade in clades) {
+       
+       N <- length(unique(sensorial_genes$gene_symbol))  
+       M <- sum(sensorial_genes$pathway_name == process)  
+       n <- length(which(nodelist$clade_name == clade))  
+       k <- sum(filter(nodelist, clade_name == clade)[[process]])  
+       
+       p_valor <- 1 - phyper(k - 1, M, N - M, n)
+       
+       result[[paste(process, clade, sep = "_")]] <- c(process, clade, k, M, N, n, p_valor)
+     }
+   }
+   
+   hipergeometric_df <- do.call(rbind, result) %>%
+     as.data.frame() %>%
+     setNames(c("Process", "clade_name", "k", "M", "N", "n", "p.val")) %>% 
+     arrange(p.val)
+   
+     rownames(hipergeometric_df) <- NULL
+   
+   hipergeometric_df <- hipergeometric_df %>%
+  mutate(across(all_of(c("k", "M", "N", "n", "p.val")), as.numeric))
+     
+   head(hipergeometric_df)
+```
 
-capped_abundance_by_function <- avg_abundance_by_function %>%
-  # mutate(capped_abundance = ifelse(abundance >= 100, 100, abundance)) %>%
-  group_by(pathway_name) %>%
-  mutate(
-    # max_abundance = max(abundance[lca <= 29])
-    max_abundance = avg_abundance[lca <= 29] %>% { mean(.) + 3*sd(.) }
-    ,abundance     = ifelse(avg_abundance >= max_abundance, pmin(max_abundance, 100), pmin(avg_abundance, 100)))
+## Results Visualization
 
-# List of signatures
-signatures <- unique(node_annotation$pathway_name)
+The code generates a bubble chart to visualize the analysis results:
 
-roots_seq <- node_annotation %>%
-  arrange(desc(root)) %>%
-  dplyr:: select(root, clade_name) %>%
+Axes: The Y-axis shows the clades (evolutionary groups), and the X-axis shows the biological processes.
+
+Point Size: The size of each point is proportional to the number of sensory genes found in that clade.
+
+Point Color: The color highlights whether the functional enrichment was statistically significant (red) or not (gray).
+
+```{r}
+hipergeometric_df$p.val_color <- ifelse(hipergeometric_df$p.val > 0.05, "gray", "red")
+
+i <- nodelist %>% 
+  dplyr::select(clade_name, root) %>% 
   unique()
 
-roots_seq$clade_name <- factor(roots_seq$clade_name, levels = roots_seq$clade_name)
+hipergeometric_df <- hipergeometric_df %>%
+  inner_join(i, by = "clade_name")
 
-```
+hipergeometric_df$clade_name <- factor(hipergeometric_df$clade_name, 
+    levels = unique(hipergeometric_df$clade_name[order(hipergeometric_df$root)]))
 
-### Visualização
 
-Nos gráficos a seguir, é possível observar a abundância média dos COGs em cada clado. Cada barra representa uma espécie dentro do respectivo clado, enquanto as cores indicam as diferentes funções metabólicas associadas aos grupos ortólogos.
+hipergeometric_df$Process <- factor(hipergeometric_df$Process, 
+                                    levels = c("Olfactory transduction",
+                                               "Taste transduction", 
+                                               "Phototransduction" ))
 
-#### Gráfico de Abundância Média de COGs por Clado
-
--   O eixo **X** representa as espécies.
--   O eixo **Y** indica a abundância média de proteínas em grupos ortólogos.
--   As barras são coloridas de acordo com a função metabólica (*pathway_name*).
-
-#### Gráfico com Abundância Ajustada (Capped)
-
--   Para evitar distorções causadas por valores extremos, a abundância foi ajustada a um limite máximo (média + 3 desvios padrão).
--   Este gráfico fornece uma visualização mais equilibrada, especialmente para funções metabólicas com valores muito elevados.
-
-```{r}
-# Plotting by species
-ggplot(avg_abundance_by_function) +
-  # Geoms  ----------------
-choanoflagellata_line +
-  geom_bar(
-    aes(x = ncbi_name, y = avg_abundance, fill = pathway_name, color = after_scale(darken(fill, 0.1)))
-    ,stat = "identity"
-  ) +
-  # Labels  ---------------
- xlab("Espécies") +
-  ylab("Abundância média de proteínas em grupos ortólogos") +
-  #ylab("Average protein abundance in orthologous groups") +
-  # Scales ----------------
-scale_y_continuous(breaks = tick_function, minor_breaks = NULL) +
-  scale_fill_manual(values = annotation_colors %>% darken(0.1)) +
-  # Styling ---------------
-facet_grid(
-  pathway_name ~ clade_name
-  ,scales   = "free"
-  ,space    = "free"
-  ,labeller = labeller(annotation = annotation_labels)
-) +
-  theme_classic() + 
-  theme_main
-
-# Plotting by species capped
-ggplot(capped_abundance_by_function) +
-  # Geoms  ----------------
-choanoflagellata_line +
-  geom_bar(
-    aes(x = ncbi_name, y = abundance, fill = pathway_name, color = after_scale(darken(fill, 0.1)))
-    ,stat = "identity"
-  ) +
-  # Labels  ---------------
-  xlab("Espécies") +
-  ylab("Abundância média de proteínas em grupos ortólogos") +
-  #ylab("Average protein abundance in orthologous groups") +
-  # Scales ----------------
-  scale_y_continuous(breaks = tick_function, minor_breaks = NULL) +
-  scale_fill_manual(values = annotation_colors %>% darken(0.1)) +
-  # Styling ---------------
-facet_grid(
-  pathway_name ~ clade_name
-  ,scales   = "free"
-  ,space    = "free"
-  ,labeller = labeller(annotation = annotation_labels)
-) +
-  theme_classic() + 
-  theme_main
-```
-
-#### Visualização Simplificada: Abundância por Clado
-
-Para uma análise menos detalhada, é possível visualizar a abundância média de COGs apenas a nível de clado, ignorando as diferenças entre espécies individuais. Este gráfico fornece uma visão geral mais direta, ideal para identificar tendências globais.
-
--   O eixo **X** representa os clados.
--   O eixo **Y** mostra a abundância média de proteínas em grupos ortólogos por clado.
--   As barras são agrupadas por clado e coloridas de acordo com as funções metabólicas (*pathway_name*).
-
-```{r}
-# Ploting by clade
-ggplot(avg_abundance_by_function) +
-  geom_bar(
-    aes(x = clade_name, y = avg_abundance, fill = pathway_name, color = after_scale(darken(fill, 0.1)))
-    ,stat = "summary"
-    ,fun  = "mean"
-  ) +
-  scale_y_continuous(breaks = tick_function, minor_breaks = NULL) +
-  scale_fill_manual(values = annotation_colors, guide = "none") +
-  facet_grid(
-    pathway_name ~ .
-    ,scales   = "free"
-    ,space    = "free_y"
-    ,labeller = labeller(annotation = sub("\n", "", annotation_labels))
-  ) +
-  xlab("Clados") +
-  ylab("Abundância média por clado") +
-  theme_classic() + 
-  theme_average
+ggplot(hipergeometric_df, aes(x = Process, 
+                              y = clade_name, 
+                              size = as.numeric(n), 
+                              color = p.val_color)) +
+  geom_point() +
+  scale_color_manual(values = c("gray" = "gray", "red" = "red"), 
+                     labels = c("Not Significant", "Significant")) +  
+  labs(x = "Biological Process", y = "Clade", size = "Number of Genes", color = "Significance") +
+  scale_size_continuous(breaks = c(1, 20, 40), labels = c("1 genes", "20 genes", "40 genes")) + 
+  theme_minimal() +
+  ggtitle("Hipergeometric Test") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_blank()) +
+  theme(axis.text.y = ggtext::element_markdown())
 ```
