@@ -1,6 +1,6 @@
 ## GeneBridge
 
-This repository contains the material for the course GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes,
+ This repository contains the material for the course GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes,
 organized by Gleison Azevedo and Bruno William, from the Multi-User Bioinformatics Center of UFRN.
 
 This course was taught in December 2024, as part of the Open House Week of the PPg-Bioinfo at UFRN.
