@@ -1,7 +1,7 @@
 
 ---
 title: "OrthoGuide: Pre-computed Gene Rooting Data"
-author: "Gemini"
+author: "Dalmolin Systems Biology Group"
 ---
 
 # OrthoGuide: Pre-computed Gene Rooting Data
