@@ -3,9 +3,7 @@ title: "GeneBridge"
 format: html
 ---
 
-# GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes
-
-## Lesson overview
+# Lesson overview
 
 🔒 **License:** [Creative Commons Attribution Share Alike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
 
