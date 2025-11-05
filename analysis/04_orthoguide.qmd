@@ -1,0 +1,14 @@
+
+---
+title: "OrthoGuide: Pre-computed Gene Rooting Data"
+author: "Gemini"
+---
+
+# OrthoGuide: Pre-computed Gene Rooting Data
+
+OrthoGuide is available at <https://dalmolingroup.imd.ufrn.br/orthoguide/> and provides immediate access to high-quality, pre-computed rooting data for 8 species. Instead of running complex analyses, users can query this database and get the information they need in seconds, along with a few exploratory plots.
+
+## How OrthoGuide Works
+
+All data in the database is generated using the [GeneBridge R package (v0.99.2)](https://github.com/dalmolingroup/genebridge).
+The gene-to-COG (Clusters of Orthologous Groups) information was obtained from STRING-db version 11.0.

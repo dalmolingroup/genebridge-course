@@ -1,0 +1,12 @@
+ggplot2
+ggraph
+dplyr
+tidyr
+igraph
+purrr
+vroom
+paletteer
+easylayout
+UpSetR
+tinter
+here

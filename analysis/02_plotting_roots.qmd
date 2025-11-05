@@ -2,7 +2,7 @@
 title: "Plotting Roots"
 author: "Dalmolin Systems Biology Group"
 format: html
-execute: 
+execute:
   cache: true
 ---
 
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Importar bibliotecas
+## Import libraries
 
 ```{r}
 library(ggplot2)
@@ -33,14 +33,14 @@ library(here)
 library(dplyr)
 ```
 
-## Definir funções 
+## Define functions
 
 ```{r}
 # Set colors
 color_mappings <- c(
-  "Olfactory transduction"   = "#8dd3c7"
-  ,"Taste transduction"      = "#72874EFF"
-  ,"Phototransduction"       = "#fb8072"
+  "Olfactory transduction"   = "#8dd3c7",
+  "Taste transduction"      = "#72874EFF",
+  "Phototransduction"       = "#fb8072"
 )
 
 subset_graph_by_root <-
@@ -61,7 +61,7 @@ adjust_color_by_root <- function(geneplast_result, root_number, graph) {
   return(graph)
 }
 
-# Configure graph collors by genes incrementation
+# Configure graph colors by genes incrementation
 subset_and_adjust_color_by_root <- function(geneplast_result, root_number, graph) {
   subgraph <- subset_graph_by_root(geneplast_result, root_number, graph)
   adjusted_graph <- adjust_color_by_root(geneplast_result, root_number, subgraph)
@@ -75,9 +75,9 @@ plot_network <- function(graph, title, nodelist, xlims, ylims, legend = "none") 
     colnames(nodelist)[10:length(nodelist)]
   
   color_mappings <- c(
-    "Olfactory transduction"   = "#8dd3c7"
-    ,"Taste transduction"      = "#72874EFF"
-    ,"Phototransduction"       = "#fb8072"
+    "Olfactory transduction"   = "#8dd3c7",
+    "Taste transduction"      = "#72874EFF",
+    "Phototransduction"       = "#fb8072"
   )
   
   vertices <- igraph::as_data_frame(graph, "vertices")
@@ -124,7 +124,7 @@ plot_network <- function(graph, title, nodelist, xlims, ylims, legend = "none") 
 }
 ```
 
-## Carregando tabelas necessárias
+## Loading necessary tables
 
 ```{r}
 #Load data (need to save tables from first qmd)
@@ -134,9 +134,9 @@ merged_paths <- vroom::vroom(file = here("data/merged_paths.csv"), delim = ",")
 
 ```
 
-## 1.Visualização com UpSet Plot
+## 1. Visualization with UpSet Plot
 
-O *UpSet Plot* é uma ferramenta útil para visualizar a distribuição e concatenação de genes entre diferentes vias metabólicas. Ele permite identificar como os genes estão compartilhados ou exclusivos entre as categorias analisadas.
+The *UpSet Plot* is a useful tool to visualize the distribution and concatenation of genes between different metabolic pathways. It allows identifying how genes are shared or exclusive among the analyzed categories.
 
 ```{r}
 upset(dplyr::select(as.data.frame(nodelist), 
@@ -149,9 +149,9 @@ upset(dplyr::select(as.data.frame(nodelist),
       sets.x.label = "Set Size")
 ```
 
-## 2.Visualização da Rede de Interação Proteína-Proteína
+## 2. Visualization of the Protein-Protein Interaction Network
 
-A visualização da rede de interação é essencial para compreender as conexões funcionais entre proteínas. Aqui, utilizamos o pacote **easylayout**, desenvolvido por Danilo Imparato, para gerar um layout eficiente. Este pacote organiza os nós da rede em coordenadas x e y, permitindo uma visualização estruturada e clara. Posteriormente, o grafo será plotado com o **ggraph**.
+The visualization of the interaction network is essential to understand the functional connections between proteins. Here, we use the **easylayout** package, developed by Danilo Imparato, to generate an efficient layout. This package organizes the network nodes in x and y coordinates, allowing a structured and clear visualization. Subsequently, the graph will be plotted with **ggraph**.
 
 
 ```{r}
@@ -166,14 +166,14 @@ A visualização da rede de interação é essencial para compreender as conexõ
 #save(graph, file = "../data/graph_layout")
 ```
 
-### 2.1.Visualização da Ancestralidade de Cada Nó
+### 2.1. Visualization of the Ancestry of Each Node
 
-A análise da ancestralidade de cada nó na rede fornece uma visão evolutiva sobre as proteínas analisadas. Aqui, utilizamos o **ggraph** para plotar o grafo com as posições previamente salvas pelo *easylayout*. 
+The analysis of the ancestry of each node in the network provides an evolutionary view of the analyzed proteins. Here, we use **ggraph** to plot the graph with the positions previously saved by *easylayout*.
 
-Os nós são coloridos de acordo com a distância em relação ao último ancestral comum (LCA) dos clados analisados e o humano (*Human-LCA*). A tonalidade mais escura indica clados mais antigos em relação ao humano, enquanto tons claros de azul representam clados mais novos, mais próximos do *Human-LCA*.
+The nodes are colored according to the distance from the last common ancestor (LCA) of the analyzed clades and the human (*Human-LCA*). The darker shade indicates older clades in relation to humans, while light shades of blue represent newer clades, closer to the *Human-LCA*.
 
 ```{r}
-load("../data/graph_layout")
+load(here("data/graph_layout"))
 
 ggraph(graph, "manual", x = V(graph)$x, y = V(graph)$y) +
   geom_edge_link0(color = "#90909020") +  
@@ -181,14 +181,15 @@ ggraph(graph, "manual", x = V(graph)$x, y = V(graph)$y) +
   theme_void() + 
   theme(legend.position = "left")
 ```
-### 2.2.Visualização da Rede de Interação Proteína-Proteína em Humano
 
-Para compreender melhor a relação entre proteínas humanas, plotamos a rede de interação onde os nós representam os genes humanos associados aos seus processos biológicos. 
+### 2.2. Visualization of the Protein-Protein Interaction Network in Human
 
-#### Descrição dos elementos do gráfico:
-1. **Nós (Círculos):** As cores dos nós são divididas de acordo com os processos biológicos atribuídos a cada gene. O uso de diagramas de pizza permite a visualização de genes que participam de múltiplos processos.
-2. **Arestas (Linhas):** Representam as interações proteicas baseadas em dados do STRINGdb.
-3. **Rótulos dos genes:** Cada nó está anotado com o símbolo do gene correspondente, posicionado estrategicamente para facilitar a leitura.
+To better understand the relationship between human proteins, we plot the interaction network where the nodes represent the human genes associated with their biological processes.
+
+#### Description of the graph elements:
+1. **Nodes (Circles):** The colors of the nodes are divided according to the biological processes assigned to each gene. The use of pie charts allows the visualization of genes that participate in multiple processes.
+2. **Edges (Lines):** Represent the protein interactions based on data from STRINGdb.
+3. **Gene labels:** Each node is annotated with the corresponding gene symbol, strategically positioned for easy reading.
 
 ```{r}
 ## Plotting Human PPI Network
@@ -222,16 +223,17 @@ ggraph::ggraph(graph,
   ggplot2::scale_fill_manual(values = color_mappings, drop = FALSE)
 
 ```
-### 2.3.Visualização da Rede de Interação Proteína-Proteína em Cada Clado
 
-Nesta seção, visualizamos os genes que estão estatisticamente enraizados em cada clado. A disposição dos genes permite observar o incremento dos genes ortólogos em função da complexidade e antiguidade do sistema biológico.  
+### 2.3. Visualization of the Protein-Protein Interaction Network in Each Clade
 
-#### Características da visualização:
-1. **Evolução dos grafos:** Os grafos são organizados da esquerda para a direita e de cima para baixo, permitindo analisar a progressão evolutiva.
-2. **Coloração dos nós:** A cor dos nós indica o nível de ancestralidade, como previamente destacado, onde tons mais escuros representam clados mais antigos e tons mais claros indicam proximidade evolutiva com humanos.
-3. **Organismos de interesse:** Além de visualizar todos os clados, é possível gerar gráficos focados apenas em determinados grupos, como *Metamonada*, *Choanoflagellata*, *Cephalochordata* e *Amphibia*.
+In this section, we visualize the genes that are statistically rooted in each clade. The arrangement of the genes allows us to observe the increment of orthologous genes as a function of the complexity and antiquity of the biological system.
 
-Com estas visualizações, é possível identificar padrões de evolução dos genes em diferentes clados e realizar comparações detalhadas com organismos de interesse específico.
+#### Visualization features:
+1. **Evolution of the graphs:** The graphs are organized from left to right and from top to bottom, allowing the analysis of the evolutionary progression.
+2. **Node coloring:** The color of the nodes indicates the level of ancestry, as previously highlighted, where darker tones represent older clades and lighter tones indicate evolutionary proximity to humans.
+3. **Organisms of interest:** In addition to visualizing all clades, it is possible to generate graphs focused only on certain groups, such as *Metamonada*, *Choanoflagellata*, *Cephalochordata*, and *Amphibia*.
+
+With these visualizations, it is possible to identify patterns of gene evolution in different clades and perform detailed comparisons with organisms of specific interest.
 
 ```{r}
 geneplast_roots <- merged_paths[order(merged_paths$root), ]
@@ -280,4 +282,3 @@ patchwork::wrap_plots(
   ncol = 4
 )
 ```
-

@@ -2,7 +2,7 @@
 title: "Plotting Abundance"
 author: "Dalmolin Systems Biology Group"
 format: html
-execute: 
+execute:
   cache: true
 ---
 
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Importando Pacotes
+## Importing Packages
 
 ```{r libs}
 library(here)
@@ -29,26 +29,26 @@ library(tidyr)
 library(AnnotationHub)
 ```
 
-## Definindo funções
+## Defining functions
 
-Essas funções possuem a finalidade de organizar a anotação dos vértices de nossa nodelist e calcular o cumulativo de genes por clado e por processo biológico
+These functions are intended to organize the annotation of the vertices of our nodelist and calculate the cumulative number of genes per clade and per biological process.
 
 ```{r}
 calculate_cumulative_genes <- function(nodelist) {
   
-    # Obter todas as categorias possíveis de clade_name
+    # Get all possible categories of clade_name
   all_clades <- node_annotation %>%
     arrange(desc(root)) %>%
     dplyr:: select(clade_name) %>%
     unique()
   
-  # Definir as colunas de interesse
+  # Define the columns of interest
   process_columns <- c("queryItem", "root", "clade_name", 
                        "Olfactory transduction", 
                        "Taste transduction",           
                        "Phototransduction")
   
-  # Calcular o cumulativo agrupando por clade_name
+  # Calculate the cumulative sum grouping by clade_name
   cumulative_genes <- nodelist %>%
     arrange(desc(root)) %>%
     dplyr::select(all_of(process_columns)) %>%
@@ -64,19 +64,19 @@ calculate_cumulative_genes <- function(nodelist) {
 
 calculate_cumulative_bp <- function(nodelist) {
     
-  # Obter todas as categorias possíveis de clade_name
+  # Get all possible categories of clade_name
   all_clades <- node_annotation %>%
     arrange(desc(root)) %>%
     dplyr:: select(clade_name) %>%
     unique()
   
-   # Definir as colunas de interesse
+   # Define the columns of interest
   process_columns <- c("queryItem", "root", "clade_name", 
                        "Olfactory transduction", 
                        "Taste transduction",           
                        "Phototransduction")
   
-  # Calcular a soma cumulativa para cada processo biológico
+  # Calculate the cumulative sum for each biological process
   cumulative_bp <- nodelist %>%
     dplyr::select(all_of(process_columns)) %>%
     distinct(root, queryItem, .keep_all = TRUE) %>%
@@ -95,80 +95,80 @@ calculate_cumulative_bp <- function(nodelist) {
 
 ```
 
-## Definindo parâmetros estéticos para o ggplot
+## Defining aesthetic parameters for ggplot
 
-Atribuindo cores padrões para as vias metabólicas da análise e definindo os demais padrões estéticos para plotagens
+Assigning default colors for the metabolic pathways in the analysis and defining the other aesthetic standards for plotting.
 
 ```{r}
 # Plotting colors and labels
 annotation_colors <- c(
-  "Olfactory transduction"   = "#8dd3c7"
-  ,"Taste transduction"      = "#72874EFF"
-  ,"Phototransduction"       = "#fb8072"
+  "Olfactory transduction"   = "#8dd3c7",
+  "Taste transduction"      = "#72874EFF",
+  "Phototransduction"       = "#fb8072"
 )
 
 annotation_labels <- c(
-  "Olfactory transduction"   = "Olfactory transduction"
-  ,"Taste transduction"      = "Taste transduction"
-  ,"Phototransduction"       = "Phototransduction"
+  "Olfactory transduction"   = "Olfactory transduction",
+  "Taste transduction"      = "Taste transduction",
+  "Phototransduction"       = "Phototransduction"
 )
 
 # This vertical line indicates the first metazoan (Amphimedon queenslandica / Ctenophora)
 choanoflagellata_line <- geom_vline(
-  xintercept = "Sphaeroforma arctica"
-  ,color      = "#FF0000"
-  ,linetype   = "11"
-  ,alpha      = 1
-  ,linewidth  = 0.25
+  xintercept = "Sphaeroforma arctica",
+  color      = "#FF0000",
+  linetype   = "11",
+  alpha      = 1,
+  linewidth  = 0.25
 )
 
 # Plotting
 theme_main <- theme(
-  panel.spacing      = unit(2.5, "pt")
-  ,strip.background   = element_blank()
-  ,panel.grid.major.x = element_blank()
-  ,panel.grid.major.y = element_line(linewidth = 0.25, linetype = "dotted", color = "#E0E0E0")
-  ,strip.text.x       = element_text(size = 9, angle = 90, hjust = 0, vjust = 0.5, color = "#757575")
-  ,strip.text.y       = element_text(size = 10, angle = 0, hjust = 0, vjust = 0.5, color = "#757575")
-  ,axis.title         = element_text(size = 15, color = "#424242")
-  ,axis.ticks.x       = element_blank()
-  ,axis.text.x        = element_blank()
-  ,axis.text.y        = element_text(size = 5.5)
-  ,legend.position    = "none"
+  panel.spacing      = unit(2.5, "pt"),
+  strip.background   = element_blank(),
+  panel.grid.major.x = element_blank(),
+  panel.grid.major.y = element_line(linewidth = 0.25, linetype = "dotted", color = "#E0E0E0"),
+  strip.text.x       = element_text(size = 9, angle = 90, hjust = 0, vjust = 0.5, color = "#757575"),
+  strip.text.y       = element_text(size = 10, angle = 0, hjust = 0, vjust = 0.5, color = "#757575"),
+  axis.title         = element_text(size = 15, color = "#424242"),
+  axis.ticks.x       = element_blank(),
+  axis.text.x        = element_blank(),
+  axis.text.y        = element_text(size = 5.5),
+  legend.position    = "none"
 )
 
 theme_supplementary <- theme(
-  panel.grid.major.x = element_line(color = "#E0E0E0", linewidth = 0.25, linetype = "dotted")
-  ,panel.grid.major.y = element_blank()
-  ,strip.text.y       = element_text(size = 7, angle = 0, hjust = 0, vjust = 0.5, color = "#757575")
-  ,strip.text.x       = element_text(size = 7, angle = 90, hjust = 0, vjust = 0.5, color = "#757575")
-  ,axis.title         = element_text(size = 12, color = "#424242")
-  ,axis.ticks         = element_line(colour = "grey20")
-  ,axis.text.y        = element_text(size = 6, angle = 0, hjust = 1, vjust = 0.5, color = "#757575")
-  ,axis.text.x        = element_text(size = 6)
+  panel.grid.major.x = element_line(color = "#E0E0E0", linewidth = 0.25, linetype = "dotted"),
+  panel.grid.major.y = element_blank(),
+  strip.text.y       = element_text(size = 7, angle = 0, hjust = 0, vjust = 0.5, color = "#757575"),
+  strip.text.x       = element_text(size = 7, angle = 90, hjust = 0, vjust = 0.5, color = "#757575"),
+  axis.title         = element_text(size = 12, color = "#424242"),
+  axis.ticks         = element_line(colour = "grey20"),
+  axis.text.y        = element_text(size = 6, angle = 0, hjust = 1, vjust = 0.5, color = "#757575"),
+  axis.text.x        = element_text(size = 6)
 )
 
 theme_average <- theme(
-  panel.spacing      = unit(1, "pt")
-  ,axis.title         = element_text(color = "#424242")
-  ,axis.text          = element_text(color = "#757575")
-  ,axis.text.x        = element_text(size = 7, angle = -45, vjust = 0, hjust = 0)
-  ,axis.text.y        = element_text(size = 5)
-  ,strip.background   = element_blank()
-  ,strip.text         = element_text(color = "#757575")
-  ,strip.text.y       = element_text(angle = 0, hjust = 0, vjust = 0.5)
+  panel.spacing      = unit(1, "pt"),
+  axis.title         = element_text(color = "#424242"),
+  axis.text          = element_text(color = "#757575"),
+  axis.text.x        = element_text(size = 7, angle = -45, vjust = 0, hjust = 0),
+  axis.text.y        = element_text(size = 5),
+  strip.background   = element_blank(),
+  strip.text         = element_text(color = "#757575"),
+  strip.text.y       = element_text(angle = 0, hjust = 0, vjust = 0.5)
 )
 
 theme_big <- theme(
-  panel.spacing      = unit(0.5, "pt")
-  ,panel.grid.major.x = element_line(linewidth = 0.1, linetype = "dashed")
-  ,panel.grid.major.y = element_blank()
-  ,strip.background   = element_blank()
-  ,strip.text.x       = element_text(size = 8, angle = 90, hjust = 0.5, vjust = 0)
-  ,strip.text.y       = element_text(size = 8, angle = 0, hjust = 0, vjust = 0.5)
-  ,axis.text.x        = element_text(size = 6, angle = 90, vjust = 0, hjust = 0)
-  ,axis.text.y        = element_text(size = 4.5)
-  ,axis.ticks         = element_line(size = 0.1)
+  panel.spacing      = unit(0.5, "pt"),
+  panel.grid.major.x = element_line(linewidth = 0.1, linetype = "dashed"),
+  panel.grid.major.y = element_blank(),
+  strip.background   = element_blank(),
+  strip.text.x       = element_text(size = 8, angle = 90, hjust = 0.5, vjust = 0),
+  strip.text.y       = element_text(size = 8, angle = 0, hjust = 0, vjust = 0.5),
+  axis.text.x        = element_text(size = 6, angle = 90, vjust = 0, hjust = 0),
+  axis.text.y        = element_text(size = 4.5),
+  axis.ticks         = element_line(size = 0.1)
 )
 
 tick_function <- function(x) {
@@ -177,17 +177,18 @@ tick_function <- function(x) {
 
 ```
 
-## Carregar tabelas necessárias
+## Load necessary tables
 
-Para prosseguir com a análise, é necessário carregar uma tabela contendo informações do *taxid* de cada espécie. Essas informações serão posteriormente utilizadas para mapear os *taxid* das espécies com os *taxid* de cada COG.
+To proceed with the analysis, it is necessary to load a table containing the *taxid* information for each species. This information will be used later to map the *taxid* of the species with the *taxid* of each COG.
 
-### Descrição da Tabela
+### Table Description
 
--   **Nome do Arquivo**: `string_eukaryotes.rda`\
--   **Conteúdo**: Informações taxonômicas de espécies eucarióticas.
+-   **File Name**: `string_eukaryotes.rda`
+-   **Content**: Taxonomic information of eukaryotic species.
 
-A tabela carrega os seguintes campos principais:\
-- **TaxID** (*taxonomic identifier*): Um identificador único associado a cada espécie. - Nome da espécie
+The table loads the following main fields:
+- **TaxID** (*taxonomic identifier*): A unique identifier associated with each species.
+- Species name
 
 ```{r}
 # Query Phylotree and OG data
@@ -195,36 +196,36 @@ ah <- AnnotationHub()
 meta <- query(ah, "geneplast")
 load(meta[["AH83116"]])
 
-# Todo: salvar tabelas dos qmd anteriores
+# TODO: save tables from previous qmds
 nodelist <- vroom::vroom(file = here("data/nodelist.csv"), delim = ",")
 gene_cogs <-  vroom::vroom(file = here("data/gene_cogs.csv"), delim = ",")
-sensorial_genes <- read.csv("../data/sensorial_genes.csv")
-map_ids <- vroom::vroom("../data/map_ids.csv")
-groot_df <- vroom::vroom("../data/groot_df.csv")
+sensorial_genes <- read.csv(here("data/sensorial_genes.csv"))
+map_ids <- vroom::vroom(here("data/map_ids.csv"))
+groot_df <- vroom::vroom(here("data/groot_df.csv"))
 
-ogr <- readRDS("../data/ogr.RData")
+ogr <- readRDS(here("data/ogr.RData"))
 
-load("../data/string_eukaryotes.rda")
+load(here("data/string_eukaryotes.rda"))
 head(string_eukaryotes)
 ```
 
-## Visualização: Padrão de Enraizamento
+## Visualization: Rooting Pattern
 
-Essa visualização permite analisar o padrão cumulativo de surgimento de genes ao longo do tempo evolutivo. Além disso, também mostra o crescimento dos processos biológicos separados por cada via metabólica.
+This visualization allows analyzing the cumulative pattern of gene emergence over evolutionary time. In addition, it also shows the growth of biological processes separated by each metabolic pathway.
 
-### Características dos Gráficos
+### Graph Characteristics
 
-1.  **Gráfico de Barras (Padrão Cumulativo)**:
-    -   Representa o somatório cumulativo de genes associados a cada clado.
-    -   Cada barra exibe o total acumulado de genes em determinado clado, permitindo identificar o padrão de diversificação.
-2.  **Gráfico Combinado (Barras e Linhas)**:
-    -   As barras indicam o somatório cumulativo de genes por clado.
-    -   As linhas representam o crescimento de diferentes processos biológicos (*Process*), separados por vias metabólicas, permitindo a comparação entre o surgimento cumulativo de genes e o desenvolvimento de funções biológicas.
+1.  **Bar Chart (Cumulative Pattern)**:
+    -   Represents the cumulative sum of genes associated with each clade.
+    -   Each bar displays the total accumulated genes in a given clade, allowing the identification of the diversification pattern.
+2.  **Combined Chart (Bars and Lines)**:
+    -   The bars indicate the cumulative sum of genes per clade.
+    -   The lines represent the growth of different biological processes (*Process*), separated by metabolic pathways, allowing the comparison between the cumulative emergence of genes and the development of biological functions.
 
-### Interpretação
+### Interpretation
 
--   **Padrão Cumulativo**: O gráfico de barras mostra como os genes foram surgindo ao longo do tempo, cumulativamente. Essa visão ajuda a identificar momentos de maior diversificação genética.
--   **Comparação por Processos Biológicos**: O gráfico combinado permite observar quais processos biológicos se destacam em diferentes momentos da evolução e como eles estão relacionados ao surgimento de novos genes.
+-   **Cumulative Pattern**: The bar chart shows how genes have emerged over time, cumulatively. This view helps to identify moments of greater genetic diversification.
+-   **Comparison by Biological Processes**: The combined chart allows observing which biological processes stand out at different moments of evolution and how they are related to the emergence of new genes.
 
 ```{r}
 # Mapping roots and proteins info
@@ -246,7 +247,7 @@ long_data <- cumulative_data %>%
 
 #a <-
 ggplot() +
-  # Gráfico de barras para cumulative_sum
+  # Bar chart for cumulative_sum
   geom_bar(data = cumulative_data, 
            aes(x = factor(clade_name, levels = clade_name), y = cumulative_sum), 
            stat = "identity", fill = "darkgray", colour = NA) +
@@ -265,7 +266,7 @@ ggplot() +
 
 #b <- 
 ggplot() +
-  # Gráfico de barras para cumulative_sum
+  # Bar chart for cumulative_sum
   geom_bar(data = cumulative_data, 
            aes(x = factor(-root), y = cumulative_sum), 
            stat = "identity", fill = "darkgray", colour = NA) +
@@ -273,12 +274,12 @@ ggplot() +
             aes(x = factor(-root), y = cumulative_sum, label = cumulative_sum), 
             vjust = -0.5, size = 3, color = "darkgray") +
   
-  # Gráfico de linhas para os processos biológicos
+  # Line chart for biological processes
   geom_line(data = long_data, 
             aes(x = factor(-root), y = Value, color = Process, group = Process), 
             size = 1) +
   
-  # Usar a paleta de cores definida
+  # Use the defined color palette
   scale_color_manual(values = annotation_colors) +
   
   labs(x = "Clade Name", y = "Cumulative Sum", 
@@ -293,29 +294,29 @@ ggplot() +
 #ggsave(file = "", plot=b, width=15, height=8)
 ```
 
-## Cálculo da Abundância de COGs por Função nas Espécies
+## Calculation of COG Abundance by Function in Species
 
-Esta análise parte da premissa de que COGs similares compartilham a mesma função biológica. Assim, é possível calcular a abundância média das funções associadas aos COGs em cada espécie, utilizando a quantidade de COGs presentes na espécie identificada pelo *TaxID*.
+This analysis is based on the premise that similar COGs share the same biological function. Thus, it is possible to calculate the average abundance of functions associated with COGs in each species, using the number of COGs present in the species identified by the *TaxID*.
 
-### Etapas do Cálculo
+### Calculation Steps
 
-1.  **Mapeamento das Espécies**\
-    Cada espécie foi mapeada para seu respectivo clado (nível hierárquico) com base nas informações do *TaxID*.
-    -   Foi utilizada a tabela `ogr@spbranches` para associar espécies (*ssp_id*) com seus *branches* (*lca*).
-    -   Os dados foram organizados para incluir a ordem dos *TaxIDs*.
-2.  **Anotação dos COGs**
-    -   A relação entre proteínas e genes foi enriquecida com informações funcionais, como identificadores de COGs e nomes de vias metabólicas (*pathway_name*).
-    -   Duplicatas foram removidas para garantir que apenas informações únicas fossem consideradas.
-3.  **Integração de Informações das Espécies**
-    -   Foi criado um mapeamento entre espécies (*TaxID*) e seus respectivos clados para adicionar as informações taxonômicas relevantes.
-    -   As espécies foram ordenadas com base em seus clados, para facilitar a análise hierárquica.
-4.  **Cálculo da Abundância Média por Função**
-    -   Para cada espécie e função metabólica (*pathway_name*), foi calculada a abundância média dos COGs.
-    -   Informações adicionais, como nomes das espécies (*ncbi_name*) e clados (*clade_name*), foram integradas ao resultado.
-5.  **Ajuste da Abundância (Capping)**
-    -   Para evitar valores extremos, a abundância média foi ajustada:
-        -   Valores acima de um limite (média + 3 desvios padrão) foram truncados para 100.
-        -   Os valores ajustados foram calculados separadamente por função metabólica.
+1.  **Species Mapping**
+    Each species was mapped to its respective clade (hierarchical level) based on the *TaxID* information.
+    -   The `ogr@spbranches` table was used to associate species (*ssp_id*) with their *branches* (*lca*).
+    -   The data was organized to include the order of the *TaxIDs*.
+2.  **COG Annotation**
+    -   The relationship between proteins and genes was enriched with functional information, such as COG identifiers and metabolic pathway names (*pathway_name*).
+    -   Duplicates were removed to ensure that only unique information was considered.
+3.  **Integration of Species Information**
+    -   A mapping was created between species (*TaxID*) and their respective clades to add the relevant taxonomic information.
+    -   The species were ordered based on their clades, to facilitate hierarchical analysis.
+4.  **Calculation of Average Abundance by Function**
+    -   For each species and metabolic function (*pathway_name*), the average abundance of COGs was calculated.
+    -   Additional information, such as species names (*ncbi_name*) and clades (*clade_name*), was integrated into the result.
+5.  **Abundance Adjustment (Capping)**
+    -   To avoid extreme values, the average abundance was adjusted:
+        -   Values above a limit (mean + 3 standard deviations) were truncated to 100.
+        -   The adjusted values were calculated separately by metabolic function.
 
 ```{r}
 lca_spp <- ogr@spbranches %>%
@@ -380,20 +381,20 @@ roots_seq$clade_name <- factor(roots_seq$clade_name, levels = roots_seq$clade_na
 
 ```
 
-### Visualização
+### Visualization
 
-Nos gráficos a seguir, é possível observar a abundância média dos COGs em cada clado. Cada barra representa uma espécie dentro do respectivo clado, enquanto as cores indicam as diferentes funções metabólicas associadas aos grupos ortólogos.
+In the following graphs, it is possible to observe the average abundance of COGs in each clade. Each bar represents a species within the respective clade, while the colors indicate the different metabolic functions associated with the orthologous groups.
 
-#### Gráfico de Abundância Média de COGs por Clado
+#### Graph of Average COG Abundance by Clade
 
--   O eixo **X** representa as espécies.
--   O eixo **Y** indica a abundância média de proteínas em grupos ortólogos.
--   As barras são coloridas de acordo com a função metabólica (*pathway_name*).
+-   The **X** axis represents the species.
+-   The **Y** axis indicates the average abundance of proteins in orthologous groups.
+-   The bars are colored according to the metabolic function (*pathway_name*).
 
-#### Gráfico com Abundância Ajustada (Capped)
+#### Graph with Adjusted Abundance (Capped)
 
--   Para evitar distorções causadas por valores extremos, a abundância foi ajustada a um limite máximo (média + 3 desvios padrão).
--   Este gráfico fornece uma visualização mais equilibrada, especialmente para funções metabólicas com valores muito elevados.
+-   To avoid distortions caused by extreme values, the abundance was adjusted to a maximum limit (mean + 3 standard deviations).
+-   This graph provides a more balanced visualization, especially for metabolic functions with very high values.
 
 ```{r}
 # Plotting by species
@@ -405,8 +406,8 @@ choanoflagellata_line +
     ,stat = "identity"
   ) +
   # Labels  ---------------
- xlab("Espécies") +
-  ylab("Abundância média de proteínas em grupos ortólogos") +
+ xlab("Species") +
+  ylab("Average protein abundance in orthologous groups") +
   #ylab("Average protein abundance in orthologous groups") +
   # Scales ----------------
 scale_y_continuous(breaks = tick_function, minor_breaks = NULL) +
@@ -430,8 +431,8 @@ choanoflagellata_line +
     ,stat = "identity"
   ) +
   # Labels  ---------------
-  xlab("Espécies") +
-  ylab("Abundância média de proteínas em grupos ortólogos") +
+  xlab("Species") +
+  ylab("Average protein abundance in orthologous groups") +
   #ylab("Average protein abundance in orthologous groups") +
   # Scales ----------------
   scale_y_continuous(breaks = tick_function, minor_breaks = NULL) +
@@ -447,13 +448,13 @@ facet_grid(
   theme_main
 ```
 
-#### Visualização Simplificada: Abundância por Clado
+#### Simplified Visualization: Abundance by Clade
 
-Para uma análise menos detalhada, é possível visualizar a abundância média de COGs apenas a nível de clado, ignorando as diferenças entre espécies individuais. Este gráfico fornece uma visão geral mais direta, ideal para identificar tendências globais.
+For a less detailed analysis, it is possible to visualize the average abundance of COGs only at the clade level, ignoring the differences between individual species. This graph provides a more direct overview, ideal for identifying global trends.
 
--   O eixo **X** representa os clados.
--   O eixo **Y** mostra a abundância média de proteínas em grupos ortólogos por clado.
--   As barras são agrupadas por clado e coloridas de acordo com as funções metabólicas (*pathway_name*).
+-   The **X** axis represents the clades.
+-   The **Y** axis shows the average abundance of proteins in orthologous groups per clade.
+-   The bars are grouped by clade and colored according to the metabolic functions (*pathway_name*).
 
 ```{r}
 # Ploting by clade
@@ -471,8 +472,8 @@ ggplot(avg_abundance_by_function) +
     ,space    = "free_y"
     ,labeller = labeller(annotation = sub("\n", "", annotation_labels))
   ) +
-  xlab("Clados") +
-  ylab("Abundância média por clado") +
+  xlab("Clades") +
+  ylab("Average abundance by clade") +
   theme_classic() + 
   theme_average
 ```

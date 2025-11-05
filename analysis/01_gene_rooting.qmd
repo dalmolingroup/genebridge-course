@@ -2,7 +2,7 @@
 title: "Gene Rooting"
 author: "Dalmolin Systems Biology Group"
 format: html
-execute: 
+execute:
   cache: true
 ---
 
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Importando Pacotes
+## Importing Packages
 
 ```{r}
 library(GeneBridge)
@@ -35,9 +35,9 @@ library(sourcetools)
 library(here)
 ```
 
-## Definindo funções para usar posteriormente
+## Defining functions for later use
 
-A primeira delas, busca o respectivo id de proteína para cada gene da lista de entrada. A segunda, retorna as interações entre essas proteínas e a última filtra as interações pelo score de confiança combinado maior que 0.4.
+The first one searches for the respective protein ID for each gene in the input list. The second returns the interactions between these proteins, and the last one filters the interactions by a combined confidence score greater than 0.4.
 
 ```{r}
 # get IDs from STRING DB
@@ -45,13 +45,13 @@ get_string_ids <- function(genes_hgnc, species_id = "9606") {
 
     req <- RCurl::postForm(
     "https://string-db.org/api/tsv/get_string_ids",
-    identifiers = paste(genes_hgnc, collapse = "%0D"),  
+    identifiers = paste(genes_hgnc, collapse = "%0D"),
     echo_query = "1",
-    species = species_id, 
+    species = species_id,
     .opts = list(ssl.verifypeer = FALSE)
   )
   
-  map_ids <- read.table(text = req, sep = "\t", header = TRUE, quote = "") %>%
+  map_ids <- read.table(text = req, sep = "	", header = TRUE, quote = "") %>%
     dplyr::select(-queryIndex) %>%
     unique()
   
@@ -63,17 +63,17 @@ get_string_ids <- function(genes_hgnc, species_id = "9606") {
  # Get STRING interactions
  get_network_interaction <- function(map_ids, protein_id, species_id = "9606") {
  
-   identifiers <- map_ids %>% pull(protein_id) %>% na.omit %>% paste0(collapse="%0d") 
+   identifiers <- map_ids %>% pull(protein_id) %>% na.omit %>% paste0(collapse="%0d")
  
    req2 <- RCurl::postForm(
      "https://string-db.org/api/tsv/network",
-     identifiers = identifiers, 
-     required_core = "0", 
+     identifiers = identifiers,
+     required_core = "0",
      species = species_id,
      .opts = list(ssl.verifypeer = FALSE)
    )
    
-   int_network <- read.table(text = req2, sep = "\t", header = TRUE)
+   int_network <- read.table(text = req2, sep = "	", header = TRUE)
    
    int_network <- unique(int_network)
    
@@ -102,13 +102,13 @@ combine_scores <- function(dat, evidences = "all", confLevel = 0.4) {
 }
 ```
 
-## Carregando lista de genes e os dados de ortologia
+## Loading gene list and orthology data
 
-Carregamos os dados de ortologia através do **AnnotationHub**, esse pacote do R fornece um local central onde arquivos genômicos (VCF, bed, wig) e outros recursos de locais padrões (por exemplo, UCSC, Ensembl) podem ser acessados. Dessa forma, temos acesso aos arquivos de entrada para o algoritmo do GeneBridge.
+We load the orthology data through **AnnotationHub**, this R package provides a central place where genomic files (VCF, bed, wig) and other resources from standard locations (e.g., UCSC, Ensembl) can be accessed. This way, we have access to the input files for the GeneBridge algorithm.
 
 ```{r}
 # Load the Gene Set Table
-sensorial_genes <- read.csv("../data/sensorial_genes.csv")
+sensorial_genes <- read.csv(here("data/sensorial_genes.csv"))
 
 # Query Phylotree and OG data
 ah <- AnnotationHub()
@@ -119,11 +119,11 @@ head(sensorial_genes)
 head(cogdata)
 ```
 
-## 1.Pré-processamento
+## 1. Pre-processing
 
-### 1.1.Mapeamento
+### 1.1. Mapping
 
-Para as próximas análises, precisamos cruzar informações entre nossos genes de interesse (Gene IDs da tabela **`sensorial_genes`**) e Protein IDs (da tabela **`cogdata`**). A API do STRINGdb é usada para mapear os Gene IDs para os Protein IDs, permitindo a filtragem dos genes de interesse na tabela cogdata. O objetivo final é obter um conjunto filtrado de genes sensoriais com seus respectivos pathways e COG IDs.
+For the next analyses, we need to cross-reference information between our genes of interest (Gene IDs from the **`sensorial_genes`** table) and Protein IDs (from the **`cogdata`** table). The STRINGdb API is used to map Gene IDs to Protein IDs, allowing the filtering of genes of interest in the cogdata table. The final goal is to obtain a filtered set of sensory genes with their respective pathways and COG IDs.
 
 ```{r }
 map_ids <- get_string_ids(sensorial_genes$gene_symbol)
@@ -141,20 +141,20 @@ head(map_ids)
 #  vroom::vroom_write(file = here("data/map_ids.csv"), delim = ",")
 ```
 
-### 1.2.Resolverndo COGs duplicados
+### 1.2. Resolving duplicate COGs
 
-Devido a eventos evolutivos, como duplicação gênica, alguns genes podem ser associados a mais de um Cluster of Orthologous Groups (COG). Para garantir a funcionalidade do algoritmo, é necessário resolver esses casos, priorizando COGs de acordo com os seguintes critérios:
+Due to evolutionary events such as gene duplication, some genes may be associated with more than one Cluster of Orthologous Groups (COG). To ensure the functionality of the algorithm, it is necessary to resolve these cases, prioritizing COGs according to the following criteria:
 
-1.  Prioridade por tipo de COG:
+1.  Priority by COG type:
 
--   KOGs têm maior prioridade.
--   COGs têm maior prioridade do que NOGs.
+-   KOGs have higher priority.
+-   COGs have higher priority than NOGs.
 
-2.  Casos com COGs iniciando pela mesma letra:
+2.  Cases with COGs starting with the same letter:
 
--   São resolvidos manualmente, com base na função anotada do COG e na questão científica do estudo.
+-   Are resolved manually, based on the annotated function of the COG and the scientific question of the study.
 
-O código abaixo implementa essa resolução e integra as correções à tabela principal.
+The code below implements this resolution and integrates the corrections into the main table.
 
 ```{r}
 gene_cogs %>% filter(n > 1)
@@ -162,8 +162,8 @@ gene_cogs %>% filter(n > 1)
 # Resolving main proteins
 gene_cogs_resolved <- tribble(
   ~protein_id, ~cog_id,
-"ENSP00000332500", "NOG274749", #NOG274749 / NOG274749		
-"ENSP00000409316", "NOG282909", #NOG282909 / NOG282909 / NOG282909		
+"ENSP00000332500", "NOG274749", #NOG274749 / NOG274749
+"ENSP00000409316", "NOG282909", #NOG282909 / NOG282909 / NOG282909
 "ENSP00000480090", "KOG3599"	#KOG3599 / KOG3272
 )
 
@@ -177,26 +177,26 @@ gene_cogs %<>%
 #  vroom::vroom_write(file = here("data/gene_cogs.csv"), delim = ",")
 ```
 
-## 3.Processamento
+## 3. Processing
 
-O objetivo desta etapa é realizar o enraizamento dos genes de interesse utilizando o pacote **GeneBridge**. Para isso, utilizamos as funções `newBridge`, `runBridge` e `runPermutation`, que produzem resultados estatísticos associados aos COGs selecionados em uma árvore filogenética.
+The objective of this step is to perform the rooting of the genes of interest using the **GeneBridge** package. For this, we use the `newBridge`, `runBridge`, and `runPermutation` functions, which produce statistical results associated with the selected COGs in a phylogenetic tree.
 
-### 3.1.Inputs necessários
+### 3.1. Necessary Inputs
 
 1.  **`ogdata`**:
-    -   Dataset contendo três colunas principais:
-        -   `Protein ID`: Identificadores das proteínas.
-        -   `COG ID`: Clusters de interesse.
-        -   `Specie ID`: Identificadores das espécies.
-    -   No exemplo, está sendo utilizado o objeto `cogdata`.
+    -   Dataset containing three main columns:
+        -   `Protein ID`: Protein identifiers.
+        -   `COG ID`: Clusters of interest.
+        -   `Specie ID`: Species identifiers.
+    -   In the example, the `cogdata` object is being used.
 2.  **`phyloTree`**:
-    -   Árvore filogenética contendo 476 eucariotos, representando a estrutura evolutiva entre as espécies analisadas.
+    -   Phylogenetic tree containing 476 eukaryotes, representing the evolutionary structure among the analyzed species.
 3.  **`ogids`**:
-    -   Lista dos **COGs de interesse**. Esse conjunto é derivado da tabela `gene_cogs` e inclui os COGs associados às proteínas após o processamento anterior.
+    -   List of **COGs of interest**. This set is derived from the `gene_cogs` table and includes the COGs associated with the proteins after the previous processing.
 4.  **`refsp`**:
-    -   Espécie de referência para o enraizamento. No exemplo, utilizamos `9606` (humano).
+    -   Reference species for rooting. In the example, we use `9606` (human).
 
-A função *getBridge* extrai os resultados gerados pelo GeneBridge em formato de tabela. A tabela *res* contém os resultados estastisticos do enraizamento.
+The *getBridge* function extracts the results generated by GeneBridge in table format. The *res* table contains the statistical results of the rooting.
 
 ```{r}
 ## Run GeneBridge
@@ -210,12 +210,12 @@ ogr <- runPermutation(ogr, nPermutations=1000, verbose=FALSE)
 
 res <- getBridge(ogr, what="results")
 
-saveRDS(ogr, file = "../data/ogr.RData")
+saveRDS(ogr, file = here("data/ogr.RData"))
 ```
 
-## 4.Pós-Processamento
+## 4. Post-processing
 
-Após realizar o enraizamento com o **GeneBridge**, é necessário ajustar os dados para melhorar a visualização e a interpretação dos resultados. Nessa etapa, adicionamos os nomes dos clados às raízes identificadas, utilizando uma tabela externa que relaciona os identificadores das raízes aos nomes dos clados.
+After performing the rooting with **GeneBridge**, it is necessary to adjust the data to improve the visualization and interpretation of the results. In this step, we add the names of the clades to the identified roots, using an external table that relates the root identifiers to the clade names.
 
 ```{r}
 # naming the rooted clades
@@ -235,26 +235,26 @@ head(groot_df)
 #  vroom::vroom_write(file = here("data/groot_df.csv"), delim = ",")
 ```
 
-### 4.1.Rede de Interação Proteína-Proteína
+### 4.1. Protein-Protein Interaction Network
 
-A construção de uma rede de interação proteína-proteína (PPI) é uma etapa essencial para identificar as relações funcionais entre proteínas. Neste processo, utilizamos a API do **STRINGdb**, um banco de dados que cataloga interações entre proteínas com base em diversas fontes, incluindo ensaios experimentais, co-expressão, e evidências extraídas de publicações científicas.
+The construction of a protein-protein interaction (PPI) network is an essential step to identify the functional relationships between proteins. In this process, we use the **STRINGdb** API, a database that catalogs interactions between proteins based on various sources, including experimental assays, co-expression, and evidence extracted from scientific publications.
 
-A API do STRINGdb oferece métodos para: - Obter interações proteicas para uma lista de proteínas. - Selecionar fontes específicas de evidências. - Calcular e combinar escores baseados nas evidências selecionadas.
+The STRINGdb API offers methods to: - Obtain protein interactions for a list of proteins. - Select specific sources of evidence. - Calculate and combine scores based on the selected evidence.
 
-Mais informações sobre a API podem ser encontradas na [documentação STRING API](https://string-db.org/help/api/).
+More information about the API can be found in the [STRING API documentation](https://string-db.org/help/api/).
 
 ```{r}
 # Get proteins interaction
 string_edgelist <- get_network_interaction(groot_df)
 
 # Recomputing scores
-string_edgelist <- combine_scores(string_edgelist, 
-                                  evidences = c("ascore", "escore", "dscore"), 
+string_edgelist <- combine_scores(string_edgelist,
+                                  evidences = c("ascore", "escore", "dscore"),
                                   confLevel = 0.7)
 
 colnames(string_edgelist) <- c("stringId_A", "stringId_B", "combined_score")
 
-# Remove o species id
+# Remove the species id
 string_edgelist$stringId_A <- substring(string_edgelist$stringId_A, 6, 1000)
 string_edgelist$stringId_B <- substring(string_edgelist$stringId_B, 6, 1000)
 
@@ -262,12 +262,12 @@ string_edgelist$stringId_B <- substring(string_edgelist$stringId_B, 6, 1000)
 setdiff(
   string_edgelist %$% c(stringId_A, stringId_B),
   map_ids %>% pull(stringId)
-) 
+)
 
 head(string_edgelist)
 ```
 
-Para a construção do grafo, além das interações entre as proteínas, é necessário que cada nó seja anotado com informações adicionais que serão usadas na análise, como: - Nome da proteína. - Clado onde está enraizado. - Via metabólica em que participa.
+For the construction of the graph, in addition to the interactions between the proteins, it is necessary that each node is annotated with additional information that will be used in the analysis, such as: - Protein name. - Clade where it is rooted. - Metabolic pathway in which it participates.
 
 ```{r}
 ## Create anotation table
@@ -275,9 +275,9 @@ nodelist <- data.frame(node = unique(c(string_edgelist$stringId_A, string_edgeli
 
 merged_paths <- merge(nodelist, groot_df, by.x = "node", by.y = "protein_id")
 
-pivotada <- sensorial_genes %>% 
-  dplyr::select(gene_symbol, pathway_name) %>% 
-  dplyr::mutate(n = 1) %>% 
+pivotada <- sensorial_genes %>%
+  dplyr::select(gene_symbol, pathway_name) %>%
+  dplyr::mutate(n = 1) %>%
   tidyr::pivot_wider(
     id_cols = gene_symbol,
     names_from = pathway_name,
@@ -298,7 +298,7 @@ nodelist <-
 head(nodelist)
 ```
 
-Além da estrutura do grafo, podemos calcular métricas como o número de conexões (grau) de cada nó.
+In addition to the graph structure, we can calculate metrics such as the number of connections (degree) of each node.
 
 ```{r}
 # Network Metrics

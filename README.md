@@ -1,12 +1,37 @@
-## GeneBridge
+# GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes
 
-Neste repositório está o material para o curso GeneBridge: Inferindo o Enraizamento Evolutivo de Genes Ortólogos,
-organizado por Gleison Azevedo e Bruno William, do Centro Multiusuário de Bioinformática da UFRN.
+## Lesson overview
 
-Este curso foi ministrado em Dezembro de 2024, como parte da Semana de Portas Abertas do PPg-Bioinfo da UFRN.
+🔒 **License:** [Creative Commons Attribution Share Alike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
 
-O curso é dividido em 3 partes:
+👥 **Target Audience:** Researchers, graduate students, and biologists interested in evolutionary analysis.
 
-- Parte 1: Realizando a Análise de Enraizamento
-- Parte 2: Plotando Genes Enraizados
-- Parte 3: Plotando Abundâncias
+📶 **Level:** Intermediate
+
+⬅️ **Prerequisites**
+To be able to follow this course, learners should have knowledge in:
+
+1.  Basic knowledge of the R programming language (loading libraries, handling data frames).
+2.  Familiarity with fundamental concepts in evolutionary biology (e.g., genes, orthologs, phylogenetic trees).
+3.  Being comfortable working with RStudio or a similar R environment.
+
+📖 **Description**
+This repository contains the materials for the course "GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes," organized by from Dalmolin's Systems Biology Group, based at the Bioinformatics Multidisciplinary Environment (BioME) at UFRN. This workshop is divided into three parts: (1) Performing the Rooting Analysis, (2) Plotting Rooted Genes, and (3) Plotting Abundances.
+
+➡️ **Learning Outcomes:**
+By the end of the course, learners will be able to:
+
+1.  **Understand** the theoretical basis of evolutionary rooting and the Bridge algorithm. [Understanding]
+2.  **Apply** the GeneBridge package to infer the evolutionary root for a set of orthologous genes. [Applying]
+3.  **Analyze** and **interpret** the output tables and rooting results. [Analysing]
+4.  **Create** and **customize** plots to visualize rooted genes on a phylogenetic tree. [Creating]
+5.  **Generate** and **evaluate** plots of gene abundances across different clades. [Evaluating]
+
+⌛ **Time estimation**: 180 minutes
+
+⚙️ **Requirements:** Participants must have a laptop with a recent version of R and RStudio installed. Specific R package dependencies (e.g., GeneBridge) are detailed in the repository's setup instructions.
+
+🙏 **Acknowledgements**:
+
+* Bioinformatics Multidisciplinary Environment (BioME - IMD/UFRN)
+* Postgraduate Program in Bioinformatics (PPg-Bioinfo - UFRN)
