@@ -1,0 +1,1753 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes},
+  pdfauthor={Dalmolin Systems Biology Group},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{GeneBridge: Inferring the Evolutionary Rooting of Orthologous
+Genes}
+\author{Dalmolin Systems Biology Group}
+\date{}
+
+\begin{document}
+\maketitle
+
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{
+  showspaces = false,
+  showtabs = false,
+  breaksymbolleft={},
+  breaklines
+  % Note: setting commandchars=\\\{\} here will cause an error 
+}
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\bookmarksetup{startatroot}
+
+\chapter{GeneBridge}\label{genebridge}
+
+\bookmarksetup{startatroot}
+
+\chapter{GeneBridge: Inferring the Evolutionary Rooting of Orthologous
+Genes}\label{genebridge-inferring-the-evolutionary-rooting-of-orthologous-genes}
+
+\section{Lesson overview}\label{lesson-overview}
+
+🔒 \textbf{License:}
+\href{https://creativecommons.org/licenses/by-sa/4.0/deed.en}{Creative
+Commons Attribution Share Alike 4.0 International License}
+
+👥 \textbf{Target Audience:} Researchers, graduate students, and
+biologists interested in evolutionary analysis.
+
+📶 \textbf{Level:} Intermediate
+
+⬅️ \textbf{Prerequisites} To be able to follow this course, learners
+should have knowledge in:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Basic knowledge of the R programming language (loading libraries,
+  handling data frames).
+\item
+  Familiarity with fundamental concepts in evolutionary biology (e.g.,
+  genes, orthologs, phylogenetic trees).
+\item
+  Being comfortable working with RStudio or a similar R environment.
+\end{enumerate}
+
+📖 \textbf{Description} This repository contains the materials for the
+course ``GeneBridge: Inferring the Evolutionary Rooting of Orthologous
+Genes,'' organized by from Dalmolin's Systems Biology Group, based at
+the Bioinformatics Multidisciplinary Environment (BioME) at UFRN. This
+workshop is divided into three parts: (1) Performing the Rooting
+Analysis, (2) Plotting Rooted Genes, and (3) Plotting Abundances.
+
+➡️ \textbf{Learning Outcomes:} By the end of the course, learners will
+be able to:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Understand} the theoretical basis of evolutionary rooting and
+  the Bridge algorithm. {[}Understanding{]}
+\item
+  \textbf{Apply} the GeneBridge package to infer the evolutionary root
+  for a set of orthologous genes. {[}Applying{]}
+\item
+  \textbf{Analyze} and \textbf{interpret} the output tables and rooting
+  results. {[}Analysing{]}
+\item
+  \textbf{Create} and \textbf{customize} plots to visualize rooted genes
+  on a phylogenetic tree. {[}Creating{]}
+\item
+  \textbf{Generate} and \textbf{evaluate} plots of gene abundances
+  across different clades. {[}Evaluating{]}
+\end{enumerate}
+
+⌛ \textbf{Time estimation}: 180 minutes
+
+⚙️ \textbf{Requirements:} Participants must have a laptop with a recent
+version of R and RStudio installed. Specific R package dependencies
+(e.g., GeneBridge) are detailed in the repository's setup instructions.
+
+🙏 \textbf{Acknowledgements}:
+
+\begin{itemize}
+\tightlist
+\item
+  Bioinformatics Multidisciplinary Environment (BioME - IMD/UFRN)
+\item
+  Postgraduate Program in Bioinformatics (PPg-Bioinfo - UFRN)
+\end{itemize}
+
+\bookmarksetup{startatroot}
+
+\chapter{Gene Rooting}\label{gene-rooting}
+
+\section{Importing Packages}\label{importing-packages}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(GeneBridge)}
+\FunctionTok{library}\NormalTok{(geneplast.data)}
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(purrr)}
+\FunctionTok{library}\NormalTok{(biomaRt)}
+\FunctionTok{library}\NormalTok{(magrittr)}
+\FunctionTok{library}\NormalTok{(KEGGREST)}
+\FunctionTok{library}\NormalTok{(ape)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(data.table)}
+\FunctionTok{library}\NormalTok{(stringi)}
+\FunctionTok{library}\NormalTok{(AnnotationHub)}
+\FunctionTok{library}\NormalTok{(sourcetools)}
+\FunctionTok{library}\NormalTok{(here)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Defining functions for later
+use}\label{defining-functions-for-later-use}
+
+The first one searches for the respective protein ID for each gene in
+the input list. The second returns the interactions between these
+proteins, and the last one filters the interactions by a combined
+confidence score greater than 0.4.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# get IDs from STRING DB}
+\NormalTok{get\_string\_ids }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(genes\_hgnc, }\AttributeTok{species\_id =} \StringTok{"9606"}\NormalTok{) \{}
+
+\NormalTok{    req }\OtherTok{\textless{}{-}}\NormalTok{ RCurl}\SpecialCharTok{::}\FunctionTok{postForm}\NormalTok{(}
+    \StringTok{"https://string{-}db.org/api/tsv/get\_string\_ids"}\NormalTok{,}
+    \AttributeTok{identifiers =} \FunctionTok{paste}\NormalTok{(genes\_hgnc, }\AttributeTok{collapse =} \StringTok{"\%0D"}\NormalTok{),}
+    \AttributeTok{echo\_query =} \StringTok{"1"}\NormalTok{,}
+    \AttributeTok{species =}\NormalTok{ species\_id,}
+    \AttributeTok{.opts =} \FunctionTok{list}\NormalTok{(}\AttributeTok{ssl.verifypeer =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{  )}
+  
+\NormalTok{  map\_ids }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{text =}\NormalTok{ req, }\AttributeTok{sep =} \StringTok{" "}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{quote =} \StringTok{""}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{    dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{queryIndex) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{unique}\NormalTok{()}
+  
+\NormalTok{  map\_ids}\SpecialCharTok{$}\NormalTok{stringId }\OtherTok{\textless{}{-}} \FunctionTok{substring}\NormalTok{(map\_ids}\SpecialCharTok{$}\NormalTok{stringId, }\DecValTok{6}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+  
+  \FunctionTok{return}\NormalTok{(map\_ids)}
+\NormalTok{\}}
+
+ \CommentTok{\# Get STRING interactions}
+\NormalTok{ get\_network\_interaction }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(map\_ids, protein\_id, }\AttributeTok{species\_id =} \StringTok{"9606"}\NormalTok{) \{}
+ 
+\NormalTok{   identifiers }\OtherTok{\textless{}{-}}\NormalTok{ map\_ids }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{(protein\_id) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ na.omit }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{paste0}\NormalTok{(}\AttributeTok{collapse=}\StringTok{"\%0d"}\NormalTok{)}
+ 
+\NormalTok{   req2 }\OtherTok{\textless{}{-}}\NormalTok{ RCurl}\SpecialCharTok{::}\FunctionTok{postForm}\NormalTok{(}
+     \StringTok{"https://string{-}db.org/api/tsv/network"}\NormalTok{,}
+     \AttributeTok{identifiers =}\NormalTok{ identifiers,}
+     \AttributeTok{required\_core =} \StringTok{"0"}\NormalTok{,}
+     \AttributeTok{species =}\NormalTok{ species\_id,}
+     \AttributeTok{.opts =} \FunctionTok{list}\NormalTok{(}\AttributeTok{ssl.verifypeer =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{   )}
+   
+\NormalTok{   int\_network }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{text =}\NormalTok{ req2, }\AttributeTok{sep =} \StringTok{"   "}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+   
+\NormalTok{   int\_network }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(int\_network)}
+   
+   \FunctionTok{return}\NormalTok{(int\_network)}
+\NormalTok{ \}}
+
+ \DocumentationTok{\#\# Recomputing scores}
+\NormalTok{combine\_scores }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(dat, }\AttributeTok{evidences =} \StringTok{"all"}\NormalTok{, }\AttributeTok{confLevel =} \FloatTok{0.4}\NormalTok{) \{}
+  \ControlFlowTok{if}\NormalTok{(evidences[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{==} \StringTok{"all"}\NormalTok{)\{}
+\NormalTok{    edat}\OtherTok{\textless{}{-}}\NormalTok{dat[,}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\FunctionTok{ncol}\NormalTok{(dat))]}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{all}\NormalTok{(evidences}\SpecialCharTok{\%in\%}\FunctionTok{colnames}\NormalTok{(dat)))\{}
+      \FunctionTok{stop}\NormalTok{(}\StringTok{"NOTE: one or more \textquotesingle{}evidences\textquotesingle{} not listed in \textquotesingle{}dat\textquotesingle{} colnames!"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{    edat}\OtherTok{\textless{}{-}}\NormalTok{dat[,evidences]}
+\NormalTok{  \}}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{any}\NormalTok{(edat }\SpecialCharTok{\textgreater{}} \DecValTok{1}\NormalTok{)) \{}
+\NormalTok{    edat }\OtherTok{\textless{}{-}}\NormalTok{ edat}\SpecialCharTok{/}\DecValTok{1000}
+\NormalTok{  \}}
+\NormalTok{  edat}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{edat}
+\NormalTok{  sc}\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(}\AttributeTok{X =}\NormalTok{ edat, }\AttributeTok{MARGIN =} \DecValTok{1}\NormalTok{, }\AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(x) }\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{prod}\NormalTok{(x))}
+\NormalTok{  dat }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(dat[,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)],}\AttributeTok{combined\_score =}\NormalTok{ sc)}
+\NormalTok{  idx }\OtherTok{\textless{}{-}}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{combined\_score }\SpecialCharTok{\textgreater{}=}\NormalTok{ confLevel}
+\NormalTok{  dat }\OtherTok{\textless{}{-}}\NormalTok{dat[idx,]}
+  \FunctionTok{return}\NormalTok{(dat)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Loading gene list and orthology
+data}\label{loading-gene-list-and-orthology-data}
+
+We load the orthology data through \textbf{AnnotationHub}, this R
+package provides a central place where genomic files (VCF, bed, wig) and
+other resources from standard locations (e.g., UCSC, Ensembl) can be
+accessed. This way, we have access to the input files for the GeneBridge
+algorithm.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the Gene Set Table}
+\NormalTok{sensorial\_genes }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data/sensorial\_genes.csv"}\NormalTok{))}
+
+\CommentTok{\# Query Phylotree and OG data}
+\NormalTok{ah }\OtherTok{\textless{}{-}} \FunctionTok{AnnotationHub}\NormalTok{()}
+\NormalTok{meta }\OtherTok{\textless{}{-}} \FunctionTok{query}\NormalTok{(ah, }\StringTok{"geneplast"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(meta[[}\StringTok{"AH83116"}\NormalTok{]])}
+
+\FunctionTok{head}\NormalTok{(sensorial\_genes)}
+\FunctionTok{head}\NormalTok{(cogdata)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{1. Pre-processing}\label{pre-processing}
+
+\subsection{1.1. Mapping}\label{mapping}
+
+For the next analyses, we need to cross-reference information between
+our genes of interest (Gene IDs from the
+\textbf{\texttt{sensorial\_genes}} table) and Protein IDs (from the
+\textbf{\texttt{cogdata}} table). The STRINGdb API is used to map Gene
+IDs to Protein IDs, allowing the filtering of genes of interest in the
+cogdata table. The final goal is to obtain a filtered set of sensory
+genes with their respective pathways and COG IDs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{map\_ids }\OtherTok{\textless{}{-}} \FunctionTok{get\_string\_ids}\NormalTok{(sensorial\_genes}\SpecialCharTok{$}\NormalTok{gene\_symbol)}
+
+\CommentTok{\# Subsetting cogs of interest {-} Sensorial Genes}
+\NormalTok{gene\_cogs }\OtherTok{\textless{}{-}}\NormalTok{ cogdata }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(ssp\_id }\SpecialCharTok{\%in\%}\NormalTok{ map\_ids}\SpecialCharTok{$}\NormalTok{ncbiTaxonId) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(protein\_id }\SpecialCharTok{\%in\%}\NormalTok{ map\_ids[[}\StringTok{"stringId"}\NormalTok{]]) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(protein\_id) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n =} \FunctionTok{n}\NormalTok{(), }\AttributeTok{cog\_id =} \FunctionTok{paste}\NormalTok{(cog\_id, }\AttributeTok{collapse =} \StringTok{" / "}\NormalTok{))}
+
+\FunctionTok{head}\NormalTok{(map\_ids)}
+
+\CommentTok{\#map\_ids |\textgreater{} }
+\CommentTok{\#  vroom::vroom\_write(file = here("data/map\_ids.csv"), delim = ",")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{1.2. Resolving duplicate
+COGs}\label{resolving-duplicate-cogs}
+
+Due to evolutionary events such as gene duplication, some genes may be
+associated with more than one Cluster of Orthologous Groups (COG). To
+ensure the functionality of the algorithm, it is necessary to resolve
+these cases, prioritizing COGs according to the following criteria:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Priority by COG type:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  KOGs have higher priority.
+\item
+  COGs have higher priority than NOGs.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Cases with COGs starting with the same letter:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Are resolved manually, based on the annotated function of the COG and
+  the scientific question of the study.
+\end{itemize}
+
+The code below implements this resolution and integrates the corrections
+into the main table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gene\_cogs }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(n }\SpecialCharTok{\textgreater{}} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Resolving main proteins}
+\NormalTok{gene\_cogs\_resolved }\OtherTok{\textless{}{-}} \FunctionTok{tribble}\NormalTok{(}
+  \SpecialCharTok{\textasciitilde{}}\NormalTok{protein\_id, }\SpecialCharTok{\textasciitilde{}}\NormalTok{cog\_id,}
+\StringTok{"ENSP00000332500"}\NormalTok{, }\StringTok{"NOG274749"}\NormalTok{, }\CommentTok{\#NOG274749 / NOG274749}
+\StringTok{"ENSP00000409316"}\NormalTok{, }\StringTok{"NOG282909"}\NormalTok{, }\CommentTok{\#NOG282909 / NOG282909 / NOG282909}
+\StringTok{"ENSP00000480090"}\NormalTok{, }\StringTok{"KOG3599"}    \CommentTok{\#KOG3599 / KOG3272}
+\NormalTok{)}
+
+\CommentTok{\# Removing unresolved cases and adding manual assignments}
+\NormalTok{gene\_cogs }\SpecialCharTok{\%\textless{}\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(n }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ dplyr}\SpecialCharTok{::} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{n) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bind\_rows}\NormalTok{(gene\_cogs\_resolved)}
+
+\CommentTok{\#gene\_cogs |\textgreater{} }
+\CommentTok{\#  vroom::vroom\_write(file = here("data/gene\_cogs.csv"), delim = ",")}
+\end{Highlighting}
+\end{Shaded}
+
+\section{3. Processing}\label{processing}
+
+The objective of this step is to perform the rooting of the genes of
+interest using the \textbf{GeneBridge} package. For this, we use the
+\texttt{newBridge}, \texttt{runBridge}, and \texttt{runPermutation}
+functions, which produce statistical results associated with the
+selected COGs in a phylogenetic tree.
+
+\subsection{3.1. Necessary Inputs}\label{necessary-inputs}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{\texttt{ogdata}}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Dataset containing three main columns:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \texttt{Protein\ ID}: Protein identifiers.
+    \item
+      \texttt{COG\ ID}: Clusters of interest.
+    \item
+      \texttt{Specie\ ID}: Species identifiers.
+    \end{itemize}
+  \item
+    In the example, the \texttt{cogdata} object is being used.
+  \end{itemize}
+\item
+  \textbf{\texttt{phyloTree}}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Phylogenetic tree containing 476 eukaryotes, representing the
+    evolutionary structure among the analyzed species.
+  \end{itemize}
+\item
+  \textbf{\texttt{ogids}}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    List of \textbf{COGs of interest}. This set is derived from the
+    \texttt{gene\_cogs} table and includes the COGs associated with the
+    proteins after the previous processing.
+  \end{itemize}
+\item
+  \textbf{\texttt{refsp}}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Reference species for rooting. In the example, we use \texttt{9606}
+    (human).
+  \end{itemize}
+\end{enumerate}
+
+The \emph{getBridge} function extracts the results generated by
+GeneBridge in table format. The \emph{res} table contains the
+statistical results of the rooting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Run GeneBridge}
+\NormalTok{cogs\_of\_interest }\OtherTok{\textless{}{-}}\NormalTok{ gene\_cogs }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{(cog\_id) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ unique}
+
+\NormalTok{ogr }\OtherTok{\textless{}{-}} \FunctionTok{newBridge}\NormalTok{(}\AttributeTok{ogdata=}\NormalTok{cogdata, }\AttributeTok{phyloTree=}\NormalTok{phyloTree, }\AttributeTok{ogids =}\NormalTok{ cogs\_of\_interest, }\AttributeTok{refsp=}\StringTok{"9606"}\NormalTok{)}
+
+\NormalTok{ogr }\OtherTok{\textless{}{-}} \FunctionTok{runBridge}\NormalTok{(ogr, }\AttributeTok{penalty =} \DecValTok{2}\NormalTok{, }\AttributeTok{threshold =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{verbose =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{ogr }\OtherTok{\textless{}{-}} \FunctionTok{runPermutation}\NormalTok{(ogr, }\AttributeTok{nPermutations=}\DecValTok{1000}\NormalTok{, }\AttributeTok{verbose=}\ConstantTok{FALSE}\NormalTok{)}
+
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{getBridge}\NormalTok{(ogr, }\AttributeTok{what=}\StringTok{"results"}\NormalTok{)}
+
+\FunctionTok{saveRDS}\NormalTok{(ogr, }\AttributeTok{file =} \FunctionTok{here}\NormalTok{(}\StringTok{"data/ogr.RData"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\section{4. Post-processing}\label{post-processing}
+
+After performing the rooting with \textbf{GeneBridge}, it is necessary
+to adjust the data to improve the visualization and interpretation of
+the results. In this step, we add the names of the clades to the
+identified roots, using an external table that relates the root
+identifiers to the clade names.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# naming the rooted clades}
+\NormalTok{CLADE\_NAMES }\OtherTok{\textless{}{-}} \StringTok{"https://raw.githubusercontent.com/dalmolingroup/neurotransmissionevolution/ctenophora\_before\_porifera/analysis/geneplast\_clade\_names.tsv"}
+
+\NormalTok{lca\_names }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(CLADE\_NAMES)}
+
+\NormalTok{groot\_df }\OtherTok{\textless{}{-}}\NormalTok{ res }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  tibble}\SpecialCharTok{::}\FunctionTok{rownames\_to\_column}\NormalTok{(}\StringTok{"cog\_id"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(cog\_id, }\AttributeTok{root =}\NormalTok{ Root) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(lca\_names) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{inner\_join}\NormalTok{(gene\_cogs)}
+
+\FunctionTok{head}\NormalTok{(groot\_df)}
+
+\CommentTok{\#groot\_df |\textgreater{} }
+\CommentTok{\#  vroom::vroom\_write(file = here("data/groot\_df.csv"), delim = ",")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{4.1. Protein-Protein Interaction
+Network}\label{protein-protein-interaction-network}
+
+The construction of a protein-protein interaction (PPI) network is an
+essential step to identify the functional relationships between
+proteins. In this process, we use the \textbf{STRINGdb} API, a database
+that catalogs interactions between proteins based on various sources,
+including experimental assays, co-expression, and evidence extracted
+from scientific publications.
+
+The STRINGdb API offers methods to: - Obtain protein interactions for a
+list of proteins. - Select specific sources of evidence. - Calculate and
+combine scores based on the selected evidence.
+
+More information about the API can be found in the
+\href{https://string-db.org/help/api/}{STRING API documentation}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Get proteins interaction}
+\NormalTok{string\_edgelist }\OtherTok{\textless{}{-}} \FunctionTok{get\_network\_interaction}\NormalTok{(groot\_df)}
+
+\CommentTok{\# Recomputing scores}
+\NormalTok{string\_edgelist }\OtherTok{\textless{}{-}} \FunctionTok{combine\_scores}\NormalTok{(string\_edgelist,}
+                                  \AttributeTok{evidences =} \FunctionTok{c}\NormalTok{(}\StringTok{"ascore"}\NormalTok{, }\StringTok{"escore"}\NormalTok{, }\StringTok{"dscore"}\NormalTok{),}
+                                  \AttributeTok{confLevel =} \FloatTok{0.7}\NormalTok{)}
+
+\FunctionTok{colnames}\NormalTok{(string\_edgelist) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"stringId\_A"}\NormalTok{, }\StringTok{"stringId\_B"}\NormalTok{, }\StringTok{"combined\_score"}\NormalTok{)}
+
+\CommentTok{\# Remove the species id}
+\NormalTok{string\_edgelist}\SpecialCharTok{$}\NormalTok{stringId\_A }\OtherTok{\textless{}{-}} \FunctionTok{substring}\NormalTok{(string\_edgelist}\SpecialCharTok{$}\NormalTok{stringId\_A, }\DecValTok{6}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\NormalTok{string\_edgelist}\SpecialCharTok{$}\NormalTok{stringId\_B }\OtherTok{\textless{}{-}} \FunctionTok{substring}\NormalTok{(string\_edgelist}\SpecialCharTok{$}\NormalTok{stringId\_B, }\DecValTok{6}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+
+\CommentTok{\# How many edgelist proteins are absent in gene\_ids? (should return 0)}
+\FunctionTok{setdiff}\NormalTok{(}
+\NormalTok{  string\_edgelist }\SpecialCharTok{\%$\%} \FunctionTok{c}\NormalTok{(stringId\_A, stringId\_B),}
+\NormalTok{  map\_ids }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{pull}\NormalTok{(stringId)}
+\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(string\_edgelist)}
+\end{Highlighting}
+\end{Shaded}
+
+For the construction of the graph, in addition to the interactions
+between the proteins, it is necessary that each node is annotated with
+additional information that will be used in the analysis, such as: -
+Protein name. - Clade where it is rooted. - Metabolic pathway in which
+it participates.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Create anotation table}
+\NormalTok{nodelist }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{node =} \FunctionTok{unique}\NormalTok{(}\FunctionTok{c}\NormalTok{(string\_edgelist}\SpecialCharTok{$}\NormalTok{stringId\_A, string\_edgelist}\SpecialCharTok{$}\NormalTok{stringId\_B)))}
+
+\NormalTok{merged\_paths }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(nodelist, groot\_df, }\AttributeTok{by.x =} \StringTok{"node"}\NormalTok{, }\AttributeTok{by.y =} \StringTok{"protein\_id"}\NormalTok{)}
+
+\NormalTok{pivotada }\OtherTok{\textless{}{-}}\NormalTok{ sensorial\_genes }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(gene\_symbol, pathway\_name) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{n =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  tidyr}\SpecialCharTok{::}\FunctionTok{pivot\_wider}\NormalTok{(}
+    \AttributeTok{id\_cols =}\NormalTok{ gene\_symbol,}
+    \AttributeTok{names\_from =}\NormalTok{ pathway\_name,}
+    \AttributeTok{values\_from =}\NormalTok{ n,}
+    \AttributeTok{values\_fn =} \FunctionTok{list}\NormalTok{(}\AttributeTok{n =}\NormalTok{ length),}
+    \AttributeTok{values\_fill =} \FunctionTok{list}\NormalTok{(}\AttributeTok{n =} \DecValTok{0}\NormalTok{),}
+\NormalTok{  )}
+
+\NormalTok{source\_statements }\OtherTok{\textless{}{-}}
+  \FunctionTok{colnames}\NormalTok{(pivotada)[}\DecValTok{2}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(pivotada)]}
+
+\NormalTok{nodelist }\OtherTok{\textless{}{-}}
+\NormalTok{  nodelist }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(merged\_paths, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"node"} \OtherTok{=} \StringTok{"node"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(map\_ids, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"node"} \OtherTok{=} \StringTok{"stringId"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(pivotada, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"queryItem"} \OtherTok{=} \StringTok{"gene\_symbol"}\NormalTok{))}
+
+\FunctionTok{head}\NormalTok{(nodelist)}
+\end{Highlighting}
+\end{Shaded}
+
+In addition to the graph structure, we can calculate metrics such as the
+number of connections (degree) of each node.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Network Metrics}
+\NormalTok{connected\_nodes }\OtherTok{\textless{}{-}} \FunctionTok{rle}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{c}\NormalTok{(string\_edgelist[,}\DecValTok{1}\NormalTok{], string\_edgelist[,}\DecValTok{2}\NormalTok{])))}
+\NormalTok{connected\_nodes }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{count=}\NormalTok{connected\_nodes}\SpecialCharTok{$}\NormalTok{lengths, }\AttributeTok{node=}\NormalTok{connected\_nodes}\SpecialCharTok{$}\NormalTok{values)}
+\NormalTok{connected\_nodes }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(nodelist, connected\_nodes, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"node"} \OtherTok{=} \StringTok{"node"}\NormalTok{))}
+\NormalTok{connected\_nodes }\OtherTok{\textless{}{-}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(connected\_nodes, queryItem, root, clade\_name, count)}
+
+\FunctionTok{head}\NormalTok{(connected\_nodes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#nodelist |\textgreater{} }
+\CommentTok{\#  vroom::vroom\_write(file = here("data/nodelist.csv"), delim = ",")}
+\CommentTok{\#string\_edgelist |\textgreater{} }
+\CommentTok{\#  vroom::vroom\_write(file = here("data/string\_edgelist.csv"), delim = ",")}
+\CommentTok{\#merged\_paths |\textgreater{} }
+\CommentTok{\#  vroom::vroom\_write(file = here("data/merged\_paths.csv"), delim = ",")}
+\end{Highlighting}
+\end{Shaded}
+
+\bookmarksetup{startatroot}
+
+\chapter{Plotting Roots}\label{plotting-roots}
+
+\section{Import libraries}\label{import-libraries}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(ggraph)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\FunctionTok{library}\NormalTok{(igraph)}
+\FunctionTok{library}\NormalTok{(purrr)}
+\FunctionTok{library}\NormalTok{(vroom)}
+\FunctionTok{library}\NormalTok{(paletteer)}
+\FunctionTok{library}\NormalTok{(easylayout)}
+\FunctionTok{library}\NormalTok{(UpSetR)}
+\FunctionTok{library}\NormalTok{(tinter)}
+\FunctionTok{library}\NormalTok{(here)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Define functions}\label{define-functions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Set colors}
+\NormalTok{color\_mappings }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"Olfactory transduction"}   \OtherTok{=} \StringTok{"\#8dd3c7"}\NormalTok{,}
+  \StringTok{"Taste transduction"}      \OtherTok{=} \StringTok{"\#72874EFF"}\NormalTok{,}
+  \StringTok{"Phototransduction"}       \OtherTok{=} \StringTok{"\#fb8072"}
+\NormalTok{)}
+
+\NormalTok{subset\_graph\_by\_root }\OtherTok{\textless{}{-}}
+  \ControlFlowTok{function}\NormalTok{(geneplast\_result, root\_number, graph) \{}
+\NormalTok{    filtered }\OtherTok{\textless{}{-}}\NormalTok{ geneplast\_result }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{filter}\NormalTok{(root }\SpecialCharTok{\textgreater{}=}\NormalTok{ root\_number) }\SpecialCharTok{\%\textgreater{}\%}
+      \FunctionTok{pull}\NormalTok{(node)}
+    
+    \FunctionTok{induced\_subgraph}\NormalTok{(graph, }\FunctionTok{which}\NormalTok{(}\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{name }\SpecialCharTok{\%in\%}\NormalTok{ filtered))}
+\NormalTok{  \}}
+
+\NormalTok{adjust\_color\_by\_root }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(geneplast\_result, root\_number, graph) \{}
+\NormalTok{  filtered }\OtherTok{\textless{}{-}}\NormalTok{ geneplast\_result }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{filter}\NormalTok{(root }\SpecialCharTok{==}\NormalTok{ root\_number) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{pull}\NormalTok{(node)}
+  
+  \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{color }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{name }\SpecialCharTok{\%in\%}\NormalTok{ filtered, }\StringTok{"black"}\NormalTok{, }\StringTok{"gray"}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{(graph)}
+\NormalTok{\}}
+
+\CommentTok{\# Configure graph colors by genes incrementation}
+\NormalTok{subset\_and\_adjust\_color\_by\_root }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(geneplast\_result, root\_number, graph) \{}
+\NormalTok{  subgraph }\OtherTok{\textless{}{-}} \FunctionTok{subset\_graph\_by\_root}\NormalTok{(geneplast\_result, root\_number, graph)}
+\NormalTok{  adjusted\_graph }\OtherTok{\textless{}{-}} \FunctionTok{adjust\_color\_by\_root}\NormalTok{(geneplast\_result, root\_number, subgraph)}
+  \FunctionTok{return}\NormalTok{(adjusted\_graph)}
+\NormalTok{\}}
+
+\NormalTok{plot\_network }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(graph, title, nodelist, xlims, ylims, }\AttributeTok{legend =} \StringTok{"none"}\NormalTok{) \{}
+  
+  \CommentTok{\# Generate color map}
+\NormalTok{  source\_statements }\OtherTok{\textless{}{-}}
+    \FunctionTok{colnames}\NormalTok{(nodelist)[}\DecValTok{10}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(nodelist)]}
+  
+\NormalTok{  color\_mappings }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"Olfactory transduction"}   \OtherTok{=} \StringTok{"\#8dd3c7"}\NormalTok{,}
+    \StringTok{"Taste transduction"}      \OtherTok{=} \StringTok{"\#72874EFF"}\NormalTok{,}
+    \StringTok{"Phototransduction"}       \OtherTok{=} \StringTok{"\#fb8072"}
+\NormalTok{  )}
+  
+\NormalTok{  vertices }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{as\_data\_frame}\NormalTok{(graph, }\StringTok{"vertices"}\NormalTok{)}
+  
+\NormalTok{  ggraph}\SpecialCharTok{::} \FunctionTok{ggraph}\NormalTok{(graph,}
+                  \StringTok{"manual"}\NormalTok{,}
+                  \AttributeTok{x =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{x,}
+                  \AttributeTok{y =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{+}
+\NormalTok{    ggraph}\SpecialCharTok{::}\FunctionTok{geom\_edge\_link0}\NormalTok{(}\AttributeTok{edge\_width =} \DecValTok{1}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#90909020"}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{    ggraph}\SpecialCharTok{::}\FunctionTok{geom\_node\_point}\NormalTok{(ggplot2}\SpecialCharTok{::}\FunctionTok{aes}\NormalTok{(}\AttributeTok{color =} \FunctionTok{I}\NormalTok{(}\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{color)), }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{    scatterpie}\SpecialCharTok{::}\FunctionTok{geom\_scatterpie}\NormalTok{(}
+      \FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{x, }\AttributeTok{y=}\NormalTok{y, }\AttributeTok{r=}\DecValTok{18}\NormalTok{),}
+      \AttributeTok{cols =}\NormalTok{ source\_statements,}
+      \AttributeTok{data =}\NormalTok{ vertices[}\FunctionTok{rownames}\NormalTok{(vertices) }\SpecialCharTok{\%in\%} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{name[}\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{color }\SpecialCharTok{==} \StringTok{"black"}\NormalTok{],],}
+      \AttributeTok{colour =} \ConstantTok{NA}\NormalTok{,}
+      \AttributeTok{pie\_scale =} \DecValTok{1}
+\NormalTok{    ) }\SpecialCharTok{+}
+    \FunctionTok{geom\_node\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{color }\SpecialCharTok{==} \StringTok{"black"}\NormalTok{, }\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{queryItem, }\ConstantTok{NA}\NormalTok{)), }
+                   \AttributeTok{nudge\_x =} \DecValTok{1}\NormalTok{, }\AttributeTok{nudge\_y =} \DecValTok{1}\NormalTok{, }\AttributeTok{size =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{colour =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ color\_mappings, }\AttributeTok{drop =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{coord\_fixed}\NormalTok{() }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ xlims) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =}\NormalTok{ ylims) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{theme\_void}\NormalTok{() }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{theme}\NormalTok{(}
+      \AttributeTok{legend.position =}\NormalTok{ legend,}
+      \AttributeTok{legend.key.size =}\NormalTok{ ggplot2}\SpecialCharTok{::}\FunctionTok{unit}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{),}
+      \AttributeTok{legend.key.height =}\NormalTok{ ggplot2}\SpecialCharTok{::}\FunctionTok{unit}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{),}
+      \AttributeTok{legend.key.width =}\NormalTok{ ggplot2}\SpecialCharTok{::}\FunctionTok{unit}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{),}
+      \AttributeTok{legend.title =}\NormalTok{ ggplot2}\SpecialCharTok{::}\FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=}\DecValTok{6}\NormalTok{),}
+      \AttributeTok{legend.text =}\NormalTok{ ggplot2}\SpecialCharTok{::}\FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=}\DecValTok{6}\NormalTok{),}
+      \AttributeTok{panel.border =}\NormalTok{ ggplot2}\SpecialCharTok{::}\FunctionTok{element\_rect}\NormalTok{(}
+        \AttributeTok{colour =} \StringTok{"\#161616"}\NormalTok{,}
+        \AttributeTok{fill =} \ConstantTok{NA}\NormalTok{,}
+        \AttributeTok{linewidth =} \DecValTok{1}
+\NormalTok{      ),}
+      \AttributeTok{plot.title =}\NormalTok{ ggplot2}\SpecialCharTok{::}\FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{)}
+\NormalTok{    ) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{guides}\NormalTok{(}
+      \AttributeTok{color =} \StringTok{"none"}\NormalTok{,}
+      \AttributeTok{fill =} \StringTok{"none"}
+\NormalTok{    ) }\SpecialCharTok{+}
+\NormalTok{    ggplot2}\SpecialCharTok{::}\FunctionTok{labs}\NormalTok{(}\AttributeTok{fill =} \StringTok{"Source:"}\NormalTok{, }\AttributeTok{title =}\NormalTok{ title)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Loading necessary tables}\label{loading-necessary-tables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Load data (need to save tables from first qmd)}
+\NormalTok{nodelist }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\AttributeTok{file =} \FunctionTok{here}\NormalTok{(}\StringTok{"data/nodelist.csv"}\NormalTok{), }\AttributeTok{delim =} \StringTok{","}\NormalTok{)}
+\NormalTok{string\_edgelist }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\AttributeTok{file =} \FunctionTok{here}\NormalTok{(}\StringTok{"data/string\_edgelist.csv"}\NormalTok{), }\AttributeTok{delim =} \StringTok{","}\NormalTok{)}
+\NormalTok{merged\_paths }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\AttributeTok{file =} \FunctionTok{here}\NormalTok{(}\StringTok{"data/merged\_paths.csv"}\NormalTok{), }\AttributeTok{delim =} \StringTok{","}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{1. Visualization with UpSet
+Plot}\label{visualization-with-upset-plot}
+
+The \emph{UpSet Plot} is a useful tool to visualize the distribution and
+concatenation of genes between different metabolic pathways. It allows
+identifying how genes are shared or exclusive among the analyzed
+categories.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{upset}\NormalTok{(dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\FunctionTok{as.data.frame}\NormalTok{(nodelist), }
+                            \StringTok{"Olfactory transduction"}\NormalTok{,}
+                            \StringTok{"Taste transduction"}\NormalTok{,}
+                            \StringTok{"Phototransduction"}\NormalTok{),}
+                    \AttributeTok{nsets =} \DecValTok{50}\NormalTok{, }\AttributeTok{nintersects =} \ConstantTok{NA}\NormalTok{,}
+      \AttributeTok{sets.bar.color =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#8dd3c7"}\NormalTok{, }\StringTok{"\#72874EFF"}\NormalTok{, }\StringTok{"\#fb8072"}\NormalTok{), }
+      \AttributeTok{mainbar.y.label =} \StringTok{"Biological Process }\SpecialCharTok{\textbackslash{}n}\StringTok{Intersections"}\NormalTok{,}
+      \AttributeTok{sets.x.label =} \StringTok{"Set Size"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/02_plotting_roots_files/figure-pdf/unnamed-chunk-4-1.pdf}
+
+\section{2. Visualization of the Protein-Protein Interaction
+Network}\label{visualization-of-the-protein-protein-interaction-network}
+
+The visualization of the interaction network is essential to understand
+the functional connections between proteins. Here, we use the
+\textbf{easylayout} package, developed by Danilo Imparato, to generate
+an efficient layout. This package organizes the network nodes in x and y
+coordinates, allowing a structured and clear visualization.
+Subsequently, the graph will be plotted with \textbf{ggraph}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Graph Build}
+\CommentTok{\#graph \textless{}{-}}
+\CommentTok{\#  graph\_from\_data\_frame(string\_edgelist, directed = FALSE, vertices = nodelist)}
+
+\CommentTok{\#layout \textless{}{-} easylayout::easylayout(graph)}
+\CommentTok{\#V(graph)$x \textless{}{-} layout[, 1]}
+\CommentTok{\#V(graph)$y \textless{}{-} layout[, 2]}
+
+\CommentTok{\#save(graph, file = "../data/graph\_layout")}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2.1. Visualization of the Ancestry of Each
+Node}\label{visualization-of-the-ancestry-of-each-node}
+
+The analysis of the ancestry of each node in the network provides an
+evolutionary view of the analyzed proteins. Here, we use \textbf{ggraph}
+to plot the graph with the positions previously saved by
+\emph{easylayout}.
+
+The nodes are colored according to the distance from the last common
+ancestor (LCA) of the analyzed clades and the human (\emph{Human-LCA}).
+The darker shade indicates older clades in relation to humans, while
+light shades of blue represent newer clades, closer to the
+\emph{Human-LCA}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data/graph\_layout"}\NormalTok{))}
+
+\FunctionTok{ggraph}\NormalTok{(graph, }\StringTok{"manual"}\NormalTok{, }\AttributeTok{x =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{x, }\AttributeTok{y =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{+}
+  \FunctionTok{geom\_edge\_link0}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#90909020"}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{geom\_node\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{color =} \SpecialCharTok{{-}}\NormalTok{root), }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}  
+  \FunctionTok{theme\_void}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"left"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/02_plotting_roots_files/figure-pdf/unnamed-chunk-6-1.pdf}
+
+\subsection{2.2. Visualization of the Protein-Protein Interaction
+Network in
+Human}\label{visualization-of-the-protein-protein-interaction-network-in-human}
+
+To better understand the relationship between human proteins, we plot
+the interaction network where the nodes represent the human genes
+associated with their biological processes.
+
+\subsubsection{Description of the graph
+elements:}\label{description-of-the-graph-elements}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Nodes (Circles):} The colors of the nodes are divided
+  according to the biological processes assigned to each gene. The use
+  of pie charts allows the visualization of genes that participate in
+  multiple processes.
+\item
+  \textbf{Edges (Lines):} Represent the protein interactions based on
+  data from STRINGdb.
+\item
+  \textbf{Gene labels:} Each node is annotated with the corresponding
+  gene symbol, strategically positioned for easy reading.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Plotting Human PPI Network}
+\CommentTok{\#ppi\_labaled \textless{}{-}}
+\NormalTok{ggraph}\SpecialCharTok{::}\FunctionTok{ggraph}\NormalTok{(graph,}
+               \StringTok{"manual"}\NormalTok{,}
+               \AttributeTok{x =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{x,}
+               \AttributeTok{y =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{+}
+\NormalTok{  ggraph}\SpecialCharTok{::} \FunctionTok{geom\_edge\_link0}\NormalTok{(}\AttributeTok{edge\_width =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#90909020"}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{  scatterpie}\SpecialCharTok{::}\FunctionTok{geom\_scatterpie}\NormalTok{(}
+    \AttributeTok{cols =} \FunctionTok{colnames}\NormalTok{(nodelist[}\DecValTok{10}\SpecialCharTok{:}\DecValTok{12}\NormalTok{]),}
+    \AttributeTok{data =}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{as\_data\_frame}\NormalTok{(graph, }\StringTok{"vertices"}\NormalTok{),}
+    \AttributeTok{colour =} \ConstantTok{NA}\NormalTok{,}
+    \AttributeTok{pie\_scale =} \FloatTok{0.40}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_node\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =}\NormalTok{ nodelist}\SpecialCharTok{$}\NormalTok{queryItem), }\AttributeTok{colour =} \StringTok{"black"}\NormalTok{, }\AttributeTok{nudge\_x =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{nudge\_y =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{  ggplot2}\SpecialCharTok{::}\FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ color\_mappings, }\AttributeTok{drop =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/02_plotting_roots_files/figure-pdf/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#ppi \textless{}{-} }
+\NormalTok{  ggraph}\SpecialCharTok{::}\FunctionTok{ggraph}\NormalTok{(graph,}
+               \StringTok{"manual"}\NormalTok{,}
+               \AttributeTok{x =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{x,}
+               \AttributeTok{y =} \FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{y) }\SpecialCharTok{+}
+\NormalTok{  ggraph}\SpecialCharTok{::} \FunctionTok{geom\_edge\_link0}\NormalTok{(}\AttributeTok{edge\_width =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#90909020"}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{  scatterpie}\SpecialCharTok{::}\FunctionTok{geom\_scatterpie}\NormalTok{(}
+    \AttributeTok{cols =} \FunctionTok{colnames}\NormalTok{(nodelist[}\DecValTok{10}\SpecialCharTok{:}\DecValTok{12}\NormalTok{]),}
+    \AttributeTok{data =}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{as\_data\_frame}\NormalTok{(graph, }\StringTok{"vertices"}\NormalTok{),}
+    \AttributeTok{colour =} \ConstantTok{NA}\NormalTok{,}
+    \AttributeTok{pie\_scale =} \FloatTok{0.40}
+\NormalTok{  ) }\SpecialCharTok{+}
+\NormalTok{  ggplot2}\SpecialCharTok{::}\FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ color\_mappings, }\AttributeTok{drop =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/02_plotting_roots_files/figure-pdf/unnamed-chunk-7-2.pdf}
+
+\subsection{2.3. Visualization of the Protein-Protein Interaction
+Network in Each
+Clade}\label{visualization-of-the-protein-protein-interaction-network-in-each-clade}
+
+In this section, we visualize the genes that are statistically rooted in
+each clade. The arrangement of the genes allows us to observe the
+increment of orthologous genes as a function of the complexity and
+antiquity of the biological system.
+
+\subsubsection{Visualization features:}\label{visualization-features}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Evolution of the graphs:} The graphs are organized from left
+  to right and from top to bottom, allowing the analysis of the
+  evolutionary progression.
+\item
+  \textbf{Node coloring:} The color of the nodes indicates the level of
+  ancestry, as previously highlighted, where darker tones represent
+  older clades and lighter tones indicate evolutionary proximity to
+  humans.
+\item
+  \textbf{Organisms of interest:} In addition to visualizing all clades,
+  it is possible to generate graphs focused only on certain groups, such
+  as \emph{Metamonada}, \emph{Choanoflagellata}, \emph{Cephalochordata},
+  and \emph{Amphibia}.
+\end{enumerate}
+
+With these visualizations, it is possible to identify patterns of gene
+evolution in different clades and perform detailed comparisons with
+organisms of specific interest.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geneplast\_roots }\OtherTok{\textless{}{-}}\NormalTok{ merged\_paths[}\FunctionTok{order}\NormalTok{(merged\_paths}\SpecialCharTok{$}\NormalTok{root), ]}
+  
+
+\NormalTok{buffer }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{50}\NormalTok{, }\DecValTok{50}\NormalTok{)}
+\NormalTok{xlims }\OtherTok{\textless{}{-}} \FunctionTok{ceiling}\NormalTok{(}\FunctionTok{range}\NormalTok{(}\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{x)) }\SpecialCharTok{+}\NormalTok{ buffer}
+\NormalTok{ylims }\OtherTok{\textless{}{-}} \FunctionTok{ceiling}\NormalTok{(}\FunctionTok{range}\NormalTok{(}\FunctionTok{V}\NormalTok{(graph)}\SpecialCharTok{$}\NormalTok{y)) }\SpecialCharTok{+}\NormalTok{ buffer}
+
+\NormalTok{roots }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(geneplast\_roots}\SpecialCharTok{$}\NormalTok{root) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{set\_names}\NormalTok{(}\FunctionTok{unique}\NormalTok{(geneplast\_roots}\SpecialCharTok{$}\NormalTok{clade\_name))}
+
+\CommentTok{\# Subset graphs by LCAs}
+\NormalTok{subsets }\OtherTok{\textless{}{-}}
+  \FunctionTok{map}\NormalTok{(roots, }\SpecialCharTok{\textasciitilde{}} \FunctionTok{subset\_and\_adjust\_color\_by\_root}\NormalTok{(geneplast\_roots, .x, graph))}
+
+\CommentTok{\# Plot titles}
+\NormalTok{titles }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(roots)}
+
+\NormalTok{plots }\OtherTok{\textless{}{-}}
+  \FunctionTok{map2}\NormalTok{(}
+\NormalTok{    subsets,}
+\NormalTok{    titles,}
+\NormalTok{    plot\_network,}
+    \AttributeTok{nodelist =}\NormalTok{ nodelist,}
+    \AttributeTok{xlims =}\NormalTok{ xlims,}
+    \AttributeTok{ylims =}\NormalTok{ ylims,}
+    \AttributeTok{legend =} \StringTok{"right"}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{discard}\NormalTok{(is.null)}
+
+\CommentTok{\#net\_all\_roots \textless{}{-}}
+\NormalTok{patchwork}\SpecialCharTok{::}\FunctionTok{wrap\_plots}\NormalTok{(}
+  \FunctionTok{rev}\NormalTok{(plots),}
+  \AttributeTok{nrow =} \DecValTok{4}\NormalTok{,}
+  \AttributeTok{ncol =} \DecValTok{4}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/02_plotting_roots_files/figure-pdf/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#ggsave(file = "../data/network\_rooting.svg", plot=net\_all\_roots, width=10, height=8)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{patchwork}\SpecialCharTok{::}\FunctionTok{wrap\_plots}\NormalTok{(}
+\NormalTok{  plots}\SpecialCharTok{$}\NormalTok{Metamonada, plots}\SpecialCharTok{$}\NormalTok{Choanoflagellata, plots}\SpecialCharTok{$}\NormalTok{Cephalochordata, plots}\SpecialCharTok{$}\NormalTok{Amphibia,}
+  \AttributeTok{ncol =} \DecValTok{4}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/02_plotting_roots_files/figure-pdf/unnamed-chunk-9-1.pdf}
+
+\bookmarksetup{startatroot}
+
+\chapter{Plotting Abundance}\label{plotting-abundance}
+
+\section{Importing Packages}\label{importing-packages-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(here)}
+\FunctionTok{library}\NormalTok{(readr)}
+\FunctionTok{library}\NormalTok{(magrittr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(hrbrthemes)}
+\FunctionTok{library}\NormalTok{(tinter)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\FunctionTok{library}\NormalTok{(AnnotationHub)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Defining functions}\label{defining-functions}
+
+These functions are intended to organize the annotation of the vertices
+of our nodelist and calculate the cumulative number of genes per clade
+and per biological process.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{calculate\_cumulative\_genes }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(nodelist) \{}
+  
+    \CommentTok{\# Get all possible categories of clade\_name}
+\NormalTok{  all\_clades }\OtherTok{\textless{}{-}}\NormalTok{ node\_annotation }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(root)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{    dplyr}\SpecialCharTok{::} \FunctionTok{select}\NormalTok{(clade\_name) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{unique}\NormalTok{()}
+  
+  \CommentTok{\# Define the columns of interest}
+\NormalTok{  process\_columns }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"queryItem"}\NormalTok{, }\StringTok{"root"}\NormalTok{, }\StringTok{"clade\_name"}\NormalTok{, }
+                       \StringTok{"Olfactory transduction"}\NormalTok{, }
+                       \StringTok{"Taste transduction"}\NormalTok{,           }
+                       \StringTok{"Phototransduction"}\NormalTok{)}
+  
+  \CommentTok{\# Calculate the cumulative sum grouping by clade\_name}
+\NormalTok{  cumulative\_genes }\OtherTok{\textless{}{-}}\NormalTok{ nodelist }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(root)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{    dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(process\_columns)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{group\_by}\NormalTok{(clade\_name, root) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count\_genes =} \FunctionTok{n}\NormalTok{(), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(root)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{cumulative\_sum =} \FunctionTok{cumsum}\NormalTok{(count\_genes)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{right\_join}\NormalTok{(all\_clades, }\AttributeTok{by =} \StringTok{"clade\_name"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{fill}\NormalTok{(cumulative\_sum, }\AttributeTok{.direction =} \StringTok{"down"}\NormalTok{)}
+  
+  \FunctionTok{return}\NormalTok{(cumulative\_genes)}
+\NormalTok{\}}
+
+\NormalTok{calculate\_cumulative\_bp }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(nodelist) \{}
+    
+  \CommentTok{\# Get all possible categories of clade\_name}
+\NormalTok{  all\_clades }\OtherTok{\textless{}{-}}\NormalTok{ node\_annotation }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(root)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{    dplyr}\SpecialCharTok{::} \FunctionTok{select}\NormalTok{(clade\_name) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{unique}\NormalTok{()}
+  
+   \CommentTok{\# Define the columns of interest}
+\NormalTok{  process\_columns }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"queryItem"}\NormalTok{, }\StringTok{"root"}\NormalTok{, }\StringTok{"clade\_name"}\NormalTok{, }
+                       \StringTok{"Olfactory transduction"}\NormalTok{, }
+                       \StringTok{"Taste transduction"}\NormalTok{,           }
+                       \StringTok{"Phototransduction"}\NormalTok{)}
+  
+  \CommentTok{\# Calculate the cumulative sum for each biological process}
+\NormalTok{  cumulative\_bp }\OtherTok{\textless{}{-}}\NormalTok{ nodelist }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{    dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(process\_columns)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{distinct}\NormalTok{(root, queryItem, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(process\_columns[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)]), }\SpecialCharTok{\textasciitilde{}} \FunctionTok{as.numeric}\NormalTok{(.))) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{group\_by}\NormalTok{(root, clade\_name) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{summarise}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(process\_columns[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)]), }
+                     \SpecialCharTok{\textasciitilde{}} \FunctionTok{sum}\NormalTok{(. , }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)),}
+              \AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(root)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(process\_columns[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)]), }\SpecialCharTok{\textasciitilde{}} \FunctionTok{cumsum}\NormalTok{(.))) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{right\_join}\NormalTok{(all\_clades, }\AttributeTok{by =} \StringTok{"clade\_name"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{fill}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\AttributeTok{.direction =} \StringTok{"down"}\NormalTok{)}
+  
+  \FunctionTok{return}\NormalTok{(cumulative\_bp)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Defining aesthetic parameters for
+ggplot}\label{defining-aesthetic-parameters-for-ggplot}
+
+Assigning default colors for the metabolic pathways in the analysis and
+defining the other aesthetic standards for plotting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plotting colors and labels}
+\NormalTok{annotation\_colors }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"Olfactory transduction"}   \OtherTok{=} \StringTok{"\#8dd3c7"}\NormalTok{,}
+  \StringTok{"Taste transduction"}      \OtherTok{=} \StringTok{"\#72874EFF"}\NormalTok{,}
+  \StringTok{"Phototransduction"}       \OtherTok{=} \StringTok{"\#fb8072"}
+\NormalTok{)}
+
+\NormalTok{annotation\_labels }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"Olfactory transduction"}   \OtherTok{=} \StringTok{"Olfactory transduction"}\NormalTok{,}
+  \StringTok{"Taste transduction"}      \OtherTok{=} \StringTok{"Taste transduction"}\NormalTok{,}
+  \StringTok{"Phototransduction"}       \OtherTok{=} \StringTok{"Phototransduction"}
+\NormalTok{)}
+
+\CommentTok{\# This vertical line indicates the first metazoan (Amphimedon queenslandica / Ctenophora)}
+\NormalTok{choanoflagellata\_line }\OtherTok{\textless{}{-}} \FunctionTok{geom\_vline}\NormalTok{(}
+  \AttributeTok{xintercept =} \StringTok{"Sphaeroforma arctica"}\NormalTok{,}
+  \AttributeTok{color      =} \StringTok{"\#FF0000"}\NormalTok{,}
+  \AttributeTok{linetype   =} \StringTok{"11"}\NormalTok{,}
+  \AttributeTok{alpha      =} \DecValTok{1}\NormalTok{,}
+  \AttributeTok{linewidth  =} \FloatTok{0.25}
+\NormalTok{)}
+
+\CommentTok{\# Plotting}
+\NormalTok{theme\_main }\OtherTok{\textless{}{-}} \FunctionTok{theme}\NormalTok{(}
+  \AttributeTok{panel.spacing      =} \FunctionTok{unit}\NormalTok{(}\FloatTok{2.5}\NormalTok{, }\StringTok{"pt"}\NormalTok{),}
+  \AttributeTok{strip.background   =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{panel.grid.major.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{panel.grid.major.y =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{linewidth =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dotted"}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#E0E0E0"}\NormalTok{),}
+  \AttributeTok{strip.text.x       =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{9}\NormalTok{, }\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#757575"}\NormalTok{),}
+  \AttributeTok{strip.text.y       =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{, }\AttributeTok{angle =} \DecValTok{0}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#757575"}\NormalTok{),}
+  \AttributeTok{axis.title         =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{15}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#424242"}\NormalTok{),}
+  \AttributeTok{axis.ticks.x       =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{axis.text.x        =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{axis.text.y        =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \FloatTok{5.5}\NormalTok{),}
+  \AttributeTok{legend.position    =} \StringTok{"none"}
+\NormalTok{)}
+
+\NormalTok{theme\_supplementary }\OtherTok{\textless{}{-}} \FunctionTok{theme}\NormalTok{(}
+  \AttributeTok{panel.grid.major.x =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#E0E0E0"}\NormalTok{, }\AttributeTok{linewidth =} \FloatTok{0.25}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dotted"}\NormalTok{),}
+  \AttributeTok{panel.grid.major.y =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{strip.text.y       =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{, }\AttributeTok{angle =} \DecValTok{0}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#757575"}\NormalTok{),}
+  \AttributeTok{strip.text.x       =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{, }\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#757575"}\NormalTok{),}
+  \AttributeTok{axis.title         =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#424242"}\NormalTok{),}
+  \AttributeTok{axis.ticks         =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{colour =} \StringTok{"grey20"}\NormalTok{),}
+  \AttributeTok{axis.text.y        =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{6}\NormalTok{, }\AttributeTok{angle =} \DecValTok{0}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{color =} \StringTok{"\#757575"}\NormalTok{),}
+  \AttributeTok{axis.text.x        =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{6}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{theme\_average }\OtherTok{\textless{}{-}} \FunctionTok{theme}\NormalTok{(}
+  \AttributeTok{panel.spacing      =} \FunctionTok{unit}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"pt"}\NormalTok{),}
+  \AttributeTok{axis.title         =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#424242"}\NormalTok{),}
+  \AttributeTok{axis.text          =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#757575"}\NormalTok{),}
+  \AttributeTok{axis.text.x        =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{7}\NormalTok{, }\AttributeTok{angle =} \SpecialCharTok{{-}}\DecValTok{45}\NormalTok{, }\AttributeTok{vjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{),}
+  \AttributeTok{axis.text.y        =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{5}\NormalTok{),}
+  \AttributeTok{strip.background   =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{strip.text         =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#757575"}\NormalTok{),}
+  \AttributeTok{strip.text.y       =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{0}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{theme\_big }\OtherTok{\textless{}{-}} \FunctionTok{theme}\NormalTok{(}
+  \AttributeTok{panel.spacing      =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\StringTok{"pt"}\NormalTok{),}
+  \AttributeTok{panel.grid.major.x =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{linewidth =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{),}
+  \AttributeTok{panel.grid.major.y =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{strip.background   =} \FunctionTok{element\_blank}\NormalTok{(),}
+  \AttributeTok{strip.text.x       =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{, }\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{vjust =} \DecValTok{0}\NormalTok{),}
+  \AttributeTok{strip.text.y       =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{8}\NormalTok{, }\AttributeTok{angle =} \DecValTok{0}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{),}
+  \AttributeTok{axis.text.x        =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{6}\NormalTok{, }\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }\AttributeTok{vjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{0}\NormalTok{),}
+  \AttributeTok{axis.text.y        =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \FloatTok{4.5}\NormalTok{),}
+  \AttributeTok{axis.ticks         =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{size =} \FloatTok{0.1}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{tick\_function }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+  \FunctionTok{seq}\NormalTok{(x[}\DecValTok{2}\NormalTok{], }\DecValTok{0}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{head}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tail}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ \{ }\FunctionTok{ceiling}\NormalTok{(.}\SpecialCharTok{/}\DecValTok{5}\NormalTok{)}\SpecialCharTok{*}\DecValTok{5}\NormalTok{ \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Load necessary tables}\label{load-necessary-tables}
+
+To proceed with the analysis, it is necessary to load a table containing
+the \emph{taxid} information for each species. This information will be
+used later to map the \emph{taxid} of the species with the \emph{taxid}
+of each COG.
+
+\subsection{Table Description}\label{table-description}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{File Name}: \texttt{string\_eukaryotes.rda}
+\item
+  \textbf{Content}: Taxonomic information of eukaryotic species.
+\end{itemize}
+
+The table loads the following main fields: - \textbf{TaxID}
+(\emph{taxonomic identifier}): A unique identifier associated with each
+species. - Species name
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Query Phylotree and OG data}
+\NormalTok{ah }\OtherTok{\textless{}{-}} \FunctionTok{AnnotationHub}\NormalTok{()}
+\NormalTok{meta }\OtherTok{\textless{}{-}} \FunctionTok{query}\NormalTok{(ah, }\StringTok{"geneplast"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(meta[[}\StringTok{"AH83116"}\NormalTok{]])}
+
+\CommentTok{\# }\AlertTok{TODO}\CommentTok{: save tables from previous qmds}
+\NormalTok{nodelist }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\AttributeTok{file =} \FunctionTok{here}\NormalTok{(}\StringTok{"data/nodelist.csv"}\NormalTok{), }\AttributeTok{delim =} \StringTok{","}\NormalTok{)}
+\NormalTok{gene\_cogs }\OtherTok{\textless{}{-}}\NormalTok{  vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\AttributeTok{file =} \FunctionTok{here}\NormalTok{(}\StringTok{"data/gene\_cogs.csv"}\NormalTok{), }\AttributeTok{delim =} \StringTok{","}\NormalTok{)}
+\NormalTok{sensorial\_genes }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data/sensorial\_genes.csv"}\NormalTok{))}
+\NormalTok{map\_ids }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data/map\_ids.csv"}\NormalTok{))}
+\NormalTok{groot\_df }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data/groot\_df.csv"}\NormalTok{))}
+
+\NormalTok{ogr }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data/ogr.RData"}\NormalTok{))}
+
+\FunctionTok{load}\NormalTok{(}\FunctionTok{here}\NormalTok{(}\StringTok{"data/string\_eukaryotes.rda"}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(string\_eukaryotes)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Visualization: Rooting
+Pattern}\label{visualization-rooting-pattern}
+
+This visualization allows analyzing the cumulative pattern of gene
+emergence over evolutionary time. In addition, it also shows the growth
+of biological processes separated by each metabolic pathway.
+
+\subsection{Graph Characteristics}\label{graph-characteristics}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Bar Chart (Cumulative Pattern)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Represents the cumulative sum of genes associated with each clade.
+  \item
+    Each bar displays the total accumulated genes in a given clade,
+    allowing the identification of the diversification pattern.
+  \end{itemize}
+\item
+  \textbf{Combined Chart (Bars and Lines)}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The bars indicate the cumulative sum of genes per clade.
+  \item
+    The lines represent the growth of different biological processes
+    (\emph{Process}), separated by metabolic pathways, allowing the
+    comparison between the cumulative emergence of genes and the
+    development of biological functions.
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Interpretation}\label{interpretation}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Cumulative Pattern}: The bar chart shows how genes have
+  emerged over time, cumulatively. This view helps to identify moments
+  of greater genetic diversification.
+\item
+  \textbf{Comparison by Biological Processes}: The combined chart allows
+  observing which biological processes stand out at different moments of
+  evolution and how they are related to the emergence of new genes.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Mapping roots and proteins info}
+\NormalTok{node\_annotation }\OtherTok{\textless{}{-}}\NormalTok{ nodelist }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{inner\_join}\NormalTok{(gene\_cogs, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"node"} \OtherTok{=} \StringTok{"protein\_id"}\NormalTok{, }\StringTok{"cog\_id"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{inner\_join}\NormalTok{(sensorial\_genes, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"queryItem"} \OtherTok{=} \StringTok{"gene\_symbol"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{(queryItem, cog\_id, pathway\_name, root, clade\_name)}
+
+\NormalTok{cumulative\_genes }\OtherTok{\textless{}{-}} \FunctionTok{calculate\_cumulative\_genes}\NormalTok{(nodelist) }
+\NormalTok{cumulative\_bp }\OtherTok{\textless{}{-}} \FunctionTok{calculate\_cumulative\_bp}\NormalTok{(nodelist)}
+  
+\NormalTok{cumulative\_data }\OtherTok{\textless{}{-}} \FunctionTok{left\_join}\NormalTok{(cumulative\_genes, cumulative\_bp)}
+ 
+
+\NormalTok{long\_data }\OtherTok{\textless{}{-}}\NormalTok{ cumulative\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\AttributeTok{cols =} \DecValTok{5}\SpecialCharTok{:}\DecValTok{7}\NormalTok{, }
+               \AttributeTok{names\_to =} \StringTok{"Process"}\NormalTok{, }
+               \AttributeTok{values\_to =} \StringTok{"Value"}\NormalTok{)}
+
+\CommentTok{\#a \textless{}{-}}
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\# Bar chart for cumulative\_sum}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cumulative\_data, }
+           \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(clade\_name, }\AttributeTok{levels =}\NormalTok{ clade\_name), }\AttributeTok{y =}\NormalTok{ cumulative\_sum), }
+           \AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"darkgray"}\NormalTok{, }\AttributeTok{colour =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cumulative\_data, }
+            \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(clade\_name, }\AttributeTok{levels =}\NormalTok{ clade\_name), }\AttributeTok{y =}\NormalTok{ cumulative\_sum, }\AttributeTok{label =}\NormalTok{ cumulative\_sum), }
+            \AttributeTok{vjust =} \SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"darkgray"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ annotation\_colors) }\SpecialCharTok{+}
+  
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Clade Name"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Cumulative Sum"}\NormalTok{, }
+       \AttributeTok{title =} \StringTok{"Cumulative Sum and Biological Processes"}\NormalTok{,}
+       \AttributeTok{fill =} \StringTok{"Cumulative Sum"}\NormalTok{,}
+       \AttributeTok{color =} \StringTok{"Biological Processes"}\NormalTok{) }\SpecialCharTok{+}
+  
+\NormalTok{  theme\_main }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/03_plotting_abundances_files/figure-pdf/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#b \textless{}{-} }
+\FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+}
+  \CommentTok{\# Bar chart for cumulative\_sum}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cumulative\_data, }
+           \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{root), }\AttributeTok{y =}\NormalTok{ cumulative\_sum), }
+           \AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"darkgray"}\NormalTok{, }\AttributeTok{colour =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\AttributeTok{data =}\NormalTok{ cumulative\_data, }
+            \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{root), }\AttributeTok{y =}\NormalTok{ cumulative\_sum, }\AttributeTok{label =}\NormalTok{ cumulative\_sum), }
+            \AttributeTok{vjust =} \SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"darkgray"}\NormalTok{) }\SpecialCharTok{+}
+  
+  \CommentTok{\# Line chart for biological processes}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{data =}\NormalTok{ long\_data, }
+            \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{root), }\AttributeTok{y =}\NormalTok{ Value, }\AttributeTok{color =}\NormalTok{ Process, }\AttributeTok{group =}\NormalTok{ Process), }
+            \AttributeTok{size =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  
+  \CommentTok{\# Use the defined color palette}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ annotation\_colors) }\SpecialCharTok{+}
+  
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Clade Name"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Cumulative Sum"}\NormalTok{, }
+       \AttributeTok{title =} \StringTok{"Cumulative Sum and Biological Processes"}\NormalTok{,}
+       \AttributeTok{fill =} \StringTok{"Cumulative Sum"}\NormalTok{,}
+       \AttributeTok{color =} \StringTok{"Biological Processes"}\NormalTok{) }\SpecialCharTok{+}
+  
+\NormalTok{  theme\_main }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/03_plotting_abundances_files/figure-pdf/unnamed-chunk-4-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#ggsave(file = "", plot=a, width=15, height=8)}
+\CommentTok{\#ggsave(file = "", plot=b, width=15, height=8)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Calculation of COG Abundance by Function in
+Species}\label{calculation-of-cog-abundance-by-function-in-species}
+
+This analysis is based on the premise that similar COGs share the same
+biological function. Thus, it is possible to calculate the average
+abundance of functions associated with COGs in each species, using the
+number of COGs present in the species identified by the \emph{TaxID}.
+
+\subsection{Calculation Steps}\label{calculation-steps}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Species Mapping} Each species was mapped to its respective
+  clade (hierarchical level) based on the \emph{TaxID} information.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The \texttt{ogr@spbranches} table was used to associate species
+    (\emph{ssp\_id}) with their \emph{branches} (\emph{lca}).
+  \item
+    The data was organized to include the order of the \emph{TaxIDs}.
+  \end{itemize}
+\item
+  \textbf{COG Annotation}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The relationship between proteins and genes was enriched with
+    functional information, such as COG identifiers and metabolic
+    pathway names (\emph{pathway\_name}).
+  \item
+    Duplicates were removed to ensure that only unique information was
+    considered.
+  \end{itemize}
+\item
+  \textbf{Integration of Species Information}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A mapping was created between species (\emph{TaxID}) and their
+    respective clades to add the relevant taxonomic information.
+  \item
+    The species were ordered based on their clades, to facilitate
+    hierarchical analysis.
+  \end{itemize}
+\item
+  \textbf{Calculation of Average Abundance by Function}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For each species and metabolic function (\emph{pathway\_name}), the
+    average abundance of COGs was calculated.
+  \item
+    Additional information, such as species names (\emph{ncbi\_name})
+    and clades (\emph{clade\_name}), was integrated into the result.
+  \end{itemize}
+\item
+  \textbf{Abundance Adjustment (Capping)}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    To avoid extreme values, the average abundance was adjusted:
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Values above a limit (mean + 3 standard deviations) were truncated
+      to 100.
+    \item
+      The adjusted values were calculated separately by metabolic
+      function.
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lca\_spp }\OtherTok{\textless{}{-}}\NormalTok{ ogr}\SpecialCharTok{@}\NormalTok{spbranches }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{rename}\NormalTok{(}\StringTok{"taxid"} \OtherTok{=}\NormalTok{ ssp\_id, }\StringTok{"species"} \OtherTok{=}\NormalTok{ ssp\_name, }\StringTok{"lca"} \OtherTok{=} \StringTok{"branch"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{taxid\_order =} \FunctionTok{row\_number}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(lca, taxid, taxid\_order)}
+
+\NormalTok{clade\_taxids }\OtherTok{\textless{}{-}}\NormalTok{ lca\_spp}
+\NormalTok{clade\_names }\OtherTok{\textless{}{-}}\NormalTok{ vroom}\SpecialCharTok{::}\FunctionTok{vroom}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/dalmolingroup/neurotransmissionevolution/ctenophora\_before\_porifera/analysis/geneplast\_clade\_names.tsv"}\NormalTok{)}
+
+\NormalTok{cog\_annotation }\OtherTok{\textless{}{-}}\NormalTok{ map\_ids }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(groot\_df, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"stringId"} \OtherTok{=} \StringTok{"protein\_id"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(sensorial\_genes, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"queryItem"} \OtherTok{=} \StringTok{"gene\_symbol"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{(queryItem, cog\_id, pathway\_name) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(cog\_id, pathway\_name) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{na.omit}\NormalTok{()}
+
+\NormalTok{cog\_abundance\_by\_taxid }\OtherTok{\textless{}{-}}\NormalTok{ cogdata }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(cog\_id }\SpecialCharTok{\%in\%}\NormalTok{ nodelist[[}\StringTok{"cog\_id"}\NormalTok{]]) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(ssp\_id, cog\_id, }\AttributeTok{name =} \StringTok{"abundance"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(cog\_annotation, }\AttributeTok{by =} \StringTok{"cog\_id"}\NormalTok{)}
+
+\CommentTok{\# Mapping species to clade info}
+\NormalTok{ordered\_species }\OtherTok{\textless{}{-}}\NormalTok{ string\_eukaryotes }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(taxid, ncbi\_name) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(clade\_taxids, }\AttributeTok{by =} \StringTok{"taxid"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(clade\_names, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"lca"} \OtherTok{=} \StringTok{"root"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{na.omit}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(lca)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{taxid\_order)}
+  
+\NormalTok{avg\_abundance\_by\_function }\OtherTok{\textless{}{-}}\NormalTok{ cog\_abundance\_by\_taxid }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(ssp\_id, pathway\_name) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_abundance =} \FunctionTok{mean}\NormalTok{(abundance)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ungroup}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# Adding species and clade info}
+  \FunctionTok{left\_join}\NormalTok{(ordered\_species }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{taxid =} \FunctionTok{as.double}\NormalTok{(taxid)), }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"ssp\_id"} \OtherTok{=} \StringTok{"taxid"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{unique}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(lca)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ncbi\_name =} \FunctionTok{factor}\NormalTok{(ncbi\_name, }\AttributeTok{levels =} \FunctionTok{unique}\NormalTok{(ncbi\_name)),}
+         \AttributeTok{clade\_name =} \FunctionTok{factor}\NormalTok{(clade\_name, }\AttributeTok{levels =} \FunctionTok{unique}\NormalTok{(clade\_name))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{na.omit}\NormalTok{()}
+
+\NormalTok{capped\_abundance\_by\_function }\OtherTok{\textless{}{-}}\NormalTok{ avg\_abundance\_by\_function }\SpecialCharTok{\%\textgreater{}\%}
+  \CommentTok{\# mutate(capped\_abundance = ifelse(abundance \textgreater{}= 100, 100, abundance)) \%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(pathway\_name) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# max\_abundance = max(abundance[lca \textless{}= 29])}
+    \AttributeTok{max\_abundance =}\NormalTok{ avg\_abundance[lca }\SpecialCharTok{\textless{}=} \DecValTok{29}\NormalTok{] }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ \{ }\FunctionTok{mean}\NormalTok{(.) }\SpecialCharTok{+} \DecValTok{3}\SpecialCharTok{*}\FunctionTok{sd}\NormalTok{(.) \}}
+\NormalTok{    ,}\AttributeTok{abundance     =} \FunctionTok{ifelse}\NormalTok{(avg\_abundance }\SpecialCharTok{\textgreater{}=}\NormalTok{ max\_abundance, }\FunctionTok{pmin}\NormalTok{(max\_abundance, }\DecValTok{100}\NormalTok{), }\FunctionTok{pmin}\NormalTok{(avg\_abundance, }\DecValTok{100}\NormalTok{)))}
+
+\CommentTok{\# List of signatures}
+\NormalTok{signatures }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(node\_annotation}\SpecialCharTok{$}\NormalTok{pathway\_name)}
+
+\NormalTok{roots\_seq }\OtherTok{\textless{}{-}}\NormalTok{ node\_annotation }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(root)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  dplyr}\SpecialCharTok{::} \FunctionTok{select}\NormalTok{(root, clade\_name) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{unique}\NormalTok{()}
+
+\NormalTok{roots\_seq}\SpecialCharTok{$}\NormalTok{clade\_name }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(roots\_seq}\SpecialCharTok{$}\NormalTok{clade\_name, }\AttributeTok{levels =}\NormalTok{ roots\_seq}\SpecialCharTok{$}\NormalTok{clade\_name)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Visualization}\label{visualization}
+
+In the following graphs, it is possible to observe the average abundance
+of COGs in each clade. Each bar represents a species within the
+respective clade, while the colors indicate the different metabolic
+functions associated with the orthologous groups.
+
+\subsubsection{Graph of Average COG Abundance by
+Clade}\label{graph-of-average-cog-abundance-by-clade}
+
+\begin{itemize}
+\tightlist
+\item
+  The \textbf{X} axis represents the species.
+\item
+  The \textbf{Y} axis indicates the average abundance of proteins in
+  orthologous groups.
+\item
+  The bars are colored according to the metabolic function
+  (\emph{pathway\_name}).
+\end{itemize}
+
+\subsubsection{Graph with Adjusted Abundance
+(Capped)}\label{graph-with-adjusted-abundance-capped}
+
+\begin{itemize}
+\tightlist
+\item
+  To avoid distortions caused by extreme values, the abundance was
+  adjusted to a maximum limit (mean + 3 standard deviations).
+\item
+  This graph provides a more balanced visualization, especially for
+  metabolic functions with very high values.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plotting by species}
+\FunctionTok{ggplot}\NormalTok{(avg\_abundance\_by\_function) }\SpecialCharTok{+}
+  \CommentTok{\# Geoms  {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{choanoflagellata\_line }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ ncbi\_name, }\AttributeTok{y =}\NormalTok{ avg\_abundance, }\AttributeTok{fill =}\NormalTok{ pathway\_name, }\AttributeTok{color =} \FunctionTok{after\_scale}\NormalTok{(}\FunctionTok{darken}\NormalTok{(fill, }\FloatTok{0.1}\NormalTok{)))}
+\NormalTok{    ,}\AttributeTok{stat =} \StringTok{"identity"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \CommentTok{\# Labels  {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+ \FunctionTok{xlab}\NormalTok{(}\StringTok{"Species"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Average protein abundance in orthologous groups"}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\#ylab("Average protein abundance in orthologous groups") +}
+  \CommentTok{\# Scales {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =}\NormalTok{ tick\_function, }\AttributeTok{minor\_breaks =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ annotation\_colors }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{darken}\NormalTok{(}\FloatTok{0.1}\NormalTok{)) }\SpecialCharTok{+}
+  \CommentTok{\# Styling {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\FunctionTok{facet\_grid}\NormalTok{(}
+\NormalTok{  pathway\_name }\SpecialCharTok{\textasciitilde{}}\NormalTok{ clade\_name}
+\NormalTok{  ,}\AttributeTok{scales   =} \StringTok{"free"}
+\NormalTok{  ,}\AttributeTok{space    =} \StringTok{"free"}
+\NormalTok{  ,}\AttributeTok{labeller =} \FunctionTok{labeller}\NormalTok{(}\AttributeTok{annotation =}\NormalTok{ annotation\_labels)}
+\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_classic}\NormalTok{() }\SpecialCharTok{+} 
+\NormalTok{  theme\_main}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/03_plotting_abundances_files/figure-pdf/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plotting by species capped}
+\FunctionTok{ggplot}\NormalTok{(capped\_abundance\_by\_function) }\SpecialCharTok{+}
+  \CommentTok{\# Geoms  {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\NormalTok{choanoflagellata\_line }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ ncbi\_name, }\AttributeTok{y =}\NormalTok{ abundance, }\AttributeTok{fill =}\NormalTok{ pathway\_name, }\AttributeTok{color =} \FunctionTok{after\_scale}\NormalTok{(}\FunctionTok{darken}\NormalTok{(fill, }\FloatTok{0.1}\NormalTok{)))}
+\NormalTok{    ,}\AttributeTok{stat =} \StringTok{"identity"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \CommentTok{\# Labels  {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Species"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Average protein abundance in orthologous groups"}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\#ylab("Average protein abundance in orthologous groups") +}
+  \CommentTok{\# Scales {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =}\NormalTok{ tick\_function, }\AttributeTok{minor\_breaks =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ annotation\_colors }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{darken}\NormalTok{(}\FloatTok{0.1}\NormalTok{)) }\SpecialCharTok{+}
+  \CommentTok{\# Styling {-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}}
+\FunctionTok{facet\_grid}\NormalTok{(}
+\NormalTok{  pathway\_name }\SpecialCharTok{\textasciitilde{}}\NormalTok{ clade\_name}
+\NormalTok{  ,}\AttributeTok{scales   =} \StringTok{"free"}
+\NormalTok{  ,}\AttributeTok{space    =} \StringTok{"free"}
+\NormalTok{  ,}\AttributeTok{labeller =} \FunctionTok{labeller}\NormalTok{(}\AttributeTok{annotation =}\NormalTok{ annotation\_labels)}
+\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_classic}\NormalTok{() }\SpecialCharTok{+} 
+\NormalTok{  theme\_main}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/03_plotting_abundances_files/figure-pdf/unnamed-chunk-6-2.pdf}
+
+\subsubsection{Simplified Visualization: Abundance by
+Clade}\label{simplified-visualization-abundance-by-clade}
+
+For a less detailed analysis, it is possible to visualize the average
+abundance of COGs only at the clade level, ignoring the differences
+between individual species. This graph provides a more direct overview,
+ideal for identifying global trends.
+
+\begin{itemize}
+\tightlist
+\item
+  The \textbf{X} axis represents the clades.
+\item
+  The \textbf{Y} axis shows the average abundance of proteins in
+  orthologous groups per clade.
+\item
+  The bars are grouped by clade and colored according to the metabolic
+  functions (\emph{pathway\_name}).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Ploting by clade}
+\FunctionTok{ggplot}\NormalTok{(avg\_abundance\_by\_function) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ clade\_name, }\AttributeTok{y =}\NormalTok{ avg\_abundance, }\AttributeTok{fill =}\NormalTok{ pathway\_name, }\AttributeTok{color =} \FunctionTok{after\_scale}\NormalTok{(}\FunctionTok{darken}\NormalTok{(fill, }\FloatTok{0.1}\NormalTok{)))}
+\NormalTok{    ,}\AttributeTok{stat =} \StringTok{"summary"}
+\NormalTok{    ,}\AttributeTok{fun  =} \StringTok{"mean"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =}\NormalTok{ tick\_function, }\AttributeTok{minor\_breaks =} \ConstantTok{NULL}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ annotation\_colors, }\AttributeTok{guide =} \StringTok{"none"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}
+\NormalTok{    pathway\_name }\SpecialCharTok{\textasciitilde{}}\NormalTok{ .}
+\NormalTok{    ,}\AttributeTok{scales   =} \StringTok{"free"}
+\NormalTok{    ,}\AttributeTok{space    =} \StringTok{"free\_y"}
+\NormalTok{    ,}\AttributeTok{labeller =} \FunctionTok{labeller}\NormalTok{(}\AttributeTok{annotation =} \FunctionTok{sub}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\StringTok{""}\NormalTok{, annotation\_labels))}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Clades"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Average abundance by clade"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_classic}\NormalTok{() }\SpecialCharTok{+} 
+\NormalTok{  theme\_average}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{analysis/03_plotting_abundances_files/figure-pdf/unnamed-chunk-7-1.pdf}
+
+\bookmarksetup{startatroot}
+
+\chapter{OrthoGuide: Pre-computed Gene Rooting
+Data}\label{orthoguide-pre-computed-gene-rooting-data}
+
+\bookmarksetup{startatroot}
+
+\chapter{OrthoGuide: Pre-computed Gene Rooting
+Data}\label{orthoguide-pre-computed-gene-rooting-data-1}
+
+OrthoGuide is available at
+\url{https://dalmolingroup.imd.ufrn.br/orthoguide/} and provides
+immediate access to high-quality, pre-computed rooting data for 8
+species. Instead of running complex analyses, users can query this
+database and get the information they need in seconds, along with a few
+exploratory plots.
+
+\section{How OrthoGuide Works}\label{how-orthoguide-works}
+
+All data in the database is generated using the
+\href{https://github.com/dalmolingroup/genebridge}{GeneBridge R package
+(v0.99.2)}. The gene-to-COG (Clusters of Orthologous Groups) information
+was obtained from STRING-db version 11.0.
+
+
+
+\end{document}

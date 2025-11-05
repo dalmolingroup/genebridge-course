@@ -11,6 +11,7 @@ book:
     - analysis/02_plotting_roots.qmd
     - analysis/03_plotting_abundances.qmd
     - analysis/04_orthoguide.qmd
+  downloads: [pdf]
   reader-mode: true
   favicon: content/images/dalmolin_icon.svg
   site-url: https://dalmolingroup.imd.ufrn.br/genebridge-course/
