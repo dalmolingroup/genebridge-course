@@ -19,7 +19,7 @@ To be able to follow this course, learners should have knowledge in:
 3.  Being comfortable working with RStudio or a similar R environment.
 
 📖 **Description**
-This repository contains the materials for the course "GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes," organized by from Dalmolin's Systems Biology Group, based at the Bioinformatics Multidisciplinary Environment (BioME) at UFRN. This workshop is divided into three parts: (1) Performing the Rooting Analysis, (2) Plotting Rooted Genes, and (3) Plotting Abundances.
+This repository contains the materials for the course "GeneBridge: Inferring the Evolutionary Rooting of Orthologous Genes," organized by Dalmolin's Systems Biology Group, based at the Bioinformatics Multidisciplinary Environment (BioME) at UFRN. This workshop is divided into three parts: (1) Performing the Rooting Analysis, (2) Plotting Rooted Genes, and (3) Plotting Abundances.
 
 ➡️ **Learning Outcomes:**
 By the end of the course, learners will be able to:
